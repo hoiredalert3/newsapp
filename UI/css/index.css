@@ -318,7 +318,7 @@ main>div:first-child>div:last-child {
 }
 
 #container-1{
-    height: 2885px;
+    height: 2900px;
 }
 
 .horizontial__line {
@@ -388,7 +388,8 @@ main>div:first-child>div:last-child {
 
 .big__article__img>img {
     width: 100%;
-    height: 100%;
+    height: auto;
+    max-height: 250px;
     object-fit: cover;
 }
 
@@ -531,7 +532,7 @@ main>div:first-child>div:last-child {
 }
 
 .medium__article-container img{
-    height: 120 px;
+    height: 120px;
     object-fit: cover;
     object-position: top;
 }

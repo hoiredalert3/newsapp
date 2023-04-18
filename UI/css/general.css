@@ -227,6 +227,7 @@ footer > div:last-child{
     background-size: cover;
     display: block; 
 }
+
 #facebook{
     background-image: url('assets/icons/facebook.png');
 }
