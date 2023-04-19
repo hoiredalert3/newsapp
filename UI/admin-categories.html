@@ -322,7 +322,7 @@
       <div class="d-flex" id="wrapper">
         <div class="bg-white" id="sidebar-wrapper">
           <div
-            class="sidebar-heading text-center py-4 primary-text fs-2 fw-bold text-uppercase"
+            class="sidebar-heading text-center py-4 primary-text fs-2 fw-bold text-uppercase text-nowrap"
           >
             Quản lý
           </div>
@@ -361,62 +361,95 @@
         <div id="page-content-wrapper">
           <div class="container-fluid px-5 m-5">
             <div class="row g-4 my-2">
-              <div class="col-md-3">
-                <div
-                  class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded"
-                >
-                  <div>
-                    <h3 class="fs-3">40</h3>
-                    <p class="fs-5">Chuyên mục</p>
-                  </div>
-                  <i
-                    class="fas fa-gift fs-3 primary-text border rounded-full secondary-bg p-3"
-                  ></i>
-                </div>
+              <div class="col-md-4">
+                <h2 class="text-dark fw-bold fs-2 text-uppercase text-nowrap">
+                  Chuyên mục
+                </h2>
               </div>
 
-              <div class="col-md-3">
-                <div
-                  class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded"
+              <div class="offset-md-3 col-md-4">
+                <!-- Button trigger modal -->
+
+                <button
+                  type="button"
+                  class="btn btn-primary text-nowrap text-dark"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModalCenteredScrollable"
                 >
-                  <div>
-                    <h3 class="fs-3">30</h3>
-                    <p class="fs-5">Nhãn</p>
+                  <i class="fa-solid fa-plus text-dark"></i>
+                  Thêm chuyên mục
+                </button>
+              </div>
+            </div>
+
+            <!-- Modal -->
+            <div
+              class="modal fade"
+              id="exampleModalCenteredScrollable"
+              tabindex="-1"
+              aria-labelledby="exampleModalCenteredScrollableTitle"
+              style="display: none"
+              aria-hidden="true"
+            >
+              <div
+                class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+              >
+                <div class="modal-content">
+                  <div class="modal-header text-center">
+                    <h1
+                      class="modal-title fs-5"
+                      id="exampleModalCenteredScrollableTitle"
+                    >
+                      Thêm chuyên mục mới
+                    </h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
                   </div>
 
-                  <i
-                    class="fa-solid fa-tags me-2 fs-3 primary-text border rounded-full secondary-bg p-3"
-                  ></i>
-                </div>
-              </div>
+                  <div class="modal-body">
+                    <p class="my-3">Chọn chuyên mục cha</p>
+                    <div class="input-group my-4">
+                      <select class="form-select" id="inputGroupSelect01">
+                        <option selected>Chọn</option>
+                        <option value="1">Kinh tế</option>
+                        <option value="2">Nông nghiệp</option>
+                      </select>
+                    </div>
 
-              <div class="col-md-3">
-                <div
-                  class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded"
-                >
-                  <div>
-                    <h3 class="fs-3">10</h3>
-                    <p class="fs-5">Bài viết</p>
+                    <p class="mt-5">Nhập tên chuyên mục mới</p>
+                    <div class="input-group mb-5">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="New Category"
+                        aria-label="New Category"
+                      />
+                    </div>
                   </div>
-                  <i
-                    class="fa-solid fa-newspaper me-2 fs-3 primary-text border rounded-full secondary-bg p-3"
-                  ></i>
-                </div>
-              </div>
 
-              <div class="col-md-3">
-                <div
-                  class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded"
-                >
-                  <div>
-                    <h3 class="fs-3">15</h3>
-                    <p class="fs-5">Người dùng</p>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-danger">Thêm</button>
+
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Hủy
+                    </button>
                   </div>
-                  <i
-                    class="fa-solid fa-users me-2 fs-3 primary-text border rounded-full secondary-bg p-3"
-                  ></i>
                 </div>
               </div>
+            </div>
+
+            <div class="row g-4 my-2">
+              <div class="col-md-3"></div>
+
+              <div class="col-md-3"></div>
             </div>
           </div>
         </div>
