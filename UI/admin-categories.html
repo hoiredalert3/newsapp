@@ -394,14 +394,20 @@
                   <div class="card-body">
                     <span class="card-text fw-bold">Kinh doanh > Nông sản</span>
 
-                    <span class="remove-category text-danger float-end mx-2">
+                    <button
+                      class="bg-transparent remove-category text-danger float-end mx-2"
+                    >
                       <i class="bi bi-trash-fill"></i>
                       Xóa
-                    </span>
-                    <span class="text-info float-end mx-2">
+                    </button>
+                    <button
+                      data-bs-toggle="modal"
+                      data-bs-target="#editCategoryModal"
+                      class="bg-transparent text-info float-end mx-2"
+                    >
                       <i class="fa-solid fa-pen"></i>
                       Sửa
-                    </span>
+                    </button>
                     <a href="#" class="text-primary float-end mx-2"
                       >Xem chi tiết</a
                     >
@@ -412,14 +418,16 @@
                   <div class="card-body">
                     <span class="card-text fw-bold">Kinh doanh > Nông sản</span>
 
-                    <span class="remove-category text-danger float-end mx-2">
+                    <button
+                      class="bg-transparent remove-category text-danger float-end mx-2"
+                    >
                       <i class="bi bi-trash-fill"></i>
                       Xóa
-                    </span>
-                    <span class="text-info float-end mx-2">
+                    </button>
+                    <button class="bg-transparent text-info float-end mx-2">
                       <i class="fa-solid fa-pen"></i>
                       Sửa
-                    </span>
+                    </button>
                     <a href="#" class="text-primary float-end mx-2"
                       >Xem chi tiết</a
                     >
@@ -428,7 +436,7 @@
               </div>
             </div>
 
-            <!-- Modal -->
+            <!-- Modal for Add category -->
             <div
               class="modal fade"
               id="exampleModalCenteredScrollable"
@@ -471,14 +479,80 @@
                       <input
                         type="text"
                         class="form-control"
-                        placeholder="New Category"
-                        aria-label="New Category"
+                        placeholder="Tên chuyên mục mới"
+                        aria-label="Tên chuyên mục mới"
                       />
                     </div>
                   </div>
 
                   <div class="modal-footer">
                     <button type="button" class="btn btn-danger">Thêm</button>
+
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Hủy
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Modal for Edit category -->
+            <div
+              class="modal fade"
+              id="editCategoryModal"
+              tabindex="-1"
+              aria-labelledby="exampleModalCenteredScrollableTitle"
+              style="display: none"
+              aria-hidden="true"
+            >
+              <div
+                class="modal-dialog modal-dialog-centered modal-dialog-scrollable"
+              >
+                <div class="modal-content">
+                  <div class="modal-header text-center">
+                    <h1
+                      class="modal-title fs-5"
+                      id="exampleModalCenteredScrollableTitle"
+                    >
+                      Cập nhật chuyên mục
+                    </h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+
+                  <div class="modal-body">
+                    <p class="my-3">Chọn chuyên mục cha</p>
+                    <div class="input-group my-4">
+                      <select class="form-select" id="inputGroupSelect01">
+                        <option selected>Chọn</option>
+                        <option value="1">Kinh tế</option>
+                        <option value="2">Nông nghiệp</option>
+                      </select>
+                    </div>
+
+                    <p class="mt-5">Nhập tên chuyên mục mới</p>
+                    <div class="input-group mb-5">
+                      <input
+                        type="text"
+                        class="form-control"
+                        placeholder="Tên chuyên mục mới"
+                        aria-label="Tên chuyên mục mới"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-danger">
+                      Cập nhật
+                    </button>
 
                     <button
                       type="button"
