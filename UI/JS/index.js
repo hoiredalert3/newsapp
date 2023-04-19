@@ -23,7 +23,6 @@ function updateDateAndTime(){
   today = date.toLocaleDateString('vi-VN', date_options);
   time = date.toLocaleDateString('vi-VN', time_options);
   document.getElementById("today").innerHTML = time.toString().substr(0, time.toString().indexOf(' ')) + ' • ' + today.toString();
-  document.getElementById("current-year").innerHTML = date.getFullYear();
 }
 
 // weather

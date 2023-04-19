@@ -139,6 +139,32 @@ nav {
     clear: both;
 }
 
+.template-user--header{
+    display: none;
+}
+
+.current-user--header{
+    display: flex;
+    align-items: center;
+}
+
+.username--header{
+    font-size: 16px;
+    margin-right: 7.5px;
+}
+
+.img-subscribe-icon--header{
+    width: 25px;
+    height: 25px;
+    margin-right: 5px;
+}
+.img-avatar--header{
+    width: 25px;
+    height: 25px;
+    object-fit: cover;
+    object-position: top;
+}
+
 #sign-in-btn {
     width: 130px;
     height: 40px;
