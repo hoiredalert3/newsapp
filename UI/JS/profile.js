@@ -1,6 +1,6 @@
 const PROFILE_PIC_INPUT_ID = "profile-pic";
 const PROFILE_PIC_IMG_CLASS = "img-avatar";
-const SUCRIBE_BTN_ID = "subcribe-btn";
+const SUBSCRIBE_BTN_ID = "subscribe-btn";
 const PREMIUM_DISPLAY_ID = "premium-display";
 const ROLE_NAME_ID = "roles";
 const SECTION_CLASS = "profile-section";
@@ -45,10 +45,10 @@ function uploadImgUser() {
 
 function changeToCurrentUser(index) {
     changeRoleName(index);
-    if(index <= 3 || index == 5){
+    if(index < 3 || index == 5){
         document.getElementsByClassName(SECTION_CLASS)[1].style.display = "none";
         if (index == 1) {
-            document.getElementById(SUCRIBE_BTN_ID).style.display = "inline-block";
+            document.getElementById(SUBSCRIBE_BTN_ID).style.display = "inline-block";
         }
         else if (index == 2) {
             document.getElementById(PREMIUM_DISPLAY_ID).style.display = "flex";
@@ -106,3 +106,15 @@ function changeListOfAricle(index){
     list_of_article_container[index].classList.add(CURRENT_LIST_OF_ARTICLE_CLASS);
 }
 
+function displaySubscribe(){
+    document.getElementById("container-0").style.display = "flex";
+}
+
+function exitSubscribe(){
+    document.getElementById("container-0").style.display = "none";
+}
+
+function buyPremium(){
+    exitSubscribe();
+    // ....
+}

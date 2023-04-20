@@ -253,6 +253,33 @@
             </div>
         </div>
     </header>
+
+    <div id = "container-0">
+        <div id = "subscribe-container">
+            <div>
+                <img src="assets/icons/exit.png" alt="" id = "exit--subscribe-container" onclick="exitSubscribe()">
+                <img src="assets/icons/subscriber.png" alt="" id = "subscribe-icon">
+                <h3>
+                    Đăng ký Premium
+                </h3>
+                <p>
+                    Khi đăng ký Premium, quý đọc giả sẽ có những quyền lợi sau (7 ngày):
+                </p>
+                <ul>
+                    <li>
+                        Được phép xem & download ấn bản (.pdf) một số bài viết premium.
+                    </li>
+                    <li>
+                        Các bài viết premium được ưu tiên hiển thị trước trong kết quả khi xem danh sách hoặc tìm kiếm bài viết.
+                    </li>
+                </ul>
+                <button id = "buy-premium--btn" onclick="buyPremium()">
+                    Mua ngay
+                </button>
+            </div>
+        </div>
+    </div>
+
     <main>
         <div class="container-1">
             <div>
@@ -274,8 +301,8 @@
                 <div id="roles">
 
                 </div>
-                <button id="subcribe-btn">
-                    Mua Premium
+                <button id="subscribe-btn" onclick = "displaySubscribe()">
+                    Đăng ký
                 </button>
 
                 <div id="premium-display">
@@ -574,10 +601,12 @@
                 </div>
             </div>
         </div>
+        
 
         <div style="padding: 50px;">
         </div>
     </main>
+    
     <script src="JS/general.js"></script>
     <script src="JS/profile.js"></script>
 </body>

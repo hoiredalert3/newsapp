@@ -255,23 +255,23 @@ footer > div:last-child{
 }
 
 #facebook{
-    background-image: url('assets/icons/facebook.png');
+    background-image: url('../assets/icons/facebook.png');
 }
 #facebook:hover{
-    background-image: url('assets/icons/facebook-color.png');
+    background-image: url('../assets/icons/facebook-color.png');
 }
 
 #twitter{
-    background-image: url('assets/icons/twitter.png');
+    background-image: url('../assets/icons/twitter.png');
 }
 #twitter:hover{
-    background-image: url('assets/icons/twitter-color.png');
+    background-image: url('../assets/icons/twitter-color.png');
 }
 #reddit{
-    background-image: url('assets/icons/reddit.png');
+    background-image: url('../assets/icons/reddit.png');
 }
 #reddit:hover{
-    background-image: url('assets/icons/reddit-color.png');
+    background-image: url('../assets/icons/reddit-color.png');
 }
 .footer__category ul{
     list-style: none;
@@ -285,7 +285,6 @@ footer > div:last-child{
 .footer__category-level_2:hover > a, .footer__category-level_1:hover > a{
     color: royalblue;
 }
-
 
 .footer__line{
     width: 100%;
