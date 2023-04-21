@@ -8,7 +8,7 @@ const date_options = {
   weekday: 'long'
 };
 
-const time_options={
+const time_options = {
   timeZone: 'Asia/Ho_Chi_Minh',
   hour12: false,
   hour: 'numeric',
@@ -18,7 +18,7 @@ const time_options={
 
 setInterval(updateDateAndTime, 1000);
 
-function updateDateAndTime(){
+function updateDateAndTime() {
   date = new Date();
   today = date.toLocaleDateString('vi-VN', date_options);
   time = date.toLocaleDateString('vi-VN', time_options);

@@ -1,3 +1,7 @@
+body {
+    position: relative;
+}
+
 main {
     display: flex;
     flex-direction: column;
@@ -40,7 +44,7 @@ main {
     width: 120px;
     height: 40px;
     text-align: center;
-    background-color:dodgerblue;
+    background-color: dodgerblue;
     border-radius: 17.5px;
     cursor: pointer;
     color: white;
@@ -79,8 +83,7 @@ main {
     margin-top: 5px;
 }
 
-#subcribe-btn {
-    display: none;
+#subscribe-btn, #buy-premium--btn {
     margin-top: 15px;
     cursor: pointer;
     width: 120px;
@@ -90,8 +93,15 @@ main {
     color: white;
 }
 
-#subcribe-btn:hover {
-    background-color: gold;
+#subscribe-btn{
+    display: none;
+}
+#buy-premium--btn{
+    margin-top:20px;
+}
+
+#subscribe-btn:hover #buy-premium--btn {
+    opacity: 0.9;
 }
 
 #premium-display {
@@ -122,7 +132,7 @@ main {
 }
 
 .container-2 {
-    margin-top: 50px;
+    margin-top: 75px;
 }
 
 .container-2>div {
@@ -160,29 +170,29 @@ main {
 }
 
 
-.section-content{
+.section-content {
     display: none;
 }
 
-.current-section-content{
+.current-section-content {
     margin: 30px 0 0 0;
     display: flex;
     width: 100%;
 }
 
-#general-infomation-form--section{
+#general-infomation-form--section {
     display: flex;
     flex-direction: column;
 }
 
-#general-infomation-form--section > div{
+#general-infomation-form--section>div {
     display: grid;
     grid-template-columns: 200px 200px;
     column-gap: 50px;
     row-gap: 20px;
 }
 
-#general-infomation-form--section > button{
+#general-infomation-form--section>button {
     margin-top: 30px;
     width: 150px;
     height: 35px;
@@ -192,48 +202,46 @@ main {
     cursor: pointer;
 }
 
-#general-infomation-form--section > button:hover{
+#general-infomation-form--section>button:hover {
     opacity: 0.8;
 }
 
-#general-infomation-form--section > button:active{
+#general-infomation-form--section>button:active {
     opacity: 0.6;
 }
 
-.input-container{
+.input-container {
     display: flex;
     flex-direction: column;
 }
 
-.input-container > div{
+.input-container>div {
     margin: 2px 0;
     height: 1.5px;
     width: 100%;
     background-color: grey;
 }
 
-.input-container > input{
+.input-container>input {
     background-color: transparent;
     outline: none;
     border: none;
     font-size: 18px;
 }
 
-.input-container > p {
+.input-container>p {
     color: rgba(96, 96, 96, 0.5);
 
 }
 
-.special-input-container{
+.special-input-container {
     display: none;
 }
 
-#censorship-section{
+#censorship-section {}
 
-}
-
-.list-of-content{
-    flex:0.2;
+.list-of-content {
+    flex: 0.2;
     margin-right: 30px;
     height: 200px;
     position: -webkit-sticky;
@@ -241,12 +249,12 @@ main {
     top: 100px;
 }
 
-.list-of-article{
-    flex:0.8;
+.list-of-article {
+    flex: 0.8;
 }
 
 
-.list-of-content > ul{
+.list-of-content>ul {
     list-style: none;
     border-left: 3px solid gray;
     border-radius: 1px;
@@ -254,7 +262,7 @@ main {
 
 
 
-.list-of-content li{
+.list-of-content li {
     box-sizing: border-box;
     cursor: pointer;
     margin: 10px 0 10px 10px;
@@ -262,7 +270,7 @@ main {
     width: 100%;
 }
 
-.current-content{
+.current-content {
     width: 100%;
     background-color: rgba(96, 96, 96, 0.3);
     border-radius: 5px;
@@ -270,33 +278,34 @@ main {
     animation-duration: 0.4s;
 }
 
-@keyframes current-content-animate{
-    from{
+@keyframes current-content-animate {
+    from {
         background-color: rgba(96, 96, 96, 0.05);
         width: 90%;
     }
-    to{
+
+    to {
         background-color: rgba(96, 96, 96, 0.3);
         width: 100%;
     }
 }
 
-.article-container{
+.article-container {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
 }
 
-.article-container a{
+.article-container a {
     flex: 0.25;
     margin-right: 10px;
 }
 
-.article-content{
-    flex:0.75;
+.article-content {
+    flex: 0.75;
 }
 
-.article-container img{
+.article-container img {
     width: 100%;
     height: auto;
     max-height: 125px;
@@ -305,13 +314,13 @@ main {
 }
 
 
-.article-content--top{
+.article-content--top {
     display: flex;
     align-items: center;
     margin-bottom: 5px;
 }
 
-.article-content--tilte{
+.article-content--tilte {
     flex: .7;
     font-weight: 500;
     font-size: 17.5px;
@@ -324,21 +333,21 @@ main {
     overflow: hidden;
 }
 
-.article-content--tag{
+.article-content--tag {
     flex: .3;
 }
 
-.article-content--tag a{
+.article-content--tag a {
     display: inline-block;
     height: auto;
     padding: 5px 10px;
     font-size: 14px;
-    background-color:royalblue;
+    background-color: royalblue;
     border-radius: 5px;
     color: white;
 }
 
-.article-content--abstract{
+.article-content--abstract {
     display: -webkit-box;
     font-size: 15px;
     opacity: 0.9;
@@ -347,10 +356,83 @@ main {
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
-.list-of-article--container{
+
+.list-of-article--container {
     display: none;
     flex-direction: column;
 }
-.current-list-of-article--container{
+
+.current-list-of-article--container {
     display: flex;
+}
+
+#container-0 {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(96, 96, 96, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+#subscribe-container {
+    border-radius: 10px;
+    overflow: hidden;
+    width: 400px;
+    height: 420px;
+}
+
+#subscribe-container>div {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(220, 220, 220, 1);
+}
+
+#subscribe-container p {
+    width: 80%;
+    margin-top: 5px;
+    font-size: 16px;
+}
+
+#subscribe-container ul {
+    margin-top: 15px;
+    width: 80%;
+}
+
+#subscribe-container li {
+    list-style: none;
+    margin-top: 5px;
+}
+
+#subscribe-container li::before {
+    content: '';
+    display: inline-block;
+    margin-right: 10px;
+    height: 20px;
+    width: 20px;
+    background-image: url("../assets/icons/check-mark.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 20px;
+}
+
+#exit--subscribe-container {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    background-image: url('../assets/icons/exit.png');
+    position: absolute;
+    right: 20px;
+    top: 20px;
+}
+
+#subscribe-icon {
+    width: 75px;
+    height: 75px;
+    margin-top: 50px;
 }
