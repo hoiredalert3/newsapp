@@ -5,11 +5,12 @@ body {
 }
 
 .blurred-container {
-    min-width: 20%;
-    min-height: 60%;
+    width: fit-content;
+    height: fit-content;
     box-shadow: 0 0 5px 0;
     background: inherit;
     backdrop-filter: blur(10px);
+    padding: 1% 3%;
 }
 
 .login-btn {
@@ -27,11 +28,9 @@ body {
 }
 
 .google-signin-btn {
-    height: fit-content;
     border: 1px solid black;
     border-radius: 5px;
     width: fit-content;
-    padding: 0.25em 0;
 }
 
 .google-signin-btn:hover {
@@ -43,11 +42,9 @@ body {
 }
 
 .facebook-signin-btn {
-    height: fit-content;
     border: 1px solid black;
     border-radius: 5px;
     width: fit-content;
-    padding: 0.25em 0;
 }
 
 .facebook-signin-btn:hover {
@@ -68,18 +65,11 @@ body {
     font-weight: bold;
 }
 
-input#email {
-    width: 90%;
-    background: none;
-    border: 1px solid black;
-    border-radius: 5px;
-    padding: 0.8em 2em;
-}
-
+input#email,
 input#password {
-    width: 90%;
+
     background: none;
     border: 1px solid black;
     border-radius: 5px;
-    padding: 0.8em 2em;
+    padding: 1em 1.5em;
 }
