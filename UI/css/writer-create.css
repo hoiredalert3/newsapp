@@ -1,0 +1,35 @@
+main {
+    width: 92%;
+    margin: 2em auto;
+}
+
+.tag-container {
+    background: lightgray;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+}
+
+.tag-container>span {
+    margin-right: 1em;
+}
+
+.tag-container>i:hover {
+    border: 1px solid black;
+}
+
+#category {
+    appearance: none;
+    width: auto;
+    background: none;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+}
+
+#title, #summary {
+    padding: 1em 2em;
+}
+
+.cancel-btn, .post-btn {
+    padding: 1em 1.5em;
+}
+

@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <!-- Bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+    <!-- Be Vietnam Pro, Noto Serif Display, Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Noto+Serif+Display:wght@400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="css/signup.css">
+
+    <script src="https://kit.fontawesome.com/525f113dce.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <main class="w-100 h-100 position-relative d-flex flex-column align-items-center justify-content-center">
+
+        <div class="signup-layout-1 position-absolute blurred-container d-flex flex-column gap-4 align-items-center" id="signup-l1">
+            <span class="fw-bold fs-2 mb-3 user-select-none">Đăng ký</span>
+            <span class="fs-4 fw-bold user-select-none">Nhanh chóng thiết lập tài khoản</span>
+            <input type="email" class="form-control fs-5" name="user-email" id="email" placeholder="Email" required>
+            <input type="password" class="form-control fs-5" name="user-password" id="pw" placeholder="Mật khẩu" required>
+            <input type="password" class="form-control fs-5" id="re-pw" placeholder="Nhập lại mật khẩu" required>
+            <button class="fs-4 mt-4" id="l1-continue-btn">Tiếp tục</button>
+            <a href="./signin.html" class="fs-5 mt-5">Đã có tài khoản? Đăng nhập</a>
+        </div>
+
+        <div class="signup-layout-2 position-absolute blurred-container d-flex flex-column gap-3" id="signup-l2">
+            <button id="l2-back-btn"><i class="bi bi-arrow-left fs-3"></i></button>
+            <span class="fs-2 fw-bold mb-4 text-center">Đăng ký</span>
+            <span class="fs-4 fw-bold">Thông tin cơ bản về bạn</span>
+            <input type="text" class="form-control fs-5" name="user-name" id="name" placeholder="Tên đầy đủ" required>
+            <span class="fs-5 fw-bold d-block">Ngày sinh</span>
+            <input type="date" class="fs-5" name="user-dob" id="dob" required>
+            <span class="fs-5 fw-bold d-block">Vai trò của bạn</span>
+            <select name="user-role" class=" fs-5 mb-4" id="role">
+                <option value="reader">Độc giả</option>
+                <option value="writer">Phóng viên</option>
+                <option value="editor">Biên tập viên</option>
+            </select>
+            <button type="submit" class="fs-4 mt-4" id="signup-btn">Đăng ký</button>
+        </div>
+
+    </main>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+        </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+        </script>
+
+    <script src="JS/signup.js"></script>
+</body>
+
+</html>

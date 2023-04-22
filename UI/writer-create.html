@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+
+    <!-- Be Vietnam Pro, Noto Serif Display, Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Noto+Serif+Display:wght@400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="css/writer-create.css">
+    <link rel="stylesheet" href="css/general.css">
+
+    <script src="https://cdn.tiny.cloud/1/ybgenbclqn3q7oxiuy9yffggfl9t25ihg58iubly50uzvwqn/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#content',
+            plugins: [
+                'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
+                'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
+                'powerpaste', 'fullscreen', 'formatpainter', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
+            ],
+            toolbar: 'undo redo | formatpainter casechange blocks | bold italic backcolor | ' +
+                'alignleft aligncenter alignright alignjustify | ' +
+                'bullist numlist checklist outdent indent | removeformat | a11ycheck code table help'
+        });
+    </script>
+
+    <script src="https://kit.fontawesome.com/525f113dce.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <a href="index.html" class="header-child" id="logo-nav">
+            <img src="assets/logo/news-logo.png" alt="" id="logo">
+        </a>
+        <nav class="header-child">
+            <div class="level-1">
+                <a href="#">Thời sự</a>
+                <div class="level-2">
+                    <div class="category">
+                        <h2>Thời sự</h2>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <a href="#">Chính trị</a>
+                            <a href="#">Dân sinh</a>
+                            <a href="#">Quyền được biết</a>
+                        </div>
+                        <div class="column">
+                            <a href="#">Quốc phòng</a>
+                            <a href="#">Thời luận</a>
+                            <a h ref="#">Pháp luật</a>
+                        </div>
+                        <div class="column">
+                            <a href="#">Lao động</a>
+                            <a href="#">Việc làm</a>
+                            <a href="#">Phóng sự / Điều tra</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level-1">
+                <a href="#">Thế giới</a>
+                <div class="level-2">
+                    <div class="category">
+                        <h2>Thế giới</h2>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <a href="#">Kinh tế thế giới</a>
+                            <a href="#">Góc nhìn</a>
+                            <a href="#">Người Việt năm châu</a>
+                        </div>
+                        <div class="column">
+                            <a href="#">Quân sự</a>
+                            <a href="#">Hồ sơ</a>
+                            <a href="#">Chuyện lạ</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level-1">
+                <a href="#">Kinh tế</a>
+                <div class="level-2">
+                    <div class="category">
+                        <h2>Kinh tế</h2>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <a href="#">Kinh tế xanh</a>
+                            <a href="#">Ngân hàng</a>
+                            <a href="#">Doanh nghiệp</a>
+                        </div>
+                        <div class="column">
+                            <a href="#">Làm giàu</a>
+                            <a href="#">Chính sách - phát triển</a>
+                            <a href="#">Chứng khoáng</a>
+                        </div>
+                        <div class="column">
+                            <a href="#">Doanh nhân</a>
+                            <a href="#">Địa ốc</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level-1">
+                <a href="#">Giáo dục</a>
+                <div class="level-2">
+                    <div class="category">
+                        <h2>Giáo dục</h2>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <a href="#">Tuyển sinh</a>
+                            <a href="#">Du học</a>
+                            <a href="#">Phụ huynh</a>
+                        </div>
+                        <div class="column">
+                            <a href="#">Chọn nghề - chọn trường</a>
+                            <a href="#">Cẩm nang tuyển sinh 2023</a>
+                            <a href="#">Nhà trường</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level-1">
+                <a href="#">Du lịch</a>
+                <div class="level-2">
+                    <div class="category">
+                        <h2>Du lịch</h2>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <a href="#">Khám phá</a>
+                            <a href="#">Chơi gì, ăn đâu, đi thế nào</a>
+                            <a href="#">Câu chuyện du lịch</a>
+                        </div>
+                        <div class="column">
+                            <a href="#">Tin tức sự kiện</a>
+                            <a href="#">Bất động sản du lịch</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level-1">
+                <a href="#">Sức khỏe</a>
+                <div class="level-2">
+                    <div class="category">
+                        <h2>Sức khỏe</h2>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <a href="#">Khỏe đẹp mỗi ngày</a>
+                            <a href="#">Làm đẹp</a>
+                        </div>
+                        <div class="column">
+                            <a href="#">Niềm tin vào y đức</a>
+                            <a href="#">Giới tính</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level-1">
+                <a href="#">Văn hóa</a>
+                <div class="level-2">
+                    <div class="category">
+                        <h2>Văn hóa</h2>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <a href="#">Câu chuyện văn hóa</a>
+                            <a href="#">Xem - nghe</a>
+                        </div>
+                        <div class="column">
+                            <a href="#">Khảo cứu</a>
+                            <a href="#">Sống đẹp</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </nav>
+
+        <div class="header-child">
+            <!-- Guest  -->
+            <div class="template-user--header">
+                <button id="sign-in-btn">
+                    <span>
+                        Đăng nhập
+                    </span>
+                </button>
+            </div>
+
+            <!-- Unsubcriber -->
+            <div class="template-user--header current-user--header">
+                <a href="#">
+                    <img src="assets/icons/unsubscriber.png" class="img-subscribe-icon--header" alt="">
+                </a>
+                <a href="profile.html">
+                    <p class="username username--header">Username</p>
+                </a>
+                <a href="profile.html">
+                    <img src="assets/icons/user.png" class="img-avatar img-avatar--header" alt="">
+                </a>
+            </div>
+            <!-- Subscriber -->
+            <div class="template-user--header">
+                <a href="#">
+                    <img src="assets/icons/subscriber.png" class="img-subscribe-icon--header" alt="">
+                </a>
+                <a href="profile.html">
+                    <p class="username username-header">Username</p>
+                </a>
+                <a href="profile.html">
+                    <img src="assets/icons/user.png" class="img-avatar img-avatar--header" alt="">
+                </a>
+            </div>
+            <!-- Writer -->
+            <div class="template-user--header">
+                <a href="#">
+                    <img src="assets/icons/writter.png" class="img-subscribe-icon--header" alt="">
+                </a>
+                <a href="profile.html">
+                    <p class="username username-header">Username</p>
+                </a>
+                <a href="profile.html">
+                    <img src="assets/icons/user.png" class="img-avatar img-avatar--header" alt="">
+                </a>
+            </div>
+            <!-- Editor  -->
+            <div class="template-user--header">
+                <a href="#">
+                    <img src="assets/icons/editor.png" class="img-subscribe-icon--header" alt="">
+                </a>
+                <a href="profile.html">
+                    <p class="username username-header">Username</p>
+                </a>
+                <a href="profile.html">
+                    <img src="assets/icons/user.png" class="img-avatar img-avatar--header" alt="">
+                </a>
+            </div>
+            <!-- Administrator -->
+            <div class="template-user--header">
+                <a href="#">
+                    <img src="assets/icons/administrator.png" class="img-subscribe-icon--header" alt="">
+                </a>
+                <a href="profile.html">
+                    <p class="username username-header">Username</p>
+                </a>
+                <a href="profile.html">
+                    <img src="assets/icons/user.png" class="img-avatar img-avatar--header" alt="">
+                </a>
+            </div>
+        </div>
+    </header>
+    <main class="d-flex flex-column gap-4">
+        <div class="title fs-3 fw-bold ps-2">
+            <span>Tạo bài viết</span>
+        </div>
+        <div class="catntags-container d-flex flex-row gap-5 ps-2">
+            <div class="cat-container d-flex flex-row align-items-center gap-2 fs-5">
+                <label for="category" class="fs-4 fw-bold">Chuyên mục</label>
+                <select name="article-category" id="category"></select>
+            </div>
+            <div class="tags-container d-flex flex-row gap-2 align-items-center fs-5">
+                <span class="fs-4 fw-bold">Nhãn</span>
+                <div class="d-flex flex-row gap-2 " id="tags-container"></div>
+                <div id="add-tag-btn">
+                    <!-- Modal trigger button -->
+                    <i class="bi bi-plus-square fs-4" type="button" data-bs-toggle="modal" data-bs-target="#add-tag-modal"></i>
+                    <!-- Modal Body -->
+                    <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
+                    <div class="modal fade" id="add-tag-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog"
+                        aria-labelledby="modalTitleId" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="modalTitleId">Nhập tên nhãn</h5>
+                                    <button type="button" class="btn-close modal-close-btn" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <input type="text" class="p-2" id="tag-input">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary modal-close-btn" data-bs-dismiss="modal">Hủy</button>
+                                    <button type="button" class="btn btn-primary" id="modal-add-btn">Thêm</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="title-container fs-5">
+            <span class="fs-4 fw-bold mb-3 ps-2">Tiêu đề</span>
+            <input type="text" class="d-block w-100" name="article-title" id="title">
+        </div>
+        <div class="summary-container fs-5">
+            <span class="fs-4 fw-bold mb-3 ps-2">Tóm tắt</span>
+            <textarea name="article-summary" class="d-block w-100" rows="5" id="summary"></textarea>
+        </div>
+        <div class="content-container fs-5">
+            <span class="fs-4 fw-bold mb-3 ps-2">Nội dung</span>
+            <div id="content" class="article-content"></div>
+        </div>
+        <div class="buttons d-flex flex-row justify-content-end gap-3 pe-5 mt-3">
+            <button class="cancel-btn btn btn-secondary fs-5">Hủy</button>
+            <button class="post-btn btn btn-primary fs-5">Đăng bài</button>
+        </div>
+
+
+    </main>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+        </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+        </script>
+
+    <script src="JS/writer-create.js"></script>
+</body>
+
+</html>
