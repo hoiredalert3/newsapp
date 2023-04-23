@@ -31,12 +31,13 @@
         <div class="blurred-container d-flex flex-column justify-content-center text-center">
             <div class="d-block text-center fs-2 fw-bold mt-4 mb-4 user-select-none">Đăng Nhập</div>
 
-            <form action="#" method="post">
+            <div>
                 <input type="email" class="form-control container-fluid mb-2" id="email" aria-describedby="emailHelpId" placeholder="Email">
                 <input type="password" class="form-control container-fluid" id="password" placeholder="Password">
-                <a href="#" class="d-block text-end pe-4 p-2" style="text-decoration: none; color: black; font-style: italic;">Quên mật khẩu?</a>
-                <button type="submit" class="login-btn fs-5 mt-3">Đăng nhập</button>
-            </form>
+                <a href="./forgot-password.html" class="d-block text-end pe-4 p-2"
+                    style="text-decoration: none; color: black; font-style: italic;">Quên mật khẩu?</a>
+                <button class="login-btn fs-5 mt-3" id="login-btn">Đăng nhập</button>
+            </div>
 
             <div class="separator d-flex justify-content-center align-items-center m-3">
                 <div class="flex-fill ms-3 me-3">
@@ -48,19 +49,19 @@
                 </div>
             </div>
 
-            <div class="google-signin-btn container-fluid mb-2 d-flex flex-row align-items-center p-2">
+            <div class="google-signin-btn container-fluid mb-2 d-flex flex-row align-items-center p-2" id="google-login-btn">
                 <img src="./assets/icons/google.png" style="height: 3em; width: 3em;" alt="Google logo">
                 <span class="d-block">Tiếp tục với Google</span>
             </div>
 
-            <div class="facebook-signin-btn container-fluid mb-4 d-flex flex-row align-items-center p-2">
+            <div class="facebook-signin-btn container-fluid mb-4 d-flex flex-row align-items-center p-2" id="facebook-login-btn">
                 <img src="./assets/icons/facebook-color.png" class="p-2" style="height: 3em; width: 3em;" alt="Facebook logo">
                 <span class="d-block">Tiếp tục với Facebook</span>
             </div>
 
             <div class="user-select-none">Chưa có tài khoản?</div>
             <a href="./signup.html" class="signup-btn m-2">Đăng ký</a>
-            <a href="#" class="stay-anony-btn mb-4">Hoặc tiếp tục ẩn danh</a>
+            <a href="./index.html" class="stay-anony-btn mb-4">Hoặc tiếp tục ẩn danh</a>
         </div>
     </main>
 
@@ -72,6 +73,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
         integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
         </script>
+
+    <script src="js/signin.js"></script>
 </body>
 
 </html>
