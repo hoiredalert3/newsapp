@@ -83,16 +83,37 @@ function changeRoleName(index) {
     document.getElementById(ROLE_NAME_ID).innerHTML = ROLE_NAME[index];
 }
 
+function removeClass(class_name) {
+    let list = document.querySelectorAll('.' + class_name);
+    if (list.length > 0)
+        list.forEach(item => {
+            item.classList.remove(class_name);
+        })
+}
+
+function setFirstSubsection(section_index) {
+    removeClass(CURRENT_LIST_OF_ARTICLE_CLASS);
+    removeClass(CURRENT_CONTENT_CLASS);
+
+    let current_tab = document.querySelectorAll('.' + SECTION_CONTENT_CLASS).item(section_index);
+    current_tab.querySelectorAll('.' + LIST_OF_CONTENT_CLASS + '>ul>li')[0].classList.add(CURRENT_CONTENT_CLASS);
+    current_tab.querySelectorAll('.' + LIST_OF_ARTICLE_CLASS)[0].classList.add(CURRENT_LIST_OF_ARTICLE_CLASS);
+}
+
 function changeSection(index) {
     let secs = document.getElementsByClassName(SECTION_CLASS);
     for (let i = 0; i < secs.length; i++) {
         secs[i].classList.remove(CURRENT_SECTION_CLASS);
     }
     secs[index].classList.add(CURRENT_SECTION_CLASS);
-    if (index == 1 && CURRENT_ROLE == 4)
+    if (index == 1 && CURRENT_ROLE == 4) {
         changeSectionContent(2);
-    else if (index == 1 && CURRENT_ROLE == 3)
+        setFirstSubsection(2);
+    }
+    else if (index == 1 && CURRENT_ROLE == 3) {
         changeSectionContent(1);
+        setFirstSubsection(1);
+    }
     else changeSectionContent(index);
 }
 
@@ -104,17 +125,21 @@ function changeSectionContent(index) {
     section_contents[index].classList.add(CURRENT_SECTION_CONTENT_CLASS);
 }
 
-function changeIndexOfContent(index) {
-    let items = document.querySelectorAll('.' + LIST_OF_CONTENT_CLASS + ' li');
+function changeIndexOfContent(section_idx, index) {
+    let current_tab = document.querySelectorAll('.' + SECTION_CONTENT_CLASS)[section_idx];
+
+    let items = current_tab.querySelectorAll('.' + LIST_OF_CONTENT_CLASS + ' li');
     for (let i = 0; i < items.length; i++) {
         items[i].classList.remove(CURRENT_CONTENT_CLASS);
     }
     items[index].classList.add(CURRENT_CONTENT_CLASS);
-    changeListOfAricle(index);
+    changeListOfAricle(section_idx, index);
 }
 
-function changeListOfAricle(index) {
-    let list_of_article_container = document.getElementsByClassName(LIST_OF_ARTICLE_CLASS);
+function changeListOfAricle(section_idx, index) {
+    let current_tab = document.querySelectorAll('.' + SECTION_CONTENT_CLASS)[section_idx];
+
+    let list_of_article_container = current_tab.getElementsByClassName(LIST_OF_ARTICLE_CLASS);
     for (let i = 0; i < list_of_article_container.length; i++) {
         list_of_article_container[i].classList.remove(CURRENT_LIST_OF_ARTICLE_CLASS);
     }
