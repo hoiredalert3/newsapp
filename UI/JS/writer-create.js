@@ -7,15 +7,15 @@ USER_STATE = {
     5: "administrator"
 };
 
-SUB_CATEGORIES = ['Chính trị', 'Quốc phòng', 'Lao động', 'Dân sinh', 'Thời luận',
-    'Việc làm', 'Quyền được biết', 'Pháp luật', 'Phóng sự/Điều tra', 'Kinh tế thế giới',
-    'Quân sự', 'Góc nhìn', 'Hồ sơ', 'Người Việt năm châu', 'Chuyện lạ',
-    'Kinh tế xanh', 'Làm giàu', 'Doanh nhân', 'Ngân hàng', 'Chính sách - phát triển',
-    'Địa ốc', 'Doanh nghiệp', 'Chứng khoán', 'Tuyển sinh', 'Chọn nghề - chọn trường',
-    'Du học', 'Cẩm nang tuyển sinh 2023', 'Phụ huynh', 'Nhà trường', 'Khám phá',
-    'Tin tức sự kiện', 'Chơi gì, ăn đâu, đi thế nào', 'Bất động sản du lịch',
-    'Câu chuyện du lịch', 'Khỏe đẹp mỗi ngày', 'Niềm tin vào y đức', 'Làm đẹp',
-    'Giới tính', 'Câu chuyện văn hóa', 'Khảo cứu', 'Xem - nghe', 'Sống đẹp'];
+CATEGORIES = {
+    'Thời sự': ['Chính trị', 'Quốc phòng', 'Lao động', 'Dân sinh', 'Thời luận', 'Việc làm', 'Quyền được biết', 'Pháp luật', 'Phóng sự/Điều tra'],
+    'Thế giới': ['Kinh tế thế giới', 'Quân sự', 'Góc nhìn', 'Hồ sơ', 'Người Việt năm châu', 'Chuyện lạ'],
+    'Kinh tế': ['Kinh tế xanh', 'Làm giàu', 'Doanh nhân', 'Ngân hàng', 'Chính sách - phát triển', 'Địa ốc', 'Doanh nghiệp', 'Chứng khoán'],
+    'Giáo dục': ['Tuyển sinh', 'Chọn nghề - chọn trường', 'Du học', 'Cẩm nang tuyển sinh 2023', 'Phụ huynh', 'Nhà trường'],
+    'Du lịch': ['Khám phá', 'Tin tức sự kiện', 'Chơi gì, ăn đâu, đi thế nào', 'Bất động sản du lịch', 'Câu chuyện du lịch'],
+    'Sức khỏe': ['Khỏe đẹp mỗi ngày', 'Niềm tin vào y đức', 'Làm đẹp', 'Giới tính'],
+    'Văn hóa': ['Câu chuyện văn hóa', 'Khảo cứu', 'Xem - nghe', 'Sống đẹp']
+};
 
 CURRENT_USER = 3;
 const USERS_HEADER_CLASS = "template-user--header";
@@ -32,9 +32,20 @@ function changeUser(index) {
 
 (function populateCatSelector() {
     let catSelector = document.getElementById('category');
-    SUB_CATEGORIES.forEach(element => {
-        catSelector.add(new Option(element, element));
-    });
+    let entries = Object.entries(CATEGORIES);
+
+    entries.forEach(entry => {
+        let group = document.createElement('optgroup');
+        group.setAttribute('label', entry[0]);
+
+        entry[1].forEach(sub_cat => {
+            let option = document.createElement('option');
+            option.setAttribute('value', sub_cat);
+            option.innerText = sub_cat;
+            group.appendChild(option);
+        })
+        catSelector.appendChild(group);
+    })
 })();
 
 // handle tags
