@@ -83,7 +83,8 @@ main {
     margin-top: 5px;
 }
 
-#subscribe-btn, #buy-premium--btn {
+#subscribe-btn,
+#buy-premium--btn {
     margin-top: 15px;
     cursor: pointer;
     width: 120px;
@@ -93,11 +94,12 @@ main {
     color: white;
 }
 
-#subscribe-btn{
+#subscribe-btn {
     display: none;
 }
-#buy-premium--btn{
-    margin-top:20px;
+
+#buy-premium--btn {
+    margin-top: 20px;
 }
 
 #subscribe-btn:hover #buy-premium--btn {
@@ -266,7 +268,7 @@ main {
     box-sizing: border-box;
     cursor: pointer;
     margin: 10px 0 10px 10px;
-    padding: 5px 10px;
+    padding: 7.5px 10px;
     width: 100%;
 }
 
@@ -435,4 +437,38 @@ main {
     width: 75px;
     height: 75px;
     margin-top: 50px;
+}
+
+/* Tam thoi */
+
+.div1 {
+    position: fixed;
+    right: 75px;
+    top: 200px;
+}
+
+.div2 {
+    position: relative;
+    padding: 20px 20px;
+    background-color: royalblue;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.div3 {
+    width: 200px;
+    display: none;
+    position: absolute;
+    left: -40px;
+    top:70px;
+    padding: 10px 20px;
+    background-color: grey;
+    border-radius: 10px;
+}
+
+.div2:hover .div3 {
+    display: block;
 }

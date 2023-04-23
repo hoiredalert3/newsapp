@@ -14,7 +14,7 @@ const LIST_OF_ARTICLE_CLASS = "list-of-article--container";
 const CURRENT_LIST_OF_ARTICLE_CLASS = "current-list-of-article--container";
 
 // Đổi các trạng thái User
-var CURRENT_ROLE = 4;
+var CURRENT_ROLE = 1;
 
 const ROLE_NAME = {
     0: "Error",
@@ -45,8 +45,12 @@ function uploadImgUser() {
 
 function changeToCurrentUser(index) {
     changeRoleName(index);
-    if(index < 3 || index == 5){
-        document.getElementsByClassName(SECTION_CLASS)[1].style.display = "none";
+    document.getElementsByClassName(SPECIAL_INPUT_CLASS)[0].style.display = "none";
+    document.getElementsByClassName(SPECIAL_INPUT_CLASS)[1].style.display = "none";
+    document.getElementById(SUBSCRIBE_BTN_ID).style.display = "none";
+    document.getElementById(PREMIUM_DISPLAY_ID).style.display = "none";
+    document.getElementsByClassName(SECTION_CLASS)[1].style.display = "none";
+    if (index < 3 || index == 5) {
         if (index == 1) {
             document.getElementById(SUBSCRIBE_BTN_ID).style.display = "inline-block";
         }
@@ -54,14 +58,18 @@ function changeToCurrentUser(index) {
             document.getElementById(PREMIUM_DISPLAY_ID).style.display = "flex";
         }
     }
-    
-    if (index == 3) {
-        document.querySelectorAll('.' + SECTION_CLASS + ' > p')[1].textContent = "Các bài viết của tôi";
-        document.getElementsByClassName(SPECIAL_INPUT_CLASS)[0].style.display = "flex";
-    }
-    else if (index == 4) {
-        document.querySelectorAll('.' + SECTION_CLASS + ' > p')[1].textContent = "Danh sách duyệt";
-        document.getElementsByClassName(SPECIAL_INPUT_CLASS)[1].style.display = "flex";
+    else {
+
+        document.getElementsByClassName(SECTION_CLASS)[1].style.display = "block";
+        if (index == 3) {
+            document.querySelectorAll('.' + SECTION_CLASS + ' > p')[1].textContent = "Các bài viết của tôi";
+            document.getElementsByClassName(SPECIAL_INPUT_CLASS)[0].style.display = "flex";
+        }
+        else if (index == 4) {
+            document.querySelectorAll('.' + SECTION_CLASS + ' > p')[1].textContent = "Danh sách duyệt";
+            document.getElementsByClassName(SPECIAL_INPUT_CLASS)[1].style.display = "flex";
+        }
+
     }
 
 }
@@ -76,12 +84,12 @@ function changeSection(index) {
         secs[i].classList.remove(CURRENT_SECTION_CLASS);
     }
     secs[index].classList.add(CURRENT_SECTION_CLASS);
-    if(index == 1 && CURRENT_ROLE == 4)
+    if (index == 1 && CURRENT_ROLE == 4)
         changeSectionContent(2);
     else changeSectionContent(index);
 }
 
-function changeSectionContent(index){
+function changeSectionContent(index) {
     let section_contents = document.getElementsByClassName(SECTION_CONTENT_CLASS);
     for (let i = 0; i < section_contents.length; i++) {
         section_contents[i].classList.remove(CURRENT_SECTION_CONTENT_CLASS);
@@ -89,7 +97,7 @@ function changeSectionContent(index){
     section_contents[index].classList.add(CURRENT_SECTION_CONTENT_CLASS);
 }
 
-function changeIndexOfContent(index){
+function changeIndexOfContent(index) {
     let items = document.querySelectorAll('.' + LIST_OF_CONTENT_CLASS + ' li');
     for (let i = 0; i < items.length; i++) {
         items[i].classList.remove(CURRENT_CONTENT_CLASS);
@@ -98,7 +106,7 @@ function changeIndexOfContent(index){
     changeListOfAricle(index);
 }
 
-function changeListOfAricle(index){
+function changeListOfAricle(index) {
     let list_of_article_container = document.getElementsByClassName(LIST_OF_ARTICLE_CLASS);
     for (let i = 0; i < list_of_article_container.length; i++) {
         list_of_article_container[i].classList.remove(CURRENT_LIST_OF_ARTICLE_CLASS);
@@ -106,15 +114,24 @@ function changeListOfAricle(index){
     list_of_article_container[index].classList.add(CURRENT_LIST_OF_ARTICLE_CLASS);
 }
 
-function displaySubscribe(){
+function displaySubscribe() {
     document.getElementById("container-0").style.display = "flex";
 }
 
-function exitSubscribe(){
+function exitSubscribe() {
     document.getElementById("container-0").style.display = "none";
 }
 
-function buyPremium(){
+function buyPremium() {
     exitSubscribe();
+    CURRENT_ROLE = (CURRENT_ROLE + 1) % 6;
+    if (CURRENT_ROLE == 0) CURRENT_ROLE = 1;
+    changeToCurrentUser(CURRENT_ROLE);
     // ....
+}
+
+function switchUser() {
+    CURRENT_ROLE = (CURRENT_ROLE + 1) % 6;
+    if (CURRENT_ROLE == 0) CURRENT_ROLE = 1;
+    changeToCurrentUser(CURRENT_ROLE);
 }
