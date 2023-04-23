@@ -474,17 +474,11 @@ main {
 }
 
 
-.div3 {
-    position: fixed;
-    right: 75px;
-    top: 200px;
-}
-
 .div4 {
     display: none;
     position: fixed;
     right: 75px;
-    top: 300px;
+    top: 350px;
 }
 
 .div5 {
@@ -511,10 +505,4 @@ main {
 
 .div5:hover .div6 {
     display: block;
-}
-
-.div6 {
-    position: fixed;
-    right: 75px;
-    top: 200px;
 }
