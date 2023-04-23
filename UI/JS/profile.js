@@ -171,3 +171,7 @@ function switchUser() {
 function displayAdmin() {
     window.location.href = 'admin.html';
 }
+
+function toSignIn() {
+    window.location.href = './signin.html';
+}
