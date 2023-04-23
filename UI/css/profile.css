@@ -472,3 +472,49 @@ main {
 .div2:hover .div3 {
     display: block;
 }
+
+
+.div3 {
+    position: fixed;
+    right: 75px;
+    top: 200px;
+}
+
+.div4 {
+    display: none;
+    position: fixed;
+    right: 75px;
+    top: 300px;
+}
+
+.div5 {
+    position: relative;
+    padding: 20px 20px;
+    background-color: goldenrod;
+    color: white;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.div6 {
+    width: 200px;
+    display: none;
+    position: absolute;
+    left: -40px;
+    top:70px;
+    padding: 10px 20px;
+    background-color: grey;
+    border-radius: 10px;
+}
+
+.div5:hover .div6 {
+    display: block;
+}
+
+.div6 {
+    position: fixed;
+    right: 75px;
+    top: 200px;
+}
