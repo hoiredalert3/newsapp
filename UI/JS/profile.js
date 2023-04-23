@@ -45,20 +45,21 @@ function uploadImgUser() {
 
 function changeToCurrentUser(index) {
     changeRoleName(index);
+    document.getElementsByClassName(SPECIAL_INPUT_CLASS)[0].style.display = "none";
+    document.getElementsByClassName(SPECIAL_INPUT_CLASS)[1].style.display = "none";
+    document.getElementById(SUBSCRIBE_BTN_ID).style.display = "none";
+    document.getElementById(PREMIUM_DISPLAY_ID).style.display = "none";
+    document.getElementsByClassName(SECTION_CLASS)[1].style.display = "none";
     if (index < 3 || index == 5) {
-        document.getElementsByClassName(SECTION_CLASS)[1].style.display = "none";
         if (index == 1) {
             document.getElementById(SUBSCRIBE_BTN_ID).style.display = "inline-block";
-            document.getElementById(PREMIUM_DISPLAY_ID).style.display = "none";
         }
         else if (index == 2) {
-            document.getElementById(SUBSCRIBE_BTN_ID).style.display = "none";
             document.getElementById(PREMIUM_DISPLAY_ID).style.display = "flex";
         }
     }
     else {
-        document.getElementById(SUBSCRIBE_BTN_ID).style.display = "none";
-        document.getElementById(PREMIUM_DISPLAY_ID).style.display = "none";
+
         document.getElementsByClassName(SECTION_CLASS)[1].style.display = "block";
         if (index == 3) {
             document.querySelectorAll('.' + SECTION_CLASS + ' > p')[1].textContent = "Các bài viết của tôi";
