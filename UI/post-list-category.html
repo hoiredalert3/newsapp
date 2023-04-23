@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- CSS -->
+
+    <!-- Bootstrap CSS v5.2.1 -->
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+      integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"
+    ></script>
+
+    <link rel="stylesheet" href="css/general.css" />
+
+    <!-- Be Vietnam Pro, Noto Serif Display, Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Noto+Serif+Display:wght@400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+
+    <script
+      src="https://kit.fontawesome.com/525f113dce.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css"
+    />
+
+    <link rel="shortcut icon" href="assets/logo/logo.png" type="image/x-icon" />
+  </head>
+
+  <body>
+    <header>
+      <a href="index.html" class="header-child" id="logo-nav">
+        <img src="assets/logo/news-logo.png" alt="" id="logo" />
+      </a>
+      <nav class="header-child">
+        <div class="level-1">
+          <a href="#">Thời sự</a>
+          <div class="level-2">
+            <div class="category">
+              <h2>Thời sự</h2>
+            </div>
+            <div class="row">
+              <div class="column">
+                <a href="#">Chính trị</a>
+                <a href="#">Dân sinh</a>
+                <a href="#">Quyền được biết</a>
+              </div>
+              <div class="column">
+                <a href="#">Quốc phòng</a>
+                <a href="#">Thời luận</a>
+                <a href="#">Pháp luật</a>
+              </div>
+              <div class="column">
+                <a href="#">Lao động</a>
+                <a href="#">Việc làm</a>
+                <a href="#">Phóng sự / Điều tra</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="level-1">
+          <a href="#">Thế giới</a>
+          <div class="level-2">
+            <div class="category">
+              <h2>Thế giới</h2>
+            </div>
+            <div class="row">
+              <div class="column">
+                <a href="#">Kinh tế thế giới</a>
+                <a href="#">Góc nhìn</a>
+                <a href="#">Người Việt năm châu</a>
+              </div>
+              <div class="column">
+                <a href="#">Quân sự</a>
+                <a href="#">Hồ sơ</a>
+                <a href="#">Chuyện lạ</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="level-1">
+          <a href="#">Kinh tế</a>
+          <div class="level-2">
+            <div class="category">
+              <h2>Kinh tế</h2>
+            </div>
+            <div class="row">
+              <div class="column">
+                <a href="#">Kinh tế xanh</a>
+                <a href="#">Ngân hàng</a>
+                <a href="#">Doanh nghiệp</a>
+              </div>
+              <div class="column">
+                <a href="#">Làm giàu</a>
+                <a href="#">Chính sách - phát triển</a>
+                <a href="#">Chứng khoáng</a>
+              </div>
+              <div class="column">
+                <a href="#">Doanh nhân</a>
+                <a href="#">Địa ốc</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="level-1">
+          <a href="#">Giáo dục</a>
+          <div class="level-2">
+            <div class="category">
+              <h2>Giáo dục</h2>
+            </div>
+            <div class="row">
+              <div class="column">
+                <a href="#">Tuyển sinh</a>
+                <a href="#">Du học</a>
+                <a href="#">Phụ huynh</a>
+              </div>
+              <div class="column">
+                <a href="#">Chọn nghề - chọn trường</a>
+                <a href="#">Cẩm nang tuyển sinh 2023</a>
+                <a href="#">Nhà trường</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="level-1">
+          <a href="#">Du lịch</a>
+          <div class="level-2">
+            <div class="category">
+              <h2>Du lịch</h2>
+            </div>
+            <div class="row">
+              <div class="column">
+                <a href="#">Khám phá</a>
+                <a href="#">Chơi gì, ăn đâu, đi thế nào</a>
+                <a href="#">Câu chuyện du lịch</a>
+              </div>
+              <div class="column">
+                <a href="#">Tin tức sự kiện</a>
+                <a href="#">Bất động sản du lịch</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="level-1">
+          <a href="#">Sức khỏe</a>
+          <div class="level-2">
+            <div class="category">
+              <h2>Sức khỏe</h2>
+            </div>
+            <div class="row">
+              <div class="column">
+                <a href="#">Khỏe đẹp mỗi ngày</a>
+                <a href="#">Làm đẹp</a>
+              </div>
+              <div class="column">
+                <a href="#">Niềm tin vào y đức</a>
+                <a href="#">Giới tính</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="level-1">
+          <a href="#">Văn hóa</a>
+          <div class="level-2">
+            <div class="category">
+              <h2>Văn hóa</h2>
+            </div>
+            <div class="row">
+              <div class="column">
+                <a href="#">Câu chuyện văn hóa</a>
+                <a href="#">Xem - nghe</a>
+              </div>
+              <div class="column">
+                <a href="#">Khảo cứu</a>
+                <a href="#">Sống đẹp</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div class="header-child">
+        <!-- Guest  -->
+        <div class="template-user--header">
+          <button id="sign-in-btn">
+            <span> Đăng nhập </span>
+          </button>
+        </div>
+
+        <!-- Unsubcriber -->
+        <div class="template-user--header current-user--header">
+          <a href="#">
+            <img
+              src="assets/icons/unsubscriber.png"
+              class="img-subscribe-icon--header"
+              alt=""
+            />
+          </a>
+          <a href="profile.html">
+            <p class="username username--header">Username</p>
+          </a>
+          <a href="profile.html">
+            <img
+              src="assets/icons/user.png"
+              class="img-avatar img-avatar--header"
+              alt=""
+            />
+          </a>
+        </div>
+        <!-- Subscriber -->
+        <div class="template-user--header">
+          <a href="#">
+            <img
+              src="assets/icons/subscriber.png"
+              class="img-subscribe-icon--header"
+              alt=""
+            />
+          </a>
+          <a href="profile.html">
+            <p class="username username-header">Username</p>
+          </a>
+          <a href="profile.html">
+            <img
+              src="assets/icons/user.png"
+              class="img-avatar img-avatar--header"
+              alt=""
+            />
+          </a>
+        </div>
+        <!-- Writer -->
+        <div class="template-user--header">
+          <a href="#">
+            <img
+              src="assets/icons/writter.png"
+              class="img-subscribe-icon--header"
+              alt=""
+            />
+          </a>
+          <a href="profile.html">
+            <p class="username username-header">Username</p>
+          </a>
+          <a href="profile.html">
+            <img
+              src="assets/icons/user.png"
+              class="img-avatar img-avatar--header"
+              alt=""
+            />
+          </a>
+        </div>
+        <!-- Editor  -->
+        <div class="template-user--header">
+          <a href="#">
+            <img
+              src="assets/icons/editor.png"
+              class="img-subscribe-icon--header"
+              alt=""
+            />
+          </a>
+          <a href="profile.html">
+            <p class="username username-header">Username</p>
+          </a>
+          <a href="profile.html">
+            <img
+              src="assets/icons/user.png"
+              class="img-avatar img-avatar--header"
+              alt=""
+            />
+          </a>
+        </div>
+        <!-- Administrator -->
+        <div class="template-user--header">
+          <a href="#">
+            <img
+              src="assets/icons/administrator.png"
+              class="img-subscribe-icon--header"
+              alt=""
+            />
+          </a>
+          <a href="profile.html">
+            <p class="username username-header">Username</p>
+          </a>
+          <a href="profile.html">
+            <img
+              src="assets/icons/user.png"
+              class="img-avatar img-avatar--header"
+              alt=""
+            />
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container my-5">
+      <div class="row g-5">
+        <div class="col-md-8 col">
+          <h2>Kinh doanh</h2>
+          <hr class="text-primary" />
+          <div class="sub-category d-flex gap-5">
+            <button class="btn btn-primary" type="button" id="button-cat1">
+              Nông sản
+            </button>
+            <button
+              class="btn btn-outline-primary"
+              type="button"
+              id="button-cat1"
+            >
+              Hải sản
+            </button>
+          </div>
+          <hr class="text-dark" />
+        </div>
+      </div>
+
+      <div class="post-list row my-3">
+        <div class="row row-cols-1">
+          <div class="col-md-4 col mb-3">
+            <a href="post-1.html">
+              <img
+                src="assets/post/thumbnail-medium.png"
+                class="img-fluid mt-3"
+                alt="Machine harvesting paddy field"
+              />
+            </a>
+          </div>
+          <div class="col-md-8 col my-3">
+            <div class="post-meta-data d-flex justify-content-between">
+              <a href="post-list-category.html">Nông sản</a>
+              <span>13/03/2023</span>
+            </div>
+            <a href="post-1.html">
+              <h6 class="fw-bold">Thúc đẩy xuất khẩu nông sản chính ngạch</h6>
+            </a>
+            <p class="text-secondary">
+              Đồng bằng sông Cửu Long là là vùng sản xuất và xuất khẩu lương
+              thực, thực phẩm, thuỷ hải sản và trái cây lớn nhất của cả nước.
+            </p>
+          </div>
+        </div>
+
+        <div class="row row-cols-1">
+          <div class="col-md-4 col mb-3">
+            <a href="post-1.html">
+              <img
+                src="assets/post/thumbnail-medium.png"
+                class="img-fluid mt-3"
+                alt="Machine harvesting paddy field"
+              />
+            </a>
+          </div>
+          <div class="col-md-8 col my-3">
+            <div class="post-meta-data d-flex justify-content-between">
+              <a href="post-list-category.html">Nông sản</a>
+              <span>13/03/2023</span>
+            </div>
+            <a href="post-1.html">
+              <h6 class="fw-bold">Thúc đẩy xuất khẩu nông sản chính ngạch</h6>
+            </a>
+            <p class="text-secondary">
+              Đồng bằng sông Cửu Long là là vùng sản xuất và xuất khẩu lương
+              thực, thực phẩm, thuỷ hải sản và trái cây lớn nhất của cả nước.
+            </p>
+          </div>
+        </div>
+
+        <div class="row row-cols-1">
+          <div class="col-md-4 col mb-3">
+            <a href="post-1.html">
+              <img
+                src="assets/post/thumbnail-medium.png"
+                class="img-fluid mt-3"
+                alt="Machine harvesting paddy field"
+              />
+            </a>
+          </div>
+          <div class="col-md-8 col my-3">
+            <div class="post-meta-data d-flex justify-content-between">
+              <a href="post-list-category.html">Nông sản</a>
+              <span>13/03/2023</span>
+            </div>
+            <a href="post-1.html">
+              <h6 class="fw-bold">Thúc đẩy xuất khẩu nông sản chính ngạch</h6>
+            </a>
+            <p class="text-secondary">
+              Đồng bằng sông Cửu Long là là vùng sản xuất và xuất khẩu lương
+              thực, thực phẩm, thuỷ hải sản và trái cây lớn nhất của cả nước.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <nav class="my-4" aria-label="Pagination">
+        <ul class="pagination d-flex justify-content-center">
+          <li class="page-item disabled">
+            <span class="page-link">Previous</span>
+          </li>
+          <li class="page-item active" aria-current="page">
+            <span class="page-link">1</span>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </main>
+
+    <hr />
+
+    <!-- FOOTER -->
+    <footer id="bottom">
+      <div class="footer__line footer__line-bold"></div>
+      <div class="footer__flex__row__container">
+        <div>
+          <a href="#top">
+            <img src="assets/logo/news-logo-cut.png" alt="" id="footer-logo" />
+          </a>
+          <div id="social-media--container">
+            <a href="#" id="facebook"> </a>
+            <a href="#" id="twitter"> </a>
+            <a href="#" id="reddit"> </a>
+          </div>
+        </div>
+
+        <div class="footer__category">
+          <ul>
+            <li class="footer__category-level_1">
+              <a href="">
+                <h4>Thời sự</h4>
+              </a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Chính trị</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Quốc phòng</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Lao động</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Dân sinh</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Thời luận</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Việc làm</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Quyền được biết</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Pháp luật</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Phóng sự / điều tra</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer__category">
+          <ul>
+            <li class="footer__category-level_1">
+              <a href="">
+                <h4>Thế giới</h4>
+              </a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Kinh tế thế giới</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Quân sự</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Góc nhìn</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Hồ sơ</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Người Việt năm châu</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Chuyện lạ</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer__category">
+          <ul>
+            <li class="footer__category-level_1">
+              <a href="">
+                <h4>Kinh tế</h4>
+              </a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Kinh tế xanh</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Làm giàu</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Doanh nhân</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Ngân hàng</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Chính sách - phát triển</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Địa ốc</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Doanh nghiệp</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Chứng khoáng</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer__category">
+          <ul>
+            <li class="footer__category-level_1">
+              <a href="">
+                <h4>Giáo dục</h4>
+              </a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Tuyển sinh</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Chọn nghề - chọn trường</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Du học</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Cẩm nang tuyển sinh 2023</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Phụ huynh</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Nhà trường</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer__category">
+          <ul>
+            <li class="footer__category-level_1">
+              <a href="">
+                <h4>Du lịch</h4>
+              </a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Khám phá</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Tin tức sự kiện</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Chơi gì, ăn đâu, đi thế nào</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Bất động sản</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Câu chuyện du lịch</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer__category">
+          <ul>
+            <li class="footer__category-level_1">
+              <a href="">
+                <h4>Sức khỏe</h4>
+              </a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Khỏe đẹp mỗi ngày</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Niềm tin vào y đức</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Làm đẹp</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Giới tính</a>
+            </li>
+          </ul>
+        </div>
+
+        <div class="footer__category">
+          <ul>
+            <li class="footer__category-level_1">
+              <a href="">
+                <h4>Văn hóa</h4>
+              </a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Câu chuyện văn hóa</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Khảo cứu</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Xem - nghe</a>
+            </li>
+            <li class="footer__category-level_2">
+              <a href="">Sống đẹp</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__line footer__line-very_light"></div>
+      <div class="footer__flex__row__container">
+        <a class="footer__end-a">
+          &#169; <span id="current-year">2023</span> Báo mới Việt Nam
+        </a>
+        <a class="footer__end-a"> Liên hệ </a>
+        <a class="footer__end-a"> Việc làm </a>
+        <a class="footer__end-a"> Quảng cáo </a>
+        <a class="footer__end-a"> Chính sách bảo mật </a>
+        <a class="footer__end-a"> Điều khoản sử dụng </a>
+        <a class="footer__end-a"> Đăng ký Preminum </a>
+      </div>
+    </footer>
+  </body>
+  <script src="JS/index.js"></script>
+  <script src="JS/general.js"></script>
+</html>
