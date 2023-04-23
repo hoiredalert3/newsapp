@@ -1,16 +1,13 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <title>Title</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS v5.2.1 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/general.css">
+    <link rel="stylesheet" href="css/publish-article.css">
 
     <!-- Be Vietnam Pro, Noto Serif Display, Roboto -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,26 +16,10 @@
         href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Noto+Serif+Display:wght@400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
         rel="stylesheet">
 
-    <link rel="stylesheet" href="css/writer-create.css">
-    <link rel="stylesheet" href="css/general.css">
-
-    <script src="https://cdn.tiny.cloud/1/ybgenbclqn3q7oxiuy9yffggfl9t25ihg58iubly50uzvwqn/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>
-        tinymce.init({
-            selector: '#content',
-            plugins: [
-                'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
-                'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
-                'powerpaste', 'fullscreen', 'formatpainter', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
-            ],
-            toolbar: 'undo redo | formatpainter casechange blocks | bold italic backcolor | ' +
-                'alignleft aligncenter alignright alignjustify | ' +
-                'bullist numlist checklist outdent indent | removeformat | a11ycheck code table help'
-        });
-        tinymce.activeEditor.setContent('<h1>H1</h1><h2>H2<h2>');
-    </script>
-
     <script src="https://kit.fontawesome.com/525f113dce.js" crossorigin="anonymous"></script>
+
+    <link rel="shortcut icon" href="assets/logo/logo.png" type="image/x-icon">
+    <title>Xuất bản bài viết</title>
 </head>
 
 <body>
@@ -199,7 +180,6 @@
             </div>
 
         </nav>
-
         <div class="header-child">
             <!-- Guest  -->
             <div class="template-user--header">
@@ -272,75 +252,159 @@
             </div>
         </div>
     </header>
-
-    <main class="d-flex flex-column gap-4">
-        <div class="title fs-3 fw-bold ps-2">
-            <span>Tạo bài viết</span>
-        </div>
-        <div class="catntags-container d-flex flex-row gap-5 ps-2">
-            <div class="cat-container d-flex flex-row align-items-center gap-2 fs-5">
-                <label for="category" class="fs-4 fw-bold">Chuyên mục</label>
-                <select name="article-category" id="category"></select>
+    <main>
+        <form action="index.html" >
+            <div class="title">
+                Xuất bản bài viết
             </div>
-            <div class="tags-container d-flex flex-row gap-2 align-items-center fs-5">
-                <span class="fs-4 fw-bold">Nhãn</span>
-                <div class="d-flex flex-row gap-2 " id="tags-container"></div>
-                <div id="add-tag-btn">
-                    <!-- Modal trigger button -->
-                    <i class="bi bi-plus-square fs-4" type="button" data-bs-toggle="modal" data-bs-target="#add-tag-modal"></i>
-                    <!-- Modal Body -->
-                    <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
-                    <div class="modal fade" id="add-tag-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog"
-                        aria-labelledby="modalTitleId" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="modalTitleId">Nhập tên nhãn</h5>
-                                    <button type="button" class="btn-close modal-close-btn" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <input type="text" class="p-2" id="tag-input">
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary modal-close-btn" data-bs-dismiss="modal">Hủy</button>
-                                    <button type="button" class="btn btn-primary" id="modal-add-btn">Thêm</button>
-                                </div>
-                            </div>
+            <div class = "category_label--container">
+                <div>
+                    <label for="category" class = "small-title">Chuyên mục</label>
+                    <select name="category" id="category">
+                      <optgroup label="Thời sự">
+                        <option value="chinh-tri">Chính trị</option>
+                        <option value="quôc-phong">Quốc phòng</option>
+                        <option value="lao-dong">Lao động</option>
+                        <option value="dan-sinh">Dân sinh</option>
+                        <option value="thoi-luan">Thời luận</option>
+                        <option value="viec-lam">Việc làm</option>
+                        <option value="quyen-duoc-biet">Quyền được biết</option>
+                        <option value="phap-luat">Pháp luật</option>
+                        <option value="phong-su-dieu-tra">Phóng sự / Điều tra</option>
+                      </optgroup>
+                      <optgroup label="Thế giới">
+                        <option value="">Kinh thế thế giưới</option>
+                        <option value="">Quân sự</option>
+                        <option value="">Góc nhìn</option>
+                        <option value="">Hồ sơ</option>
+                        <option value="">Người Việt năm châu</option>
+                        <option value="">Chuyện lạ</option>
+                       </optgroup>
+                       <optgroup label="Kinh tế">
+                        <option value="">Kinh tế xanh</option>
+                        <option value="">Làm giàu</option>
+                        <option value="">Doanh nhân</option>
+                        <option value="">Ngân hàng</option>
+                        <option value="">Chính sách phát triển</option>
+                        <option value="">Địa ốc</option>
+                        <option value="">Doanh nghiệp</option>
+                        <option value="">Chứng khoáng</option>
+                       </optgroup>
+                       <optgroup label="Giáo dục">
+                        <option value="">Tuyển sinh</option>
+                        <option value="">Chọn nghề - chọn trường</option>
+                        <option value="">Du học</option>
+                        <option value="">Cẩm nang tuyển sinh 2023</option>
+                        <option value="">Phụ huynh</option>
+                        <option value="">Nhà trường</option>
+                        
+                       </optgroup>
+                       <optgroup label="Du lịch">
+                        <option value="">Khám phá</option>
+                        <option value="">Tin tức, sự kiện</option>
+                        <option value="">Chơi gì, ăn đâu, đi thế nào</option>
+                        <option value="">Bất động sản du lịch</option>
+                        <option value="">Câu chuyện du lịch</option>
+                       </optgroup>
+
+                       <optgroup label="Sức khỏe">
+                        <option value="">Khỏe đẹp mỗi ngày</option>
+                        <option value="">Niềm tin vào y đức</option>
+                        <option value="">Làm đẹp</option>
+                        <option value="">Giới tính</option>
+                       </optgroup>
+
+                       <optgroup label="Văn hóa">
+                        <option value="">Câu chuyện văn hóa</option>
+                        <option value="">Khảo cứu</option>
+                        <option value="">Xem - nghe</option>
+                        <option value="">Sống đẹp</option>
+                       </optgroup>
+                    </select>
+                </div>
+
+                <div class = "labels--container">
+                    <div class = "small-title">
+                        Nhãn
+                    </div>
+                    <div id = "grid-label--container">
+                        <div class = "label--container">
+                            <p>
+                                NGƯỜI MÔNG 
+                            </p>
+                            <img src="assets/icons/exit.png" alt="" onclick="removeLabel(0)">
+                        </div>
+
+                        <div class = "label--container">
+                            <p>
+                                ĐI TÌM CON CHỮ 
+                            </p>
+                            <img src="assets/icons/exit.png" alt="" onclick="removeLabel(1)">
+                        </div>
+
+                        <div class = "label--container">
+                            <p>
+                                TÌNH NGUYỆN VIÊN
+                            </p>
+                            <img src="assets/icons/exit.png" alt="" onclick="removeLabel(2)">
+                        </div>
+
+                        <div class = "label--container">
+                            <p>
+                                ĐỘI BIÊN PHÒNG
+                            </p>
+                            <img src="assets/icons/exit.png" alt="" onclick="removeLabel(3)">
                         </div>
                     </div>
+
+                    <div id = "add-label-display">
+                        <div>
+                            <input type="text" id = "new-label-input" >
+                            <button type="button" onclick="addNewLabel()">
+                                &rarr;
+                            </button>
+                            <img src="assets/icons/exit.png" alt="" onclick = "hideAddLabelDisplay()">
+                        </div>
+
+                    </div>
+                    <div id = "add-label" onclick="showAddLabelDisplay()">
+                        <img src="assets/icons/plus.png" alt="">
+                    </div>
+
                 </div>
             </div>
-        </div>
-        <div class="title-container fs-5">
-            <span class="fs-4 fw-bold mb-3 ps-2">Tiêu đề</span>
-            <input type="text" class="d-block w-100" name="article-title" id="title">
-        </div>
-        <div class="summary-container fs-5">
-            <span class="fs-4 fw-bold mb-3 ps-2">Tóm tắt</span>
-            <textarea name="article-summary" class="d-block w-100" rows="5" id="summary" ></textarea>
-        </div>
-        <div class="content-container fs-5">
-            <span class="fs-4 fw-bold mb-3 ps-2">Nội dung</span>
-            <div id="content" class="article-content"></div>
-        </div>
-        <div class="buttons d-flex flex-row justify-content-end gap-3 pe-5 mt-3">
-            <button class="cancel-btn btn btn-secondary fs-5">Hủy</button>
-            <button class="post-btn btn btn-primary fs-5">Đăng bài</button>
-        </div>
+           
+            <div class = "container">
+                <div class = "small-title">
+                    Ngày xuất bản
+                </div>
 
+                <input type="date" name="" id="" id = "publish-day" name  = "publish-day">
+            </div>
+
+            <div class = "container">
+                <div class = "small-title">
+                    Giờ xuất bản
+                </div>
+
+                <input type="time" value="now" id = "publish-time" name  = "publish-time">
+            </div>
+
+            <div class = "btns-container">
+                <button class = "btn" id = "publish-article-btn" onclick="redirectToPage('index.html')">
+                    Xuất bản
+                </button>
+                <button type="button" class = "btn" id = "back-btn" onclick="redirectToPage('article-review.html')">
+                    Quay lại
+                </button>
+            </div>
+        </form>
 
     </main>
-    
-    <!-- Bootstrap JavaScript Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
-        </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
-        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
-        </script>
-
-    <script src="JS/writer-create.js"></script>
 </body>
+
+<script src="JS/general.js"></script>
+<script src="JS/publish-article.js"></script>
 
 </html>

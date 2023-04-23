@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/general.css">
+    <link rel="stylesheet" href="css/article-review.css">
+
+    <!-- Be Vietnam Pro, Noto Serif Display, Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Noto+Serif+Display:wght@400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet">
+
+    <script src="https://kit.fontawesome.com/525f113dce.js" crossorigin="anonymous"></script>
+
+    <link rel="shortcut icon" href="assets/logo/logo.png" type="image/x-icon">
+    <title>Kiểm duyệt bài viết</title>
+</head>
+
+<body>
+    <header>
+        <a href="index.html" class="header-child" id="logo-nav">
+            <img src="assets/logo/news-logo.png" alt="" id="logo">
+        </a>
+        <nav class="header-child">
+            <div class="level-1">
+                <a href="#">Thời sự</a>
+                <div class="level-2">
+                    <div class="category">
+                        <h2>Thời sự</h2>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <a href="#">Chính trị</a>
+                            <a href="#">Dân sinh</a>
+                            <a href="#">Quyền được biết</a>
+                        </div>
+                        <div class="column">
+                            <a href="#">Quốc phòng</a>
+                            <a href="#">Thời luận</a>
+                            <a h ref="#">Pháp luật</a>
+                        </div>
+                        <div class="column">
+                            <a href="#">Lao động</a>
+                            <a href="#">Việc làm</a>
+                            <a href="#">Phóng sự / Điều tra</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level-1">
+                <a href="#">Thế giới</a>
+                <div class="level-2">
+                    <div class="category">
+                        <h2>Thế giới</h2>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <a href="#">Kinh tế thế giới</a>
+                            <a href="#">Góc nhìn</a>
+                            <a href="#">Người Việt năm châu</a>
+                        </div>
+                        <div class="column">
+                            <a href="#">Quân sự</a>
+                            <a href="#">Hồ sơ</a>
+                            <a href="#">Chuyện lạ</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level-1">
+                <a href="#">Kinh tế</a>
+                <div class="level-2">
+                    <div class="category">
+                        <h2>Kinh tế</h2>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <a href="#">Kinh tế xanh</a>
+                            <a href="#">Ngân hàng</a>
+                            <a href="#">Doanh nghiệp</a>
+                        </div>
+                        <div class="column">
+                            <a href="#">Làm giàu</a>
+                            <a href="#">Chính sách - phát triển</a>
+                            <a href="#">Chứng khoáng</a>
+                        </div>
+                        <div class="column">
+                            <a href="#">Doanh nhân</a>
+                            <a href="#">Địa ốc</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level-1">
+                <a href="#">Giáo dục</a>
+                <div class="level-2">
+                    <div class="category">
+                        <h2>Giáo dục</h2>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <a href="#">Tuyển sinh</a>
+                            <a href="#">Du học</a>
+                            <a href="#">Phụ huynh</a>
+                        </div>
+                        <div class="column">
+                            <a href="#">Chọn nghề - chọn trường</a>
+                            <a href="#">Cẩm nang tuyển sinh 2023</a>
+                            <a href="#">Nhà trường</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level-1">
+                <a href="#">Du lịch</a>
+                <div class="level-2">
+                    <div class="category">
+                        <h2>Du lịch</h2>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <a href="#">Khám phá</a>
+                            <a href="#">Chơi gì, ăn đâu, đi thế nào</a>
+                            <a href="#">Câu chuyện du lịch</a>
+                        </div>
+                        <div class="column">
+                            <a href="#">Tin tức sự kiện</a>
+                            <a href="#">Bất động sản du lịch</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level-1">
+                <a href="#">Sức khỏe</a>
+                <div class="level-2">
+                    <div class="category">
+                        <h2>Sức khỏe</h2>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <a href="#">Khỏe đẹp mỗi ngày</a>
+                            <a href="#">Làm đẹp</a>
+                        </div>
+                        <div class="column">
+                            <a href="#">Niềm tin vào y đức</a>
+                            <a href="#">Giới tính</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="level-1">
+                <a href="#">Văn hóa</a>
+                <div class="level-2">
+                    <div class="category">
+                        <h2>Văn hóa</h2>
+                    </div>
+                    <div class="row">
+                        <div class="column">
+                            <a href="#">Câu chuyện văn hóa</a>
+                            <a href="#">Xem - nghe</a>
+                        </div>
+                        <div class="column">
+                            <a href="#">Khảo cứu</a>
+                            <a href="#">Sống đẹp</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </nav>
+        <div class="header-child">
+            <!-- Guest  -->
+            <div class="template-user--header">
+                <button id="sign-in-btn">
+                    <span>
+                        Đăng nhập
+                    </span>
+                </button>
+            </div>
+
+            <!-- Unsubcriber -->
+            <div class="template-user--header current-user--header">
+                <a href="#">
+                    <img src="assets/icons/unsubscriber.png" class="img-subscribe-icon--header" alt="">
+                </a>
+                <a href="profile.html">
+                    <p class="username username--header">Username</p>
+                </a>
+                <a href="profile.html">
+                    <img src="assets/icons/user.png" class="img-avatar img-avatar--header" alt="">
+                </a>
+            </div>
+            <!-- Subscriber -->
+            <div class="template-user--header">
+                <a href="#">
+                    <img src="assets/icons/subscriber.png" class="img-subscribe-icon--header" alt="">
+                </a>
+                <a href="profile.html">
+                    <p class="username username-header">Username</p>
+                </a>
+                <a href="profile.html">
+                    <img src="assets/icons/user.png" class="img-avatar img-avatar--header" alt="">
+                </a>
+            </div>
+            <!-- Writer -->
+            <div class="template-user--header">
+                <a href="#">
+                    <img src="assets/icons/writter.png" class="img-subscribe-icon--header" alt="">
+                </a>
+                <a href="profile.html">
+                    <p class="username username-header">Username</p>
+                </a>
+                <a href="profile.html">
+                    <img src="assets/icons/user.png" class="img-avatar img-avatar--header" alt="">
+                </a>
+            </div>
+            <!-- Editor  -->
+            <div class="template-user--header">
+                <a href="#">
+                    <img src="assets/icons/editor.png" class="img-subscribe-icon--header" alt="">
+                </a>
+                <a href="profile.html">
+                    <p class="username username-header">Username</p>
+                </a>
+                <a href="profile.html">
+                    <img src="assets/icons/user.png" class="img-avatar img-avatar--header" alt="">
+                </a>
+            </div>
+            <!-- Administrator -->
+            <div class="template-user--header">
+                <a href="#">
+                    <img src="assets/icons/administrator.png" class="img-subscribe-icon--header" alt="">
+                </a>
+                <a href="profile.html">
+                    <p class="username username-header">Username</p>
+                </a>
+                <a href="profile.html">
+                    <img src="assets/icons/user.png" class="img-avatar img-avatar--header" alt="">
+                </a>
+            </div>
+        </div>
+    </header>
+    <main>
+        <form action="index.html" id = "article-review">
+            <div class = "title">
+                Kiểm duyệt bài viết
+            </div>
+            <div class = "category_label--container">
+                <div class = "review--container">
+                    <div class = "small-review--container">
+                        <div class = "small-item--container">
+                            <div class  = "small-title">
+                                Chuyên mục
+                            </div>
+                            <div class = "small-content">
+                                Câu chuyện văn hóa 
+                            </div>
+                        </div>
+        
+                        <div class = "check--container">
+                            <button onclick="hideComment(0)" class="approval-btn" type="button">
+                                <img src="assets/icons/check-mark.png" alt="">
+                                <p>
+                                    Chấp thuận
+                                </p>
+                            </button>
+                            <button onclick="displayComment(0)" class="denied-btn" type="button">
+                                <img src="assets/icons/delete.png" alt="">
+                                <p>
+                                    Từ chối
+                                </p>
+                            </button>
+                        </div>
+                    </div>
+                    <p class = "title-deny">Lý do từ chối:</p>
+                    <textarea name="category-comment" id="category-comment" class = "comment" cols = "0" rows="2" hidden></textarea>
+                </div>
+    
+                <div class = "review--container">
+                    <div class = "small-review--container">
+                        <div class = "small-item--container">
+                            <div class  = "small-title">
+                                Nhãn
+                            </div>
+
+                            <div class = "small-content--no_border">
+                                <div class = "label--container">
+                                    <a href="#">
+                                        NGƯỜI MÔNG 
+                                    </a>
+                                </div>
+                                <div class = "label--container">
+                                    <a href="#">
+                                        ĐI TÌM CON CHỮ
+                                    </a>
+                                </div>
+                                <div class = "label--container">
+                                    <a href="#">TÌNH NGUYỆN VIÊN</a>
+                                </div>
+                                <div class = "label--container">
+                                    <a href="#">ĐỘI BIÊN PHÒNG</a> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class = "check--container">
+                            <button onclick="hideComment(1)" class="approval-btn" type="button">
+                                <img src="assets/icons/check-mark.png" alt="">
+                                <p>
+                                    Chấp thuận
+                                </p>
+                            </button>
+                            <button onclick="displayComment(1)" class="denied-btn" type="button">
+                                <img src="assets/icons/delete.png" alt="">
+                                <p>
+                                    Từ chối
+                                </p>
+                            </button>
+                        </div>
+                    </div>
+                    <p class = "title-deny">Lý do từ chối:</p>
+                    <textarea name="category-comment" id="category-comment" class = "comment" cols = "0" rows="2" value = "" hidden></textarea>
+                </div>
+            </div>
+            <div class = "review--container">
+                <div class = "big-review--container">
+                    <div class = "big-review--head">
+                        <div class = "small-title">
+                            Tiêu đề
+                        </div>
+                        <div class = "check--container">
+                            <button onclick="hideComment(2)" class="approval-btn" type="button">
+                                <img src="assets/icons/check-mark.png" alt="">
+                                <p>
+                                    Chấp thuận
+                                </p>
+                            </button>
+                            <button onclick="displayComment(2)" class="denied-btn"type="button">
+                                <img src="assets/icons/delete.png" alt="">
+                                <p>
+                                    Từ chối
+                                </p>
+                            </button>
+                        </div>
+                    </div>
+                    <div class = "big-content">
+                        Cái lý của người Mông: Đi tìm con chữ
+                    </div>
+                </div>
+                <p class = "title-deny">Lý do từ chối:</p>
+                <textarea name="category-comment" id="category-comment" class = "comment" cols = "0" rows="2" value = "" hidden></textarea>
+            </div>
+    
+            <div class = "review--container">
+                <div class = "big-review--container">
+                    <div class = "big-review--head">
+                        <div class = "small-title">
+                            Tóm tắt
+                        </div>
+                        <div class = "check--container">
+                            <button onclick="hideComment(3)" class="approval-btn" type="button">
+                                <img src="assets/icons/check-mark.png" alt="">
+                                <p>
+                                    Chấp thuận
+                                </p>
+                            </button>
+                            <button onclick="displayComment(3)" class="denied-btn"type="button">
+                                <img src="assets/icons/delete.png" alt="">
+                                <p>
+                                    Từ chối
+                                </p>
+                            </button>
+                        </div>
+                    </div>
+                    <div class = "big-content">
+                        Người Mông ở Nghệ An, nhất là phụ nữ trên 35 tuổi phần lớn không biết chữ, và những lớp dạy chữ được mở ra khiến nhiều người háo hức đi học cho biết chữ để… sử dụng điện thoại.
+                    </div>
+                </div>
+                <p class = "title-deny">Lý do từ chối:</p>
+                <textarea name="category-comment" id="category-comment" class = "comment" cols = "0" rows="2" value = "" hidden></textarea>
+            </div>
+
+            <div class = "review--container">
+                <div class = "big-review--container">
+                    <div class = "big-review--head">
+                        <div class = "small-title">
+                            Nội dung
+                        </div>
+                        <div class = "check--container">
+                            <button onclick="hideComment(4)" class="approval-btn" type="button">
+                                <img src="assets/icons/check-mark.png" alt="">
+                                <p>
+                                    Chấp thuận
+                                </p>
+                            </button>
+                            <button onclick="displayComment(4)" class="denied-btn"type="button">
+                                <img src="assets/icons/delete.png" alt="">
+                                <p>
+                                    Từ chối
+                                </p>
+                            </button>
+                        </div>
+                    </div>
+                    <div class = "big-content ">
+                        <h1>Ngày lên rẫy, đêm đi học chữ</h1>
+                        <p>Đều đặn từ thứ hai đến thứ sáu hằng tuần, khi bóng đêm phủ xuống vùng rẻo cao Mường Lống (xã Tri Lễ, H.Quế Phong, Nghệ An), lớp học dạy chữ do Đồn biên phòng Tri Lễ tổ chức lại sáng đèn. Sau bữa cơm tối, chị Thò Ý Pa lại cắp sách đến lớp với một tâm trạng khá háo hức. Hồi nhỏ, chị Pa không được đến trường và nay chị đi học ở tuổi 34. Ngoài chị Pa, có 49 học viên khác là phụ nữ người Mông ở bản Mường Lống cũng tham gia lớp học. Mỗi buổi học 2 giờ đồng hồ, ngoài những người bận việc gia đình không thể thu xếp, còn lại đều đến lớp khá đều đặn.</p>
+                        <br>
+                        <p>Bản Mường Lống có gần 140 nóc nhà, nằm cách xa trung tâm xã Tri Lễ khoảng 30 km, đường đất, mưa là nhão nhoẹt. Lớp học này do 4 giáo viên, trong đó có 2 chiến sĩ bộ đội biên phòng là người Mông và 2 tình nguyện viên cũng là bộ đội. Thượng úy Xồng Bá Khư, giáo viên người Mông dạy lớp học này, cho biết phụ nữ trong bản phần lớn không biết chữ, không nói được tiếng phổ thông. Do đó, thượng úy Khư và các đồng nghiệp phải sử dụng cả tiếng phổ thông và tiếng Mông để dạy. Để các học viên nhớ lâu và háo hức học, các thầy giáo mang quân hàm này phải nhờ các thầy cô giáo ở Trường tiểu học Tri Lễ 4 hỗ trợ soạn giáo án. Đêm ở núi rừng tĩnh mịch. Tiếng ê a học bài của những chị em người Mông vang lên trong đêm như xua tan nỗi buồn vùng biên ải.</p>
+                        <br>
+                        <img src="assets/review/0.png" alt="">
+                        <br>
+                        <p>
+                            Mới tham gia lớp học, những học viên lớp 1 trên 30 tuổi này còn tỏ ra e ngại. Những bàn tay chỉ quen cầm cuốc, cầm dao cặm cụi trên nương rẫy khá lúng túng khi cầm bút. Nhưng nhờ sự tận tâm của những thầy giáo, các chị em sau đó đã quen dần và tỏ ra háo hức. Sau 3 tháng, nhiều chị đã biết đọc, biết viết, biết tính toán, nhưng sướng nhất vẫn là biết sử dụng và nhắn tin qua điện thoại. Lớp học chữ này kéo dài 6 tháng. Sau khi kết thúc khóa học, học viên sẽ được kiểm tra để cấp chứng chỉ.
+                        </p>
+
+
+                    </div>
+                </div>
+                <p class = "title-deny">Lý do từ chối:</p>
+                <textarea name="category-comment" id="category-comment" class = "comment" cols = "0" rows="2" value = "" hidden></textarea>
+            </div>
+
+            <div class = "btns-container">
+                <button type="button" class = "submit-btn" id = "approval-article-btn" onclick="redirectToPage('publish-article.html')">
+                    Chấp thuận
+                </button>
+                <button type="button" class = "submit-btn" id = "denied-article-btn" onclick="redirectToPage('index.html')">
+                    Từ chối
+                </button>
+            </div>
+        </form>
+
+    </main>
+</body>
+
+<script src="JS/general.js"></script>
+<script src="JS/article-review.js"></script>
+</html>
