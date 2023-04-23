@@ -59,7 +59,7 @@ function changeToCurrentUser(index) {
         else if (index == 2) {
             document.getElementById(PREMIUM_DISPLAY_ID).style.display = "flex";
         }
-        else if (index == 5){
+        else if (index == 5) {
             document.getElementsByClassName("div4")[0].style.display = "block";
         }
     }
@@ -91,6 +91,8 @@ function changeSection(index) {
     secs[index].classList.add(CURRENT_SECTION_CLASS);
     if (index == 1 && CURRENT_ROLE == 4)
         changeSectionContent(2);
+    else if (index == 1 && CURRENT_ROLE == 3)
+        changeSectionContent(1);
     else changeSectionContent(index);
 }
 
@@ -141,6 +143,6 @@ function switchUser() {
     changeToCurrentUser(CURRENT_ROLE);
 }
 
-function displayAdmin(){
+function displayAdmin() {
     window.location.href = 'admin.html';
 }

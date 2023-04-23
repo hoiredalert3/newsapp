@@ -288,8 +288,7 @@
                     <label for="profile-pic">
                         <img src="assets/icons/user.png" alt="" class="img-avatar img-avatar--profile">
                     </label>
-                    <input id="profile-pic" type="file" name="profile-pic" accept="image/*" style="display:none;"
-                        onchange="uploadImgUser()">
+                    <input id="profile-pic" type="file" name="profile-pic" accept="image/*" style="display:none;" onchange="uploadImgUser()">
                 </form>
                 <button id="logout-btn">
                     Đăng xuất <span></span>
@@ -346,8 +345,7 @@
                 <form action="" id="general-infomation-form--section">
                     <div>
                         <div class="input-container">
-                            <input type="text" id="username-input" name="username-input" value="Username" placeholder=""
-                                required>
+                            <input type="text" id="username-input" name="username-input" value="Username" placeholder="" required>
                             <div>
                             </div>
                             <p>
@@ -356,8 +354,7 @@
                         </div>
 
                         <div class="input-container">
-                            <input type="date" id="dob-input" name="dob-input" value="2002-12-12" placeholder=""
-                                required>
+                            <input type="date" id="dob-input" name="dob-input" value="2002-12-12" placeholder="" required>
                             <div>
                             </div>
                             <p>
@@ -366,8 +363,7 @@
                         </div>
 
                         <div class="input-container">
-                            <input type="email" id="email-input" name="email-input" value="email@gmail.com"
-                                placeholder="" required>
+                            <input type="email" id="email-input" name="email-input" value="email@gmail.com" placeholder="" required>
                             <div>
                             </div>
                             <p>
@@ -377,8 +373,7 @@
 
 
                         <div class="input-container">
-                            <input type="password" id="password-input" name="password-input" value=""
-                                placeholder="Nhập mật khẩu mới...">
+                            <input type="password" id="password-input" name="password-input" value="" placeholder="Nhập mật khẩu mới...">
                             <div>
                             </div>
                             <p>
@@ -387,8 +382,7 @@
                         </div>
 
                         <div class="input-container special-input-container">
-                            <input type="text" id="pseudonym-input" name="pseudonym-input" placeholder="Bút danh"
-                                readonly>
+                            <input type="text" id="pseudonym-input" name="pseudonym-input" placeholder="Bút danh" readonly>
                             <div>
                             </div>
                             <p>
@@ -397,8 +391,7 @@
                         </div>
 
                         <div class="input-container special-input-container">
-                            <input type="text" id="category-manage-input" name="category-manage-input"
-                                placeholder="Văn hóa" readonly>
+                            <input type="text" id="category-manage-input" name="category-manage-input" placeholder="Văn hóa" readonly>
                             <div>
                             </div>
                             <p>
@@ -415,7 +408,192 @@
 
             <!-- Cac bai viet cua toi -->
             <div class="section-content">
+                <div class="list-of-content">
+                    <ul>
+                        <li class="current-content" onclick="changeIndexOfContent(0)">
+                            Bị từ chối
+                        </li>
+                        <li onclick="changeIndexOfContent(1)">
+                            Chưa được duyệt
+                        </li>
+                        <li onclick="changeIndexOfContent(2)">
+                            Đã được duyệt
+                        </li>
+                        <li onclick="changeIndexOfContent(3)">
+                            Đã xuất bản
+                        </li>
+                    </ul>
 
+                    <a type="button" href="./writer-create.html" style="padding: 1em 2em; background: skyblue; border-radius: 5px; margin: 2em;">Tạo
+                        bài viết mới</a>
+                </div>
+                <div class="list-of-article">
+                    <!-- Bi tu choi -->
+                    <div class="current-list-of-article--container list-of-article--container">
+                        <div class="article-container">
+                            <a href="article-review.html">
+                                <img src="assets/thumbnails/a0.jpg" alt="">
+                            </a>
+                            <div class="article-content">
+                                <div class="article-content--top">
+                                    <div class="article-content--tilte">
+                                        <a href="article-review.html">Giảm 33kg nhờ ăn 1000 quả trứng mỗi năm</a>
+                                    </div>
+                                    <div class="article-content--tag">
+                                        <a href="article-review.html">Sức khỏe</a>
+                                    </div>
+                                </div>
+                                <div class="article-content--abstract">
+                                    <a href="article-review.html">Ross Macfarlane, 34 tuổi, tin rằng anh giảm được 32 kg và có vẻ ngoài trẻ hơn 10
+                                        tuổi nhờ tập thể dục và áp dụng chế độ ăn kiêng bằng trứng.</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="article-container">
+                            <a href="article-review.html">
+                                <img src="assets/thumbnails/a1.jpg" alt="">
+                            </a>
+                            <div class="article-content">
+                                <div class="article-content--top">
+                                    <div class="article-content--tilte">
+                                        <a href="article-review.html">Sợi chỉ công nghệ cao có thể sản xuất điện</a>
+                                    </div>
+                                    <div class="article-content--tag">
+                                        <a href="article-review.html">Phát minh</a>
+                                    </div>
+                                </div>
+                                <div class="article-content--abstract">
+                                    <a href="article-review.html">Các nhà nghiên cứu công nghệ nano ở Đại học Texas (UT) tại Dallas tạo ra loại chỉ
+                                        mới từ ống nano carbon có thể biến đổi chuyển động cơ học thành điện
+                                        một cách hiệu quả.</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Chua duoc duyet -->
+                    <div class="list-of-article--container">
+                        <div class="article-container">
+                            <a href="article-review.html">
+                                <img src="assets/thumbnails/b0.jpg" alt="">
+                            </a>
+                            <div class="article-content">
+                                <div class="article-content--top">
+                                    <div class="article-content--tilte">
+                                        <a href="article-review.html">Thị trường bất động sản hưởng lợi từ phát triển hạ tầng</a>
+                                    </div>
+                                    <div class="article-content--tag">
+                                        <a href="article-review.html">Bất động sản</a>
+                                    </div>
+                                </div>
+                                <div class="article-content--abstract">
+                                    <a href="article-review.html">Bất động sản hưởng lợi từ đầu tư công, phát triển hạ tầng cùng sự xuất hiện của các
+                                        đại đô thị quy mô và hiện đại.</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="article-container">
+                            <a href="article-review.html">
+                                <img src="assets/thumbnails/b1.jpg" alt="">
+                            </a>
+                            <div class="article-content">
+                                <div class="article-content--top">
+                                    <div class="article-content--tilte">
+                                        <a href="article-review.html">Chillies 'cháy' cùng hơn 6.000 khán giả Hà Nội</a>
+                                    </div>
+                                    <div class="article-content--tag">
+                                        <a href="article-review.html">Âm nhạc</a>
+                                    </div>
+                                </div>
+                                <div class="article-content--abstract">
+                                    <a href="article-review.html">Hơn 6.000 fan nhún nhảy, hát theo ban nhạc Chillies suốt hai giờ ở concert riêng đầu
+                                        tiên "Trên những đám mây".</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Da duoc duyet -->
+                    <div class="list-of-article--container">
+                        <div class="article-container">
+                            <a href="article-review.html">
+                                <img src="assets/thumbnails/c0.jpg" alt="">
+                            </a>
+                            <div class="article-content">
+                                <div class="article-content--top">
+                                    <div class="article-content--tilte">
+                                        <a href="article-review.html">Việt Nam có nhà hàng vào top 50 ngon nhất châu Á</a>
+                                    </div>
+                                    <div class="article-content--tag">
+                                        <a href="article-review.html">Ẩm thực</a>
+                                    </div>
+                                </div>
+                                <div class="article-content--abstract">
+                                    <a href="article-review.html">Một nhà hàng tại trung tâm TP HCM là đại diện duy nhất của Việt Nam được vinh danh
+                                        tại giải thưởng Asia's 50 Best Restaurants 2023.</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="article-container">
+                            <a href="article-review.html">
+                                <img src="assets/thumbnails/c1.jpg" alt="">
+                            </a>
+                            <div class="article-content">
+                                <div class="article-content--top">
+                                    <div class="article-content--tilte">
+                                        <a href="article-review.html">'Creed 3': Nỗi ám ảnh của nhà vô địch</a>
+                                    </div>
+                                    <div class="article-content--tag">
+                                        <a href="article-review.html">Điện ảnh</a>
+                                    </div>
+                                </div>
+                                <div class="article-content--abstract">
+                                    <a href="article-review.html">Quá khứ ám ảnh của tay đấm lừng danh Adonis Creed được tái hiện trong "Creed 3" -
+                                        phim do Michael B. Jordan đóng chính và đạo diễn.</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Da xuat ban -->
+                    <div class="list-of-article--container">
+                        <div class="article-container">
+                            <a href="article-review.html">
+                                <img src="assets/thumbnails/d0.jpg" alt="">
+                            </a>
+                            <div class="article-content">
+                                <div class="article-content--top">
+                                    <div class="article-content--tilte">
+                                        <a href="article-review.html">Chế độ ăn cho người mới chạy bộ</a>
+                                    </div>
+                                    <div class="article-content--tag">
+                                        <a href="article-review.html">Dinh dưỡng</a>
+                                    </div>
+                                </div>
+                                <div class="article-content--abstract">
+                                    <a href="article-review.html">Một chế độ ăn uống cân bằng cho người chạy bộ bao gồm tất cả các chất cần thiết như
+                                        carbohydrate, protein, chất béo, vitamin và khoáng chất.</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="article-container">
+                            <a href="article-review.html">
+                                <img src="assets/thumbnails/d1.jpg" alt="">
+                            </a>
+                            <div class="article-content">
+                                <div class="article-content--top">
+                                    <div class="article-content--tilte">
+                                        <a href="article-review.html">Đăng ký nguyện vọng xét tuyển đại học từ ngày 10/7</a>
+                                    </div>
+                                    <div class="article-content--tag">
+                                        <a href="article-review.html">Tuyển sinh</a>
+                                    </div>
+                                </div>
+                                <div class="article-content--abstract">
+                                    <a href="article-review.html">Từ ngày 10/7 đến 17h ngày 30/7, thí sinh đăng ký, điều chỉnh và bổ sung nguyện vọng
+                                        xét tuyển đại học không giới hạn số lần.</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Danh sach duyet -->
@@ -561,7 +739,7 @@
                     </div>
 
                     <!-- Danh sach da duoc xuat ban -->
-                    <div class="current-list-of-article--container list-of-article--container">
+                    <div class="list-of-article--container">
 
                         <div class="article-container">
                             <a href="#">
@@ -614,19 +792,19 @@
         <div style="padding: 50px;">
         </div>
 
-        <div class = "div1">
-            <div class = "div2" onclick="switchUser()">
+        <div class="div1">
+            <div class="div2" onclick="switchUser()">
                 Đổi role's user
-                <div class = "div3">
+                <div class="div3">
                     Chỉ để đổi hiển thị khi chưa cài Backend
                 </div>
             </div>
         </div>
 
-        <div class = "div4">
-            <div class = "div5" onclick="displayAdmin()">
+        <div class="div4">
+            <div class="div5" onclick="displayAdmin()">
                 Chuyển sang trang Admin
-                <div class = "div6">
+                <div class="div6">
                     Chỉ để đổi hiển thị khi chưa cài Backend
                 </div>
             </div>
