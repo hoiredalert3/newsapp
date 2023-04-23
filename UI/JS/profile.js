@@ -50,12 +50,17 @@ function changeToCurrentUser(index) {
     document.getElementById(SUBSCRIBE_BTN_ID).style.display = "none";
     document.getElementById(PREMIUM_DISPLAY_ID).style.display = "none";
     document.getElementsByClassName(SECTION_CLASS)[1].style.display = "none";
+    document.getElementsByClassName("div4")[0].style.display = "none";
+    changeSection(0);
     if (index < 3 || index == 5) {
         if (index == 1) {
             document.getElementById(SUBSCRIBE_BTN_ID).style.display = "inline-block";
         }
         else if (index == 2) {
             document.getElementById(PREMIUM_DISPLAY_ID).style.display = "flex";
+        }
+        else if (index == 5){
+            document.getElementsByClassName("div4")[0].style.display = "block";
         }
     }
     else {
@@ -134,4 +139,8 @@ function switchUser() {
     CURRENT_ROLE = (CURRENT_ROLE + 1) % 6;
     if (CURRENT_ROLE == 0) CURRENT_ROLE = 1;
     changeToCurrentUser(CURRENT_ROLE);
+}
+
+function displayAdmin(){
+    window.location.href = 'admin.html';
 }
