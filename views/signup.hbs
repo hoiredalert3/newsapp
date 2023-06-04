@@ -1,0 +1,36 @@
+{{> bootstrap-lib}}
+
+<link rel="stylesheet" href="/css/signup.css">
+
+<main class="w-100 h-100 position-relative d-flex flex-column align-items-center justify-content-center">
+
+    <div class="signup-layout-1 position-absolute blurred-container d-flex flex-column gap-4 align-items-center"
+        id="signup-l1">
+        <span class="fw-bold fs-2 mb-3 user-select-none">Đăng ký</span>
+        <span class="fs-4 fw-bold user-select-none">Nhanh chóng thiết lập tài khoản</span>
+        <input type="email" class="form-control fs-5" name="user-email" id="email" placeholder="Email" required>
+        <input type="password" class="form-control fs-5" name="user-password" id="pw" placeholder="Mật khẩu" required>
+        <input type="password" class="form-control fs-5" id="re-pw" placeholder="Nhập lại mật khẩu" required>
+        <button class="fs-4 mt-4" id="l1-continue-btn">Tiếp tục</button>
+        <a href="/signin" class="fs-5 mt-5">Đã có tài khoản? Đăng nhập</a>
+    </div>
+
+    <div class="signup-layout-2 position-absolute blurred-container d-flex flex-column gap-3" id="signup-l2">
+        <button id="l2-back-btn"><i class="bi bi-arrow-left fs-3"></i></button>
+        <span class="fs-2 fw-bold mb-4 text-center">Đăng ký</span>
+        <span class="fs-4 fw-bold">Thông tin cơ bản về bạn</span>
+        <input type="text" class="form-control fs-5" name="user-name" id="name" placeholder="Tên đầy đủ" required>
+        <span class="fs-5 fw-bold d-block">Ngày sinh</span>
+        <input type="date" class="fs-5" name="user-dob" id="dob" required>
+        <span class="fs-5 fw-bold d-block">Vai trò của bạn</span>
+        <select name="user-role" class=" fs-5 mb-4" id="role">
+            <option value="reader">Độc giả</option>
+            <option value="writer">Phóng viên</option>
+            <option value="editor">Biên tập viên</option>
+        </select>
+        <button type="submit" class="fs-4 mt-4" id="signup-btn">Đăng ký</button>
+    </div>
+
+</main>
+
+<script src="/js/signup.js"></script>

@@ -1,0 +1,218 @@
+<link rel="stylesheet" href="/css/article-review.css">
+
+<main>
+    <form action="index.html" id="article-review">
+        <div class="title">
+            Kiểm duyệt bài viết
+        </div>
+        <div class="category_label--container">
+            <div class="review--container">
+                <div class="small-review--container">
+                    <div class="small-item--container">
+                        <div class="small-title">
+                            Chuyên mục
+                        </div>
+                        <div class="small-content">
+                            Câu chuyện văn hóa
+                        </div>
+                    </div>
+
+                    <div class="check--container">
+                        <button onclick="hideComment(0)" class="approval-btn" type="button">
+                            <img src="/img/icons/check-mark.png" alt="">
+                            <p>
+                                Chấp thuận
+                            </p>
+                        </button>
+                        <button onclick="displayComment(0)" class="denied-btn" type="button">
+                            <img src="/img/icons/delete.png" alt="">
+                            <p>
+                                Từ chối
+                            </p>
+                        </button>
+                    </div>
+                </div>
+                <p class="title-deny">Lý do từ chối:</p>
+                <textarea name="category-comment" id="category-comment" class="comment" cols="0" rows="2"
+                    hidden></textarea>
+            </div>
+
+            <div class="review--container">
+                <div class="small-review--container">
+                    <div class="small-item--container">
+                        <div class="small-title">
+                            Nhãn
+                        </div>
+
+                        <div class="small-content--no_border">
+                            <div class="label--container">
+                                <a href="#">
+                                    NGƯỜI MÔNG
+                                </a>
+                            </div>
+                            <div class="label--container">
+                                <a href="#">
+                                    ĐI TÌM CON CHỮ
+                                </a>
+                            </div>
+                            <div class="label--container">
+                                <a href="#">TÌNH NGUYỆN VIÊN</a>
+                            </div>
+                            <div class="label--container">
+                                <a href="#">ĐỘI BIÊN PHÒNG</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="check--container">
+                        <button onclick="hideComment(1)" class="approval-btn" type="button">
+                            <img src="/img/icons/check-mark.png" alt="">
+                            <p>
+                                Chấp thuận
+                            </p>
+                        </button>
+                        <button onclick="displayComment(1)" class="denied-btn" type="button">
+                            <img src="/img/icons/delete.png" alt="">
+                            <p>
+                                Từ chối
+                            </p>
+                        </button>
+                    </div>
+                </div>
+                <p class="title-deny">Lý do từ chối:</p>
+                <textarea name="category-comment" id="category-comment" class="comment" cols="0" rows="2" value=""
+                    hidden></textarea>
+            </div>
+        </div>
+        <div class="review--container">
+            <div class="big-review--container">
+                <div class="big-review--head">
+                    <div class="small-title">
+                        Tiêu đề
+                    </div>
+                    <div class="check--container">
+                        <button onclick="hideComment(2)" class="approval-btn" type="button">
+                            <img src="/img/icons/check-mark.png" alt="">
+                            <p>
+                                Chấp thuận
+                            </p>
+                        </button>
+                        <button onclick="displayComment(2)" class="denied-btn" type="button">
+                            <img src="/img/icons/delete.png" alt="">
+                            <p>
+                                Từ chối
+                            </p>
+                        </button>
+                    </div>
+                </div>
+                <div class="big-content">
+                    Cái lý của người Mông: Đi tìm con chữ
+                </div>
+            </div>
+            <p class="title-deny">Lý do từ chối:</p>
+            <textarea name="category-comment" id="category-comment" class="comment" cols="0" rows="2" value=""
+                hidden></textarea>
+        </div>
+
+        <div class="review--container">
+            <div class="big-review--container">
+                <div class="big-review--head">
+                    <div class="small-title">
+                        Tóm tắt
+                    </div>
+                    <div class="check--container">
+                        <button onclick="hideComment(3)" class="approval-btn" type="button">
+                            <img src="/img/icons/check-mark.png" alt="">
+                            <p>
+                                Chấp thuận
+                            </p>
+                        </button>
+                        <button onclick="displayComment(3)" class="denied-btn" type="button">
+                            <img src="/img/icons/delete.png" alt="">
+                            <p>
+                                Từ chối
+                            </p>
+                        </button>
+                    </div>
+                </div>
+                <div class="big-content">
+                    Người Mông ở Nghệ An, nhất là phụ nữ trên 35 tuổi phần lớn không biết chữ, và những lớp dạy chữ được
+                    mở ra khiến nhiều người háo hức đi học cho biết chữ để… sử dụng điện thoại.
+                </div>
+            </div>
+            <p class="title-deny">Lý do từ chối:</p>
+            <textarea name="category-comment" id="category-comment" class="comment" cols="0" rows="2" value=""
+                hidden></textarea>
+        </div>
+
+        <div class="review--container">
+            <div class="big-review--container">
+                <div class="big-review--head">
+                    <div class="small-title">
+                        Nội dung
+                    </div>
+                    <div class="check--container">
+                        <button onclick="hideComment(4)" class="approval-btn" type="button">
+                            <img src="/img/icons/check-mark.png" alt="">
+                            <p>
+                                Chấp thuận
+                            </p>
+                        </button>
+                        <button onclick="displayComment(4)" class="denied-btn" type="button">
+                            <img src="/img/icons/delete.png" alt="">
+                            <p>
+                                Từ chối
+                            </p>
+                        </button>
+                    </div>
+                </div>
+                <div class="big-content ">
+                    <h1>Ngày lên rẫy, đêm đi học chữ</h1>
+                    <p>Đều đặn từ thứ hai đến thứ sáu hằng tuần, khi bóng đêm phủ xuống vùng rẻo cao Mường Lống (xã Tri
+                        Lễ, H.Quế Phong, Nghệ An), lớp học dạy chữ do Đồn biên phòng Tri Lễ tổ chức lại sáng đèn. Sau
+                        bữa cơm tối, chị Thò Ý Pa lại cắp sách đến lớp với một tâm trạng khá háo hức. Hồi nhỏ, chị Pa
+                        không được đến trường và nay chị đi học ở tuổi 34. Ngoài chị Pa, có 49 học viên khác là phụ nữ
+                        người Mông ở bản Mường Lống cũng tham gia lớp học. Mỗi buổi học 2 giờ đồng hồ, ngoài những người
+                        bận việc gia đình không thể thu xếp, còn lại đều đến lớp khá đều đặn.</p>
+                    <br>
+                    <p>Bản Mường Lống có gần 140 nóc nhà, nằm cách xa trung tâm xã Tri Lễ khoảng 30 km, đường đất, mưa
+                        là nhão nhoẹt. Lớp học này do 4 giáo viên, trong đó có 2 chiến sĩ bộ đội biên phòng là người
+                        Mông và 2 tình nguyện viên cũng là bộ đội. Thượng úy Xồng Bá Khư, giáo viên người Mông dạy lớp
+                        học này, cho biết phụ nữ trong bản phần lớn không biết chữ, không nói được tiếng phổ thông. Do
+                        đó, thượng úy Khư và các đồng nghiệp phải sử dụng cả tiếng phổ thông và tiếng Mông để dạy. Để
+                        các học viên nhớ lâu và háo hức học, các thầy giáo mang quân hàm này phải nhờ các thầy cô giáo ở
+                        Trường tiểu học Tri Lễ 4 hỗ trợ soạn giáo án. Đêm ở núi rừng tĩnh mịch. Tiếng ê a học bài của
+                        những chị em người Mông vang lên trong đêm như xua tan nỗi buồn vùng biên ải.</p>
+                    <br>
+                    <img src="/img/review/0.png" alt="">
+                    <br>
+                    <p>
+                        Mới tham gia lớp học, những học viên lớp 1 trên 30 tuổi này còn tỏ ra e ngại. Những bàn tay chỉ
+                        quen cầm cuốc, cầm dao cặm cụi trên nương rẫy khá lúng túng khi cầm bút. Nhưng nhờ sự tận tâm
+                        của những thầy giáo, các chị em sau đó đã quen dần và tỏ ra háo hức. Sau 3 tháng, nhiều chị đã
+                        biết đọc, biết viết, biết tính toán, nhưng sướng nhất vẫn là biết sử dụng và nhắn tin qua điện
+                        thoại. Lớp học chữ này kéo dài 6 tháng. Sau khi kết thúc khóa học, học viên sẽ được kiểm tra để
+                        cấp chứng chỉ.
+                    </p>
+
+
+                </div>
+            </div>
+            <p class="title-deny">Lý do từ chối:</p>
+            <textarea name="category-comment" id="category-comment" class="comment" cols="0" rows="2" value=""
+                hidden></textarea>
+        </div>
+
+        <div class="btns-container">
+            <button type="button" class="submit-btn" id="approval-article-btn"
+                onclick="redirectToPage('/publish-article')">
+                Chấp thuận
+            </button>
+            <button type="button" class="submit-btn" id="denied-article-btn" onclick="redirectToPage('/')">
+                Từ chối
+            </button>
+        </div>
+    </form>
+
+</main>
+
+<script src="/js/article-review.js"></script>

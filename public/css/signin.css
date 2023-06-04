@@ -1,0 +1,75 @@
+body {
+    height: 100vh;
+    background: url('../assets/background/signin.jpg') no-repeat center fixed;
+    background-size: cover;
+}
+
+.blurred-container {
+    width: fit-content;
+    height: fit-content;
+    box-shadow: 0 0 5px 0;
+    background: inherit;
+    backdrop-filter: blur(10px);
+    padding: 1% 5%;
+}
+
+.login-btn {
+    background-color: gray;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    padding: 0.8em 1.5em;
+}
+
+.login-btn:hover {
+    background-color: lightyellow;
+    box-shadow: 0px 0px 50px 10px rgba(255, 255, 224);
+    transition: 0.5s;
+}
+
+.google-signin-btn {
+    border: 1px solid black;
+    border-radius: 5px;
+    width: fit-content;
+}
+
+.google-signin-btn:hover {
+    background-color: lightyellow;
+    box-shadow: 0px 0px 50px 10px rgba(255, 255, 224);
+    border: none;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+}
+
+.facebook-signin-btn {
+    border: 1px solid black;
+    border-radius: 5px;
+    width: fit-content;
+}
+
+.facebook-signin-btn:hover {
+    background-color: lightyellow;
+    box-shadow: 0px 0px 50px 10px rgba(255, 255, 224);
+    border: none;
+    transition-duration: 0.5s;
+    transition-timing-function: ease;
+}
+
+.signup-btn {
+    color: black;
+    font-weight: bold;
+}
+
+.stay-anony-btn {
+    color: black;
+    font-weight: bold;
+}
+
+input#email,
+input#password {
+
+    background: none;
+    border: 1px solid black;
+    border-radius: 5px;
+    padding: 1em 1.5em;
+}

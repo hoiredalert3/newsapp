@@ -1,0 +1,153 @@
+<link rel="stylesheet" href="/css/general.css">
+<link rel="stylesheet" href="/css/publish-article.css">
+<main>
+    <form action="/">
+        <div class="title">
+            Xuất bản bài viết
+        </div>
+        <div class="category_label--container">
+            <div>
+                <label for="category" class="small-title">Chuyên mục</label>
+                <select name="category" id="category">
+                    <optgroup label="Thời sự">
+                        <option value="chinh-tri">Chính trị</option>
+                        <option value="quôc-phong">Quốc phòng</option>
+                        <option value="lao-dong">Lao động</option>
+                        <option value="dan-sinh">Dân sinh</option>
+                        <option value="thoi-luan">Thời luận</option>
+                        <option value="viec-lam">Việc làm</option>
+                        <option value="quyen-duoc-biet">Quyền được biết</option>
+                        <option value="phap-luat">Pháp luật</option>
+                        <option value="phong-su-dieu-tra">Phóng sự / Điều tra</option>
+                    </optgroup>
+                    <optgroup label="Thế giới">
+                        <option value="">Kinh thế thế giưới</option>
+                        <option value="">Quân sự</option>
+                        <option value="">Góc nhìn</option>
+                        <option value="">Hồ sơ</option>
+                        <option value="">Người Việt năm châu</option>
+                        <option value="">Chuyện lạ</option>
+                    </optgroup>
+                    <optgroup label="Kinh tế">
+                        <option value="">Kinh tế xanh</option>
+                        <option value="">Làm giàu</option>
+                        <option value="">Doanh nhân</option>
+                        <option value="">Ngân hàng</option>
+                        <option value="">Chính sách phát triển</option>
+                        <option value="">Địa ốc</option>
+                        <option value="">Doanh nghiệp</option>
+                        <option value="">Chứng khoáng</option>
+                    </optgroup>
+                    <optgroup label="Giáo dục">
+                        <option value="">Tuyển sinh</option>
+                        <option value="">Chọn nghề - chọn trường</option>
+                        <option value="">Du học</option>
+                        <option value="">Cẩm nang tuyển sinh 2023</option>
+                        <option value="">Phụ huynh</option>
+                        <option value="">Nhà trường</option>
+
+                    </optgroup>
+                    <optgroup label="Du lịch">
+                        <option value="">Khám phá</option>
+                        <option value="">Tin tức, sự kiện</option>
+                        <option value="">Chơi gì, ăn đâu, đi thế nào</option>
+                        <option value="">Bất động sản du lịch</option>
+                        <option value="">Câu chuyện du lịch</option>
+                    </optgroup>
+
+                    <optgroup label="Sức khỏe">
+                        <option value="">Khỏe đẹp mỗi ngày</option>
+                        <option value="">Niềm tin vào y đức</option>
+                        <option value="">Làm đẹp</option>
+                        <option value="">Giới tính</option>
+                    </optgroup>
+
+                    <optgroup label="Văn hóa">
+                        <option value="">Câu chuyện văn hóa</option>
+                        <option value="">Khảo cứu</option>
+                        <option value="">Xem - nghe</option>
+                        <option value="">Sống đẹp</option>
+                    </optgroup>
+                </select>
+            </div>
+
+            <div class="labels--container">
+                <div class="small-title">
+                    Nhãn
+                </div>
+                <div id="grid-label--container">
+                    <div class="label--container">
+                        <p>
+                            NGƯỜI MÔNG
+                        </p>
+                        <img src="/img/icons/exit.png" alt="" onclick="removeLabel(0)">
+                    </div>
+
+                    <div class="label--container">
+                        <p>
+                            ĐI TÌM CON CHỮ
+                        </p>
+                        <img src="/img/icons/exit.png" alt="" onclick="removeLabel(1)">
+                    </div>
+
+                    <div class="label--container">
+                        <p>
+                            TÌNH NGUYỆN VIÊN
+                        </p>
+                        <img src="/img/icons/exit.png" alt="" onclick="removeLabel(2)">
+                    </div>
+
+                    <div class="label--container">
+                        <p>
+                            ĐỘI BIÊN PHÒNG
+                        </p>
+                        <img src="/img/icons/exit.png" alt="" onclick="removeLabel(3)">
+                    </div>
+                </div>
+
+                <div id="add-label-display">
+                    <div>
+                        <input type="text" id="new-label-input">
+                        <button type="button" onclick="addNewLabel()">
+                            &rarr;
+                        </button>
+                        <img src="/img/icons/exit.png" alt="" onclick="hideAddLabelDisplay()">
+                    </div>
+
+                </div>
+                <div id="add-label" onclick="showAddLabelDisplay()">
+                    <img src="/img/icons/plus.png" alt="">
+                </div>
+
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="small-title">
+                Ngày xuất bản
+            </div>
+
+            <input type="date" name="" id="" id="publish-day" name="publish-day">
+        </div>
+
+        <div class="container">
+            <div class="small-title">
+                Giờ xuất bản
+            </div>
+
+            <input type="time" value="now" id="publish-time" name="publish-time">
+        </div>
+
+        <div class="btns-container">
+            <button class="btn" id="publish-article-btn" onclick="redirectToPage('/')">
+                Xuất bản
+            </button>
+            <button type="button" class="btn" id="back-btn" onclick="redirectToPage('/article-review')">
+                Quay lại
+            </button>
+        </div>
+    </form>
+
+</main>
+
+<script src="/js/publish-article.js"></script>
