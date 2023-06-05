@@ -14,7 +14,9 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "categoryId",
         otherKey: "postId",
       });
+
       Category.belongsTo(models.Category, { foreignKey: "parentId" });
+      Category.hasMany(models.Category, { foreignKey: "parentId" });
     }
   }
   Category.init(

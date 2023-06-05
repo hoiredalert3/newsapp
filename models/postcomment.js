@@ -15,6 +15,9 @@ module.exports = (sequelize, DataTypes) => {
       PostComment.belongsTo(models.PostComment, {
         foreignKey: "parentId",
       });
+      PostComment.hasMany(models.PostComment, {
+        foreignKey: "parentId",
+      });
     }
   }
   PostComment.init(
