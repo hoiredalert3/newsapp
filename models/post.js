@@ -38,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
       publishedAt: DataTypes.DATE,
       removedAt: DataTypes.DATE,
       thumnailUrl: DataTypes.STRING,
-      contentUrl: DataTypes.STRING,
+      content: DataTypes.STRING,
       isPremium: DataTypes.BOOLEAN,
     },
     {

@@ -148,7 +148,7 @@ module.exports = {
 
         items.forEach((item) => {
             if (item.typeId != 4) {
-                item.typeId = null;
+                item.pseudonym = null;
             }
             const bcrypt = require("bcrypt");
             item.password = bcrypt.hashSync("Nhom11@20TN", bcrypt.genSaltSync(8));

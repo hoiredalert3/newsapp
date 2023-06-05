@@ -210,7 +210,27 @@ module.exports = {
             { title: "MẠNG XÃ HỘI" },
             { title: "TRỘM TÀI SẢN" },
             { title: "TRỘM ĐIỆN THOẠI" },
-            { title: "CAMERA AN NINH" }
+            { title: "CAMERA AN NINH" },
+
+            // THẾ GIỚI - KINH TẾ THẾ GIỚI
+            { title: "OPEC+" },
+            { title: "DẦU MỎ" },
+            { title: "Ả RẬP XÊ ÚT" },
+            { title: "GIÁ DẦU" },
+            // THẾ GIỚI - QUÂN SỰ
+            // THẾ GIỚI - GÓC NHÌN
+            // THẾ GIỚI - HỒ SƠ
+            // THẾ GIỚI - NGƯỜI VIỆT NĂM CHÂU
+            // THẾ GIỚI - CHUYỆN LẠ
+
+            // KINH TẾ - KINH TẾ XANH
+            // KINH TẾ - LÀM GIÀU
+            // KINH TẾ - DOANH NHÂN
+            // KINH TẾ - NGÂN HÀNG
+            // KINH TẾ - CHÍNH SÁCH PHÁT TRIỂN
+            // KINH TẾ - ĐỊA ỐC
+            // KINH TẾ - DOANH NGHIỆP
+            // KINH TẾ - CHỨNG KHOÁNG
         ];
         items.forEach(item => {
             item.removedAt = null;
@@ -219,6 +239,8 @@ module.exports = {
             item.createdAt = Sequelize.literal('NOW()');
             item.updatedAt = Sequelize.literal('NOW()');
         });
+
+        // REMOVE DUPLICATED TITLE
         let temp_items = [...items]
         items = []
         let unique_titles = {}
