@@ -17,7 +17,7 @@ const express_handlerbars = require("express-handlebars");
 
 // Helpers
 const { upload, getTempLink } = require("./controllers/dropboxHelper")
-
+const {convertToVietnameseDateTime} = require("./controllers/helpers")
 // Config public static web folder
 app.use(express.static(PUBLIC));
 
@@ -32,6 +32,9 @@ app.engine(
     runtimeOptions: {
       allowProtoPropertiesByDefault: true,
     },
+    helpers: {
+      convertToVietnameseDateTime
+    }
   })
 );
 app.set("view engine", EXT);

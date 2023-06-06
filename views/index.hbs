@@ -51,7 +51,7 @@
         {{!-- Begin Carousel --}}
         <div class="carousel_track-container">
             <ul class="carousel_track">
-                {{#each recentPosts}}
+                {{#each hotPosts}}
                 <li class="carousel_slide current-carousel_slide">
                     <a href="/posts/1">
                         <img class="carousel_image" src="{{thumbnailUrl}}" alt="">
@@ -60,18 +60,19 @@
                                 {{title}}
                             </h3>
                             <p class="carousel_abstract-date-post">
-                                Ngày đăng: <span class="carousel_abstract-date"> {{publishedAt}} </span>
+                                Ngày đăng: <span class="carousel_abstract-date"> {{ convertToVietnameseDateTime
+                                    publishedAt }} </span>
                             </p>
                             <p class="carousel_abstract--caterogy">
                                 <span class="carousel_abstract-level1">
                                     <a href="#">
-                                        Thời sự
+                                        {{parentCategory.title}}
                                     </a>
                                 </span>
                                 <span style="opacity:0.5;">&#x25CF;</span>
                                 <span class="carousel_abstract-level2">
                                     <a href="#">
-                                        Chính trị
+                                        {{childCategory.title}}
                                     </a>
                                 </span>
                             </p>
@@ -127,8 +128,8 @@
                             </a>
                         </div>
                         <div class="new__article____abstract-category_time big__article____abstract-category_time">
-                            <a href="#">Đời sống</a>
-                            <p>{{publishedAt}}</p>
+                            <a href="#"> <span>{{childCategory}}</span> <span style="opacity:0.5;">&#x25CF;</span><span>{{parentCategory}}</span></a>
+                            <p>{{ convertToVietnameseDateTime publishedAt }}</p>
                         </div>
                     </div>
                     <a href="/posts/1" class="new__article__img big__article__img">
@@ -149,329 +150,35 @@
 
                     </div>
                 </div>
-
+                {{#each mostViewPosts}}
                 <div class="mini__article__container">
 
                     <div class="mini__article__abstract">
                         <div class="mini__article__title">
                             <a href="/posts/1" class="mini__article-link">
-                                Chiến sự đến tối 15.4: Chưa kiểm soát xong Bakhmut Wagner có ý kiến với Moscow
+                                {{title}}
                             </a>
 
                         </div>
                         <div class="mini__article__content">
                             <a href="" class="mini__article-link">
-                                Tổng thống Nga Valdimir Putin ký ban hành luật sửa đổi quy định động viên vào quân
-                                ngũ, trong khi ông Yevgeny Prigozhin, người sáng lập công ty lính đánh thuê Wagner,
-                                cho rằng Moscow nên chấm dứt chiến dịch quân sự ở Ukraine.
+                                {{summary}}
                             </a>
                         </div>
                     </div>
 
                     <div class="mini__article__img__container">
                         <a href="/posts/1" class="mini__article-link">
-                            <img src="/img/view/0.jpeg" alt="">
+                            <img src="{{thumbnailUrl}}" alt="">
                         </a>
                         <div>
                             <a href="#" class="">Thế giới</a>
-                            <p class="">15/04/2023 18:34</p>
+                            <p class="">{{ convertToVietnameseDateTime publishedAt }}</p>
                         </div>
                     </div>
                 </div>
-
-                <div class="horizontial__line">
-
-                </div>
-
-                <div class="mini__article__container">
-
-                    <div class="mini__article__abstract">
-                        <div class="mini__article__title">
-                            <a href="/posts/1" class="mini__article-link">
-                                Chuẩn bị phóng tên lửa đẩy uy lực nhất mọi thời đại
-                            </a>
-
-                        </div>
-                        <div class="mini__article__content">
-                            <a href="/posts/1" class="mini__article-link">
-                                Hôm qua (giờ VN), Hãng SpaceX của tỉ phú Elon Musk (Mỹ) đã được cho phép phóng
-                                Starship, tổ hợp tên lửa đẩy lớn nhất và mạnh nhất trong lịch sử thám hiểm không
-                                gian của con người.
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="mini__article__img__container">
-                        <a href="/posts/1" class="mini__article-link">
-                            <img src="/img/view/1.jpeg" alt="">
-                        </a>
-                        <div>
-                            <a href="#" class="">Thế giới </a>
-                            <p class="">16/04/2023 07:44</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="horizontial__line">
-
-                </div>
-
-                <div class="mini__article__container">
-
-                    <div class="mini__article__abstract">
-                        <div class="mini__article__title">
-                            <a href="/posts/1" class="mini__article-link">
-                                Tổng Bí thư Nguyễn Phú Trọng sẽ thăm Mỹ vào thời điểm thích hợp
-                            </a>
-
-                        </div>
-                        <div class="mini__article__content">
-                            <a href="/posts/1" class="mini__article-link">
-                                Thay mặt Tổng thống Mỹ, Ngoại trưởng Antony Blinken nhắc lại lời mời Tổng Bí thư
-                                Nguyễn Phú Trọng thăm Mỹ. Tổng Bí thư cảm ơn và đề nghị các cơ quan liên quan thu
-                                xếp vào thời điểm thích hợp.
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="mini__article__img__container">
-                        <a href="/posts/1" class="mini__article-link">
-                            <img src="/img/view/2.jpg" alt="">
-                        </a>
-                        <div>
-                            <a href="#" class="">Thời sự</a>
-                            <p class="">15/04/2023 19:51</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="horizontial__line">
-
-                </div>
-
-                <div class="mini__article__container">
-
-                    <div class="mini__article__abstract">
-                        <div class="mini__article__title">
-                            <a href="/posts/1" class="mini__article-link">
-                                Quảng Ninh: Liên tiếp phát hiện ổ dịch Covid-19 trong trường học
-                            </a>
-                        </div>
-                        <div class="mini__article__content">
-                            <a href="/posts/1" class="mini__article-link">
-                                Trong các ngày qua, số ca mắc Covid-19 tại Quảng Ninh đang tăng nhanh. Đáng lo ngại,
-                                nhiều ổ dịch được phát hiện trong trường học với hàng chục ca mắc.
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="mini__article__img__container">
-                        <a href="/posts/1" class="mini__article-link">
-                            <img src="/img/view/3.jpg" alt="">
-                        </a>
-                        <div>
-                            <a href="#" class="">Sức khỏe</a>
-                            <p class="">15/04/2023 19:11</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="horizontial__line">
-
-                </div>
-
-                <div class="mini__article__container">
-
-                    <div class="mini__article__abstract">
-                        <div class="mini__article__title">
-                            <a href="#" class="mini__article-link">
-                                Loại nước ép đặc biệt giúp giảm huyết áp nhanh
-                            </a>
-
-                        </div>
-                        <div class="mini__article__content">
-                            <a href="" class="mini__article-link">
-                                Theo một chuyên gia, nitrat trong một loại nước ép rau củ có thể giúp cải thiện lưu
-                                lượng máu, từ đó giảm huyết áp nhanh chóng trong vài giờ.
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="mini__article__img__container">
-                        <a href="#" class="mini__article-link">
-                            <img src="/img/view/4.png" alt="">
-                        </a>
-                        <div>
-                            <a href="#" class="">Sức khỏe</a>
-                            <p class="">16/04/2023 00:00</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="horizontial__line">
-
-                </div>
-
-                <div class="mini__article__container">
-
-                    <div class="mini__article__abstract">
-                        <div class="mini__article__title">
-                            <a href="#" class="mini__article-link">
-                                Tử vi hằng ngày - Xem tử vi vui 12 con giáp ngày 16.4.2023
-                            </a>
-
-                        </div>
-                        <div class="mini__article__content">
-                            <a href="" class="mini__article-link">
-                                Xem tử vi hằng ngày năm 2023, tử vi vui 12 con giáp - tuổi Tí, Sửu, Dần, Mão, Thìn,
-                                Tị, Ngọ, Mùi, Thân, Dậu, Tuất và Hợi.
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="mini__article__img__container">
-                        <a href="#" class="mini__article-link">
-                            <img src="/img/view/5.jpg" alt="">
-                        </a>
-                        <div>
-                            <a href="#" class="">Đời sống</a>
-                            <p class="">15/04/2023 19:14</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="horizontial__line">
-
-                </div>
-
-                <div class="mini__article__container">
-
-                    <div class="mini__article__abstract">
-                        <div class="mini__article__title">
-                            <a href="#" class="mini__article-link">
-                                TPHCM đón 'mưa vàng', hôm nay tiếp tục có mưa lớn
-                            </a>
-
-                        </div>
-                        <div class="mini__article__content">
-                            <a href="" class="mini__article-link">
-                                Lượng mưa đo được tại Bình Chánh (TP.HCM) là 95,4mm, Xuân Tô (An Giang) 103,2mm, Mỹ
-                                Lâm (Kiên Giang) 134,6mm...
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="mini__article__img__container">
-                        <a href="#" class="mini__article-link">
-                            <img src="/img/view/6.jpg" alt="">
-                        </a>
-                        <div>
-                            <a href="#" class="">Kinh tế</a>
-                            <p class="">16/04/2023 07:03</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="horizontial__line">
-
-                </div>
-
-                <div class="mini__article__container">
-
-                    <div class="mini__article__abstract">
-                        <div class="mini__article__title">
-                            <a href="#" class="mini__article-link">
-                                Thủ tướng Phạm Minh Chính: 'Các chính sách tháo gỡ đã vào tới TP.HCM chưa? Vào tới
-                                đâu rồi?'
-                            </a>
-
-                        </div>
-                        <div class="mini__article__content">
-                            <a href="" class="mini__article-link">
-                                Chủ trì buổi làm việc giữa đoàn công tác của Chính phủ với TP.HCM sáng nay 16.4, Thủ
-                                tướng Phạm Minh Chính yêu cầu TP.HCM cần nhanh chóng có những giải pháp tháo gỡ khó
-                                khăn, vướng mắc trong quá trình phát triển kinh tế sau kết quả tăng trưởng giảm sâu
-                                trong quý 1.
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="mini__article__img__container">
-                        <a href="#" class="mini__article-link">
-                            <img src="/img/view/7.jpg" alt="">
-                        </a>
-                        <div>
-                            <a href="#" class="">Kinh tế </a>
-                            <p class="">16/04/2023 09:13</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="horizontial__line">
-
-                </div>
-
-                <div class="mini__article__container">
-
-                    <div class="mini__article__abstract">
-                        <div class="mini__article__title">
-                            <a href="#" class="mini__article-link">
-                                Bộ Xây dựng trả lời về bổ sung quy hoạch 2 thủy điện trên sông Hồng
-                            </a>
-
-                        </div>
-                        <div class="mini__article__content">
-                            <a href="" class="mini__article-link">
-                                Cục Quản lý hoạt động xây dựng, Bộ Xây dựng đã có văn bản trả lời Bộ Công thương về
-                                việc bổ sung quy hoạch thêm 2 dự án thủy điện trên sông Hồng trên địa phận tỉnh Lào
-                                Cai.
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="mini__article__img__container">
-                        <a href="#" class="mini__article-link">
-                            <img src="/img/view/8.jpg" alt="">
-                        </a>
-                        <div>
-                            <a href="#" class="">Kinh tế</a>
-                            <p class="">16/04/2023 16:07</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="horizontial__line">
-
-                </div>
-
-                <div class="mini__article__container">
-
-                    <div class="mini__article__abstract">
-                        <div class="mini__article__title">
-                            <a href="#" class="mini__article-link">
-                                1,15 triệu SIM sẽ bị thu hồi nếu vẫn không thực hiện chuẩn hóa
-                            </a>
-
-                        </div>
-                        <div class="mini__article__content">
-                            <a href="" class="mini__article-link">
-                                Sau 15 ngày kể từ ngày nhà mạng khóa 1 chiều đối với 1,67 triệu SIM có thông tin
-                                không trùng khớp với Cơ sở dữ liệu quốc gia về dân cư, chỉ có 520.000 chủ thuê bao
-                                đã thực hiện chuẩn hóa và được mở khóa hoạt động trở lại.
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="mini__article__img__container">
-                        <a href="#" class="mini__article-link">
-                            <img src="/img/view/9.jpg" alt="">
-                        </a>
-                        <div>
-                            <a href="#" class="">Kinh tế</a>
-                            <p class="">16/04/2023 17:49</p>
-                        </div>
-                    </div>
-                </div>
+                <div class="horizontial__line"></div>
+                {{/each}}
             </div>
         </div>
 
@@ -487,161 +194,61 @@
 
             <div class="row_flex" id="container-2">
                 <div class="category-container big-container">
-
-                    <div class="category__article__container big__article__container">
-                        <div class="category__article__abstract big__article__abstract">
-                            <div class="category__article__abstract big__article__abstract-title">
-                                <a href="/posts/1"
-                                    class="category__article__abstract-title_link big__article__abstract-title_link">
-                                    Tổng Bí thư Nguyễn Phú Trọng sẽ thăm Mỹ vào thời điểm thích hợp
-                                </a>
+                    {{#each leftCategoryPosts}}
+                        <div class="category__article__container big__article__container">
+                            <div class="category__article__abstract big__article__abstract">
+                                <div class="category__article__abstract big__article__abstract-title">
+                                    <a href="/posts/1"
+                                        class="category__article__abstract-title_link big__article__abstract-title_link">
+                                        {{Post.title}}
+                                    </a>
+                                </div>
+                                <div class="category__article__abstract-content big__article__abstract-content">
+                                    <a href="/posts/1"
+                                        class="category__article__abstract-content_link big__article__abstract-content_link">
+                                        {{Post.summary}}
+                                    </a>
+                                </div>
+                                <div
+                                    class="category__article____abstract-category_time big__article____abstract-category_time">
+                                    <a href="#">{{title}}</a>
+                                    <p>{{ convertToVietnameseDateTime Post.publishedAt }}</p>
+                                </div>
                             </div>
-                            <div class="category__article__abstract-content big__article__abstract-content">
-                                <a href="/posts/1"
-                                    class="category__article__abstract-content_link big__article__abstract-content_link">
-                                    Thay mặt Tổng thống Mỹ, Ngoại trưởng Antony Blinken nhắc lại lời mời Tổng Bí thư
-                                    Nguyễn Phú Trọng thăm Mỹ. Tổng Bí thư cảm ơn và đề nghị các cơ quan liên quan thu
-                                    xếp vào thời điểm thích hợp.
-                                </a>
-                            </div>
-                            <div
-                                class="category__article____abstract-category_time big__article____abstract-category_time">
-                                <a href="#">Thời sự</a>
-                                <p>15/04/2023 19:51 GMT+7</p>
-                            </div>
+                            <a href="/posts/1" class="category__article__img big__article__img">
+                                <img src="{{Post.thumbnailUrl}}" alt="{{Post.title}}">
+                            </a>
                         </div>
-                        <a href="/posts/1" class="category__article__img big__article__img">
-                            <img src="/img/category/0.jpg" alt="">
-                        </a>
-                    </div>
-                    <div class="horizontial__line">
-
-                    </div>
-                    <div class="category__article__container big__article__container">
-                        <div class="category__article__abstract big__article__abstract">
-                            <div class="category__article__abstract big__article__abstract-title">
-                                <a href="/posts/1"
-                                    class="category__article__abstract-title_link big__article__abstract-title_link">
-                                    Mỹ đánh giá năng lực Đài Loan ra sao trong xung đột tiềm tàng với Trung Quốc?
-                                </a>
-                            </div>
-                            <div class="category__article__abstract-content big__article__abstract-content">
-                                <a href="/posts/1"
-                                    class="new__article__abstract-content_link big__article__abstract-content_link">
-                                    Đài Loan khó có thể ngăn chặn quân đội Trung Quốc chiếm ưu thế trên không trong cuộc
-                                    xung đột quân sự tiềm tàng giữa hai bên, theo những đánh giá của Lầu Năm Góc bị rò
-                                    rỉ gần đây.
-                                </a>
-                            </div>
-                            <div
-                                class="category__article____abstract-category_time big__article____abstract-category_time">
-                                <a href="#">Thế giới</a>
-                                <p>24/03/2023 06:06 GMT+7</p>
-                            </div>
-                        </div>
-                        <a href="/posts/1" class="category__article__img big__article__img">
-                            <img src="/img/category/1.jpg" alt="">
-                        </a>
-                    </div>
+                        <div class="horizontial__line"></div>
+                    {{/each}}
                 </div>
 
                 <div class="vertical__line vertical__line-light"></div>
 
                 <div class="category-container2">
+                    {{#each rightCategoryPosts}}
                     <div class="medium__article-container">
                         <a href="/posts/1">
-                            <img src="/img/category/2.jpg" alt="">
+                            <img src="{{Post.thumbnailUrl}}" alt="">
                         </a>
                         <div class="medium__article-abstract">
                             <a href="/posts/1" class="medium__article-abstract-title">
-                                1,15 triệu SIM sẽ bị thu hồi nếu vẫn không thực hiện chuẩn hóa
+                                {{Post.title}}
                             </a>
+                            <div class = "medium__article-abstract-summary">
+                                {{Post.summary}}
+                            </div>
                             <div class="medium__article-category_time">
                                 <a href="">
-                                    Kinh tế
+                                    {{title}}
                                 </a>
                                 <p>
-                                    16/04/2023 17:49
+                                    {{ convertToVietnameseDateTime Post.publishedAt }}
                                 </p>
                             </div>
                         </div>
                     </div>
-
-                    <div class="medium__article-container">
-                        <a href="/posts/1">
-                            <img src="/img/category/3.png" alt="">
-                        </a>
-                        <div class="medium__article-abstract">
-                            <a class="medium__article-abstract-title">
-                                Hơn 4.300 học sinh Bình Phước tham gia ‘Sân chơi chinh phục tiếng Anh - English Beat’
-                            </a>
-                            <div class="medium__article-category_time">
-                                <a href="">
-                                    Giáo dục
-                                </a>
-                                <p>
-                                    16/04/2023 17:41
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="medium__article-container">
-                        <a href="/posts/1">
-                            <img src="/img/category/4.png" alt="">
-                        </a>
-                        <div class="medium__article-abstract">
-                            <a class="medium__article-abstract-title" href="/posts/1">
-                                Hai món Việt Nam vào danh sách 100 món làm từ cá ngon nhất thế giới
-                            </a>
-                            <div class="medium__article-category_time">
-                                <a href="">
-                                    Du lịch
-                                </a>
-                                <p>
-                                    16/04/2023 08:38
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="medium__article-container">
-                        <a href="/posts/1">
-                            <img src="/img/category/5.jpg" alt="">
-                        </a>
-                        <div class="medium__article-abstract">
-                            <a class="medium__article-abstract-title">
-                                Quảng Ninh: Liên tiếp phát hiện ổ dịch Covid-19 trong trường học
-                            </a>
-                            <div class="medium__article-category_time">
-                                <a href="">
-                                    Sức khỏe
-                                </a>
-                                <p>
-                                    15/04/2023 19:11
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="medium__article-container">
-                        <a href="#">
-                            <img src="/img/category/6.jpg" alt="">
-                        </a>
-                        <div class="medium__article-abstract">
-                            <a class="medium__article-abstract-title">
-                                Biểu tượng mặt trời ở Khuê Văn Các (Hà Nội) đã bị thủng trước... năm 1951?
-                            </a>
-                            <div class="medium__article-category_time">
-                                <a href="">
-                                    Văn hóa
-                                </a>
-                                <p>
-                                    16/04/2023 18:53
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    {{/each}}
                 </div>
                 <div>
 
