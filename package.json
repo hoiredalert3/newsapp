@@ -4,7 +4,7 @@
   "description": "Đồ án PTUDW 20TN",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon ."
   },
   "engines": {
     "node": "18.16.0"
