@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
       statusId: DataTypes.INTEGER,
       publishedAt: DataTypes.DATE,
       removedAt: DataTypes.DATE,
-      thumnailUrl: DataTypes.STRING,
+      thumbnailUrl: DataTypes.STRING,
       content: DataTypes.TEXT,
       isPremium: DataTypes.BOOLEAN,
     },

@@ -10,7 +10,7 @@ module.exports = {
         summary:
           "Hôm nay 6.6, đại biểu Nguyễn Thị Kim Thúy (đoàn Đà Nẵng) có văn bản trao đổi lại với Bộ trưởng Bộ GD-ĐT Nguyễn Kim Sơn sau khi nhận được công văn trả lời của ông ngày 5.6. Trong đó, đại biểu có phản hồi về đề nghị của Bộ trưởng Sơn về cung cấp thông tin, minh chứng trường hợp sai phạm trong chọn sách giáo khoa cho Bộ GD-ĐT, để xử lý theo quy định.",
         statusId: 5,
-        thumnailUrl: "/img/post/1.png",
+        thumbnailUrl: "/img/post/1.png",
         content: `Phản hồi bằng văn bản gửi Bộ trưởng Nguyễn Kim Sơn, đại biểu Nguyễn Thị Kim Thúy nhận xét: "Công văn số 2706 của bộ trưởng trả lời tôi lần này không đề cập đến những vấn đề chính yếu mà tôi đã đặt ra" và nêu cụ thể từng vấn đề mà bà thấy rằng phần trả lời chưa thỏa đáng.
         
         Về trách nhiệm của bộ đối với những sai phạm phải xử lý hình sự ở Nhà xuất bản Giáo dục Việt Nam (NXBGDVN), bà Thúy cho rằng: "Công văn số 2706 dành tới 18 dòng để giải trình nhưng tuyệt nhiên không có câu nào cho biết cơ quan chủ quản (tức Bộ GD-ĐT) có trách nhiệm như thế nào trong việc "bổ nhiệm nhân sự lãnh đạo không đúng và thiếu kiểm tra, thanh tra sâu sát" như ý kiến của tôi".
@@ -31,6 +31,55 @@ module.exports = {
         `,
         isPremium: false,
       },
+
+      {
+        title: "Red Eye",
+        summary:
+          "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin risus. Praesent lectus.",
+        statusId: 5,
+        thumbnailUrl: "/img/post/thumbnail-3.png",
+        content:
+          "Morbi non lectus. Aliquam sit amet diam in magna bibendum imperdiet. Nullam orci pede, venenatis non, sodales sed, tincidunt eu, felis.",
+        isPremium: true,
+      },
+      {
+        title: "Powder Blue",
+        summary:
+          "Aliquam quis turpis eget elit sodales scelerisque. Mauris sit amet eros. Suspendisse accumsan tortor quis turpis.",
+        statusId: 5,
+        thumbnailUrl: "/img/post/thumbnail-2.png",
+        content:
+          "Proin leo odio, porttitor id, consequat in, consequat ut, nulla. Sed accumsan felis. Ut at dolor quis odio consequat varius.",
+        isPremium: true,
+      },
+      {
+        title: "Convict 13",
+        summary: "Phasellus in felis. Donec semper sapien a libero. Nam dui.",
+        statusId: 5,
+        thumbnailUrl: "/img/post/thumbnail-1.png",
+        content: "Sed ante. Vivamus tortor. Duis mattis egestas metus.",
+        isPremium: true,
+      },
+      {
+        title: "Barabbas",
+        summary:
+          "Fusce posuere felis sed lacus. Morbi sem mauris, laoreet ut, rhoncus aliquet, pulvinar sed, nisl. Nunc rhoncus dui vel sem.",
+        statusId: 5,
+        thumbnailUrl: "/img/post/thumbnail-3.png",
+        content:
+          "Praesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.",
+        isPremium: false,
+      },
+      {
+        title: "Bloomington",
+        summary:
+          "Proin eu mi. Nulla ac enim. In tempor, turpis nec euismod scelerisque, quam turpis adipiscing lorem, vitae mattis nibh ligula nec sem.",
+        statusId: 5,
+        thumbnailUrl: "/img/post/thumbnail-3.png",
+        content:
+          "Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.",
+        isPremium: true,
+      },
     ];
 
     // Chọn ngẫu nhiên phóng viên
@@ -43,7 +92,8 @@ module.exports = {
     });
 
     items.forEach((item) => {
-      let randomAuthor = writers[Math.floor(Math.random() * writers.length)].dataValues;
+      let randomAuthor =
+        writers[Math.floor(Math.random() * writers.length)].dataValues;
       console.log(randomAuthor);
       item.authorId = randomAuthor.id;
       item.removedAt = null;
