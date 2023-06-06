@@ -1,62 +1,82 @@
-'use strict'
+"use strict";
 
 // Declare controller
-const controller = {}
-const models = require('../models');
+const controller = {};
+const models = require("../models");
 
 // Show homepage
 controller.showHomePage = async (req, res) => {
   // Hots post
   const hotPosts = await models.Post.findAll({
-    attributes: ['id', 'title', 'publishedAt', 'thumbnailUrl', 'summary', 'isPremium'],
+    attributes: [
+      "id",
+      "title",
+      "publishedAt",
+      "thumbnailUrl",
+      "summary",
+      "isPremium",
+    ],
     include: [
       {
         model: models.PostStatistic,
         attributes: ["id", "postId", "hot"],
-        order: [["hot", "DESC"]]
+        order: [["hot", "DESC"]],
       },
       {
         model: models.PostStatus,
         where: {
-          id: 5 // Xuat ban
-        }
-      }
+          id: 5, // Xuat ban
+        },
+      },
     ],
-    limit: 5
-  })
+    limit: 5,
+  });
   res.locals.hotPosts = hotPosts;
 
   // New posts
   const newPosts = await models.Post.findAll({
-    attributes: ['id', 'title', 'publishedAt', 'thumbnailUrl', 'summary', 'isPremium'],
+    attributes: [
+      "id",
+      "title",
+      "publishedAt",
+      "thumbnailUrl",
+      "summary",
+      "isPremium",
+    ],
     order: [["publishedAt", "DESC"]],
-    limit: 10
-  })
+    limit: 10,
+  });
   res.locals.newPosts = newPosts;
 
   // Most view posts
   const mostViewPosts = await models.Post.findAll({
-    attributes: ['id', 'title', 'publishedAt', 'thumbnailUrl', 'summary', 'isPremium'],
+    attributes: [
+      "id",
+      "title",
+      "publishedAt",
+      "thumbnailUrl",
+      "summary",
+      "isPremium",
+    ],
     include: [
       {
         model: models.PostStatistic,
-        attributes: ["id", "postId", "view"],
-        order: [["hot", "DESC"]]
+        attributes: ["id", "postId", "views"],
+        order: [["hot", "DESC"]],
       },
       {
         model: models.PostStatus,
         where: {
-          id: 5 // Xuat ban
-        }
-      }
+          id: 5, // Xuat ban
+        },
+      },
     ],
-    limit: 10
-  })
+    limit: 10,
+  });
   res.locals.mostViewPosts = mostViewPosts;
 
-  res.render('index');
-
-}
+  res.render("index");
+};
 
 controller.showPage = (req, res, next) => {
   const pages = [
@@ -74,12 +94,12 @@ controller.showPage = (req, res, next) => {
     "writer-create",
     "article-review",
     "publish-article",
-    "forgot-password"
+    "forgot-password",
   ];
   if (pages.includes(req.params.page)) {
     return res.render(req.params.page);
   }
   next();
-}
+};
 
-module.exports = controller
+module.exports = controller;
