@@ -38,8 +38,8 @@ app.set("view engine", EXT);
 
 // routes
 app.use("/", require("./routes/indexRouter"));
-app.use("/post", require("./routes/postRouter"));
-app.use('/users', require('./routes/usersRouter'))
+app.use("/posts", require("./routes/postsRouter"));
+app.use("/users", require("./routes/usersRouter"));
 
 app.use((req, res, next) => {
   res.status(404).render("error", { message: "File not Found!" });
