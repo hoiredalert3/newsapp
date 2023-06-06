@@ -72,6 +72,7 @@ controller.showHomePage = async (req, res) => {
       },
       {
         model: models.Category,
+        attributes: ["id", "title", "parentId"],
         where: {
           parentId: { [Op.not]: null } 
         }
@@ -87,9 +88,11 @@ controller.showHomePage = async (req, res) => {
   newPosts.forEach(async (item) => {
     const childCategory = item.Categories[0];
     item.childCategory = childCategory;
+    console.log(item.childCategory)
     item.parentCategory = await models.Category.findOne({
       where: { id: childCategory.dataValues.parentId },
     });
+    //console.log(item.parentCategory)
   });
   
   res.locals.newPosts = newPosts;
@@ -116,12 +119,30 @@ controller.showHomePage = async (req, res) => {
           id: 5, // Xuat ban
         },
       },
+      {
+        model: models.Category,
+        attributes: ["id", "title", "parentId"],
+        where: {
+          parentId: { [Op.not]: null } 
+        }
+      }
     ],
     where: {
       removedAt: null,
     },
     limit: 10,
   });
+
+  mostViewPosts.forEach(async (item) => {
+    const childCategory = item.Categories[0];
+    item.childCategory = childCategory;
+    console.log(item.childCategory)
+    item.parentCategory = await models.Category.findOne({
+      where: { id: childCategory.dataValues.parentId },
+    });
+    //console.log(item.parentCategory)
+  });
+
   res.locals.mostViewPosts = mostViewPosts;
 
   // category-posts
