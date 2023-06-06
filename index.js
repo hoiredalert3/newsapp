@@ -1,4 +1,5 @@
 "use strict";
+require('dotenv').config()
 
 // Declare some constant variable
 const PUBLIC = __dirname + "/public";
@@ -13,6 +14,9 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 1234;
 const express_handlerbars = require("express-handlebars");
+
+// Helpers
+const { upload, getTempLink } = require("./controllers/dropboxHelper")
 
 // Config public static web folder
 app.use(express.static(PUBLIC));

@@ -33,12 +33,12 @@ module.exports = (sequelize, DataTypes) => {
     {
       authorId: DataTypes.INTEGER,
       title: DataTypes.STRING,
-      summary: DataTypes.STRING,
+      summary: DataTypes.TEXT,
       statusId: DataTypes.INTEGER,
       publishedAt: DataTypes.DATE,
       removedAt: DataTypes.DATE,
       thumnailUrl: DataTypes.STRING,
-      content: DataTypes.STRING,
+      content: DataTypes.TEXT,
       isPremium: DataTypes.BOOLEAN,
     },
     {
