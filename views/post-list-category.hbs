@@ -12,16 +12,31 @@
 
 <main class="container my-5">
   <div class="row g-5">
-    <div class="col-md-8 col">
-      <h2>Kinh doanh</h2>
+    <div class="col-md-12 col">
+      <h2>{{parentCategory.title}}</h2>
       <hr class="text-primary" />
       <div class="sub-category d-flex gap-5">
-        <button class="btn btn-primary" type="button" id="button-cat1">
+
+        {{#each childCategories }}
+        {{#if active}}
+        {{!-- btn btn-primary --}}
+        <a href="/posts?category={{id}}" class="text-primary" id="button-cat1">
+          {{title}}
+        </a>
+        {{else}}
+        {{!-- btn btn-outline-primary --}}
+        <a href="/posts?category={{id}}" class="" id="button-cat1">
+          {{title}}
+        </a>
+        {{/if}}
+        {{/each}}
+
+        {{!-- <button class="btn btn-primary" type="button" id="button-cat1">
           Nông sản
         </button>
         <button class="btn btn-outline-primary" type="button" id="button-cat1">
           Hải sản
-        </button>
+        </button> --}}
       </div>
       <hr class="text-dark" />
     </div>

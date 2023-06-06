@@ -1,4 +1,5 @@
 "use strict";
+"use strict";
 
 // Declare controller
 const controller = {};
@@ -18,10 +19,19 @@ controller.showHomePage = async (req, res) => {
       "summary",
       "isPremium",
     ],
+    attributes: [
+      "id",
+      "title",
+      "publishedAt",
+      "thumbnailUrl",
+      "summary",
+      "isPremium",
+    ],
     include: [
       {
         model: models.PostStatistic,
         attributes: ["id", "postId", "hot"],
+        order: [["hot", "DESC"]],
         order: [["hot", "DESC"]],
       },
       {
@@ -105,6 +115,14 @@ controller.showHomePage = async (req, res) => {
       "summary",
       "isPremium",
     ],
+    attributes: [
+      "id",
+      "title",
+      "publishedAt",
+      "thumbnailUrl",
+      "summary",
+      "isPremium",
+    ],
     include: [
       {
         model: models.PostStatistic,
@@ -114,6 +132,9 @@ controller.showHomePage = async (req, res) => {
       {
         model: models.PostStatus,
         where: {
+          id: 5, // Xuat ban
+        },
+      },
           id: 5, // Xuat ban
         },
       },
@@ -190,11 +211,15 @@ controller.showPage = (req, res, next) => {
     "article-review",
     "publish-article",
     "forgot-password",
+    "forgot-password",
   ];
   if (pages.includes(req.params.page)) {
     return res.render(req.params.page);
   }
   next();
+};
+
+module.exports = controller;
 };
 
 module.exports = controller;
