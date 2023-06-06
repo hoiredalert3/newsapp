@@ -79,6 +79,14 @@ module.exports = {
         content:
           "Quisque porta volutpat erat. Quisque erat eros, viverra eget, congue eget, semper rutrum, nulla. Nunc purus.",
         isPremium: true,
+      }, 
+      {
+        title: "",
+        summary: "",
+        statusId: 5,
+        thumbnailUrl: "/img/",
+        content: "",
+        isPremium: false
       },
     ];
 

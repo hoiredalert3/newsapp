@@ -2,10 +2,60 @@
 
 // Declare controller
 const controller = {}
+const models = require('../models');
 
 // Show homepage
-controller.showHomePage = (req, res) => {
-  res.render('index')
+controller.showHomePage = async (req, res) => {
+  // Hots post
+  const hotPosts = await models.Post.findAll({
+    attributes: ['id', 'title', 'publishedAt', 'thumbnailUrl', 'summary', 'isPremium'],
+    include: [
+      {
+        model: models.PostStatistic,
+        attributes: ["id", "postId", "hot"],
+        order: [["hot", "DESC"]]
+      },
+      {
+        model: models.PostStatus,
+        where: {
+          id: 5 // Xuat ban
+        }
+      }
+    ],
+    limit: 5
+  })
+  res.locals.hotPosts = hotPosts;
+
+  // New posts
+  const newPosts = await models.Post.findAll({
+    attributes: ['id', 'title', 'publishedAt', 'thumbnailUrl', 'summary', 'isPremium'],
+    order: [["publishedAt", "DESC"]],
+    limit: 10
+  })
+  res.locals.newPosts = newPosts;
+
+  // Most view posts
+  const mostViewPosts = await models.Post.findAll({
+    attributes: ['id', 'title', 'publishedAt', 'thumbnailUrl', 'summary', 'isPremium'],
+    include: [
+      {
+        model: models.PostStatistic,
+        attributes: ["id", "postId", "view"],
+        order: [["hot", "DESC"]]
+      },
+      {
+        model: models.PostStatus,
+        where: {
+          id: 5 // Xuat ban
+        }
+      }
+    ],
+    limit: 10
+  })
+  res.locals.mostViewPosts = mostViewPosts;
+
+  res.render('index');
+
 }
 
 controller.showPage = (req, res, next) => {

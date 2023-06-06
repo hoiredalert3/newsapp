@@ -51,16 +51,16 @@
         {{!-- Begin Carousel --}}
         <div class="carousel_track-container">
             <ul class="carousel_track">
+                {{#each recentPosts}}
                 <li class="carousel_slide current-carousel_slide">
                     <a href="/posts/1">
-                        <img class="carousel_image" src="/img/carousel/0.jpg" alt="">
+                        <img class="carousel_image" src="{{thumbnailUrl}}" alt="">
                         <div class="carousel_abstract">
                             <h3 class="carousel_abstract--title">
-                                Ngoại trưởng Blinken: Trụ sở mới Đại sứ quán Mỹ là bước tiến quan trọng trong quan
-                                hệ hai nước
+                                {{title}}
                             </h3>
                             <p class="carousel_abstract-date-post">
-                                Ngày đăng: <span class="carousel_abstract-date"> 15/04/2023 10:53 GMT+7 </span>
+                                Ngày đăng: <span class="carousel_abstract-date"> {{publishedAt}} </span>
                             </p>
                             <p class="carousel_abstract--caterogy">
                                 <span class="carousel_abstract-level1">
@@ -77,113 +77,14 @@
                             </p>
 
                             <p class="carousel_abstract--abstract">
-                                Ngoại trưởng Mỹ Antony Blinken khẳng định, trụ sở mới Đại sứ quán mà Mỹ sẽ xây dựng
-                                thể hiện một bước tiến to lớn nữa trong việc tăng cường mối quan hệ đối tác quan
-                                trọng giữa Việt Nam và Mỹ.
+                                {{summary}}
                             </p>
                         </div>
                     </a>
 
                 </li>
-                <li class="carousel_slide">
-                    <a href="/posts/1">
-                        <img class="carousel_image" src="/img/carousel/1.jpg" alt="">
-                        <div class="carousel_abstract">
-                            <h3 class="carousel_abstract--title">
-                                CSGT khống chế nghi phạm cướp xe máy trên đường lúc 3 giờ sáng
-                            </h3>
-                            <p class="carousel_abstract-date-post">
-                                Ngày đăng: <span class="carousel_abstract-date"> 15/04/2023 10:53 GMT+7 </span>
-                            </p>
-                            <p class="carousel_abstract--caterogy">
-                                <span class="carousel_abstract-level1">
-                                    <a href="#">
-                                        Thời sự
-                                    </a>
-                                </span>
-                                <span style="opacity:0.5;">&#x25CF;</span>
-                                <span class="carousel_abstract-level2">
-                                    <a href="#">
-                                        Pháp luật
-                                    </a>
-                                </span>
-                            </p>
+                {{/each}}
 
-                            <p class="carousel_abstract--abstract">
-                                Phát hiện thanh niên mặc đồng phục xe ôm công nghệ đang giằng co với thanh niên khác
-                                và tri hô "cướp, cướp", CSGT phối hợp người dân vây bắt, khống chế nghi phạm cướp xe
-                                máy.
-                            </p>
-                        </div>
-                    </a>
-
-                </li>
-                <li class="carousel_slide">
-                    <a href="/posts/1">
-                        <img class="carousel_image" src="/img/carousel/2.jpg" alt="">
-                        <div class="carousel_abstract">
-                            <h3 class="carousel_abstract--title">
-                                Người mẹ mắc ung thư quyết giành giật sự sống đến cùng vì con
-                            </h3>
-                            <p class="carousel_abstract-date-post">
-                                Ngày đăng: <span class="carousel_abstract-date"> 15/04/2023 10:53 GMT+7 </span>
-                            </p>
-                            <p class="carousel_abstract--caterogy">
-                                <span class="carousel_abstract-level1">
-                                    <a href="#">
-                                        Đời sống
-                                    </a>
-                                </span>
-                                <span style="opacity:0.5;">&#x25CF;</span>
-                                <span class="carousel_abstract-level2">
-                                    <a href="#">
-                                        Gia đình
-                                    </a>
-                                </span>
-                            </p>
-
-                            <p class="carousel_abstract--abstract">
-                                Mang trong mình căn bệnh ung thư quái ác, chị Nguyễn Thị Thùy (26 tuổi, ngụ TP.Đà
-                                Nẵng) quyết "chiến đấu" hết sức vì không muốn con phải mồ côi.
-                            </p>
-                        </div>
-                    </a>
-
-                </li>
-                <li class="carousel_slide">
-                    <a href="#">
-                        <img class="carousel_image" src="/img/carousel/3.jpg" alt="">
-                        <div class="carousel_abstract">
-                            <h3 class="carousel_abstract--title">
-                                Ủy ban Kiểm tra T.Ư kỷ luật, đề nghị kỷ luật nhiều cán bộ
-                            </h3>
-                            <p class="carousel_abstract-date-post">
-                                Ngày đăng: <span class="carousel_abstract-date"> 15/04/2023 10:53 GMT+7 </span>
-                            </p>
-                            <p class="carousel_abstract--caterogy">
-                                <span class="carousel_abstract-level1">
-                                    <a href="#">
-                                        Thời sự
-                                    </a>
-                                </span>
-                                <span style="opacity:0.5;">&#x25CF;</span>
-                                <span class="carousel_abstract-level2">
-                                    <a href="#">
-                                        Chính trị
-                                    </a>
-                                </span>
-                            </p>
-
-                            <p class="carousel_abstract--abstract">
-                                Trong 2 ngày 12 - 13.4, Ủy ban Kiểm tra T.Ư đã họp kỳ thứ 28 dưới sự chủ trì của Chủ
-                                nhiệm Ủy ban Trần Cẩm Tú, xem xét, kết luận nhiều nội dung, kỷ luật và đề nghị kỷ
-                                luật nhiều cán bộ, đảng viên.
-                            </p>
-                        </div>
-                    </a>
-
-                </li>
-            </ul>
         </div>
         {{!-- End Carousel --}}
         <button class="carousel_button carousel_button--right" onclick="nextSlide()">
@@ -194,6 +95,7 @@
             <button class="carousel_indicator" onclick="clickIndicators(1)"></button>
             <button class="carousel_indicator" onclick="clickIndicators(2)"></button>
             <button class="carousel_indicator" onclick="clickIndicators(3)"></button>
+            <button class="carousel_indicator" onclick="clickIndicators(4)"></button>
         </div>
     </div>
 
@@ -209,284 +111,32 @@
                     </div>
                 </div>
 
-
+                {{#each newPosts}}
                 <div class="new__article__container big__article__container">
                     <div class="new__article__abstract big__article__abstract">
                         <div class="new__article__abstract big__article__abstract-title">
                             <a href="/posts/1"
                                 class="new__article__abstract-title_link big__article__abstract-title_link">
-                                TP.HCM có mưa nhiều ngày liên tiếp trong mùa khô, thời tiết có bất thường?
+                                {{title}}
                             </a>
                         </div>
                         <div class="new__article__abstract-content big__article__abstract-content">
                             <a href="/posts/1"
                                 class="new__article__abstract-content_link big__article__abstract-content_link">
-                                Tối qua, TP.HCM có mưa to, gây ngập cục bộ một số tuyến đường. Theo dự báo, chiều
-                                tối và đêm nay, TP,HCM vẫn có khả năng mưa to, đề phòng ngập một số tuyến đường
+                                {{summary}}
                             </a>
                         </div>
                         <div class="new__article____abstract-category_time big__article____abstract-category_time">
                             <a href="#">Đời sống</a>
-                            <p>16/04/2023 06:05 GMT+7</p>
+                            <p>{{publishedAt}}</p>
                         </div>
                     </div>
                     <a href="/posts/1" class="new__article__img big__article__img">
-                        <img src="/img/new/0.jpeg" alt="">
+                        <img src="{{thumbnailUrl}}" alt="{{title}}">
                     </a>
                 </div>
-                <div class="horizontial__line">
-
-                </div>
-                <div class="new__article__container big__article__container">
-                    <div class="new__article__abstract big__article__abstract">
-                        <div class="new__article__abstract big__article__abstract-title">
-                            <a href="/posts/1"
-                                class="new__article__abstract-title_link big__article__abstract-title_link">
-                                Người đàn ông Mỹ tìm ba mẹ ruột ở TP.HCM: Tin vui ‘vượt sức tưởng tượng’ đến ngay
-                                hôm sau
-                            </a>
-                        </div>
-                        <div class="new__article__abstract-content big__article__abstract-content">
-                            <a href="/posts/1"
-                                class="new__article__abstract-content_link big__article__abstract-content_link">
-                                Chưa đầy 1 ngày sau khi Thanh Niên đăng tải, người đàn ông Mỹ gốc Việt - David Vuong
-                                Frey (49 tuổi) đã có tin tức về ba mẹ ruột của mình ở TP.HCM với những điều "vượt
-                                sức tưởng tượng".
-                            </a>
-                        </div>
-                        <div class="new__article____abstract-category_time big__article____abstract-category_time">
-                            <a href="#">Đời sống</a>
-                            <p>24/03/2023 06:06 GMT+7</p>
-                        </div>
-                    </div>
-                    <a href="/posts/1" class="new__article__img big__article__img">
-                        <img src="/img/new/1.png" alt="">
-                    </a>
-                </div>
-
-                <div class="horizontial__line">
-
-                </div>
-
-                <div class="new__article__container big__article__container">
-                    <div class="new__article__abstract big__article__abstract">
-                        <div class="new__article__abstract big__article__abstract-title">
-                            <a href="/posts/1"
-                                class="new__article__abstract-title_link big__article__abstract-title_link">
-                                Chiến sự ngày 416: Giao tranh ‘dữ dội nhất’, Wagner kiểm soát thêm tại Bakhmut
-                            </a>
-                        </div>
-                        <div class="new__article__abstract-content big__article__abstract-content">
-                            <a href="/posts/1"
-                                class="new__article__abstract-content_link big__article__abstract-content_link">
-                                Phía Nga cho hay lực lượng Wagner kiểm soát thêm 2 khu vực vùng ven phía bắc và phía
-                                nam thành phố Bakhmut giữa giao tranh khốc liệt.
-                            </a>
-                        </div>
-                        <div class="new__article____abstract-category_time big__article____abstract-category_time">
-                            <a href="#">Thế giới</a>
-                            <p>16/04/2023 07:09 GMT+7</p>
-                        </div>
-                    </div>
-                    <a href="/posts/1" class="new__article__img big__article__img">
-                        <img src="/img/new/2.jpg" alt="">
-                    </a>
-                </div>
-
-                <div class="horizontial__line">
-
-                </div>
-
-                <div class="new__article__container big__article__container">
-                    <div class="new__article__abstract big__article__abstract">
-                        <div class="new__article__abstract big__article__abstract-title">
-                            <a href="/posts/1"
-                                class="new__article__abstract-title_link big__article__abstract-title_link">
-                                Nhiều cổ phiếu rời sàn chứng khoán do kinh doanh thua lỗ
-                            </a>
-                        </div>
-                        <div class="new__article__abstract-content big__article__abstract-content">
-                            <a href="/posts/1"
-                                class="new__article__abstract-content_link big__article__abstract-content_link">
-                                Hàng loạt cổ phiếu bị hủy niêm yết bắt buộc, rời sàn chứng khoán khi công ty kinh
-                                doanh thua lỗ liên tục.
-                            </a>
-                        </div>
-                        <div class="new__article____abstract-category_time big__article____abstract-category_time">
-                            <a href="#">Kinh tế</a>
-                            <p>16/04/2023 10:38 GMT+7</p>
-                        </div>
-                    </div>
-                    <a href="/posts/1" class="new__article__img big__article__img">
-                        <img src="/img/new/3.jpg" alt="">
-                    </a>
-                </div>
-
-                <div class="horizontial__line">
-
-                </div>
-
-                <div class="new__article__container big__article__container">
-                    <div class="new__article__abstract big__article__abstract">
-                        <div class="new__article__abstract big__article__abstract-title">
-                            <a href="#" class="new__article__abstract-title_link big__article__abstract-title_link">
-                                Giá USD hôm nay 16.4.2023: Đô la tự do tiếp tục thấp hơn ngân hàng
-                            </a>
-                        </div>
-                        <div class="new__article__abstract-content big__article__abstract-content">
-                            <a href="#" class="new__article__abstract-content_link big__article__abstract-content_link">
-                                Giá USD tự do vẫn đứng ở mức thấp và thua xa các ngân hàng thương mại khi nhu cầu
-                                trên thị trường đi xuống.
-                            </a>
-                        </div>
-                        <div class="new__article____abstract-category_time big__article____abstract-category_time">
-                            <a href="#">Kinh tế</a>
-                            <p>16/04/2023 15:00 GMT+7</p>
-                        </div>
-                    </div>
-                    <a href="#" class="new__article__img big__article__img">
-                        <img src="/img/new/4.jpg" alt="">
-                    </a>
-                </div>
-
-                <div class="horizontial__line">
-
-                </div>
-
-                <div class="new__article__container big__article__container">
-                    <div class="new__article__abstract big__article__abstract">
-                        <div class="new__article__abstract big__article__abstract-title">
-                            <a href="#" class="new__article__abstract-title_link big__article__abstract-title_link">
-                                Bộ Xây dựng trả lời về bổ sung quy hoạch 2 thủy điện trên sông Hồng
-                            </a>
-                        </div>
-                        <div class="new__article__abstract-content big__article__abstract-content">
-                            <a href="#" class="new__article__abstract-content_link big__article__abstract-content_link">
-                                Cục Quản lý hoạt động xây dựng, Bộ Xây dựng đã có văn bản trả lời Bộ Công thương về
-                                việc bổ sung quy hoạch thêm 2 dự án thủy điện trên sông Hồng trên địa phận tỉnh Lào
-                                Cai.
-                            </a>
-                        </div>
-                        <div class="new__article____abstract-category_time big__article____abstract-category_time">
-                            <a href="#">Kinh tế</a>
-                            <p>16/04/2023 16:07 GMT+7</p>
-                        </div>
-                    </div>
-                    <a href="#" class="new__article__img big__article__img">
-                        <img src="/img/new/5.jpg" alt="">
-                    </a>
-                </div>
-
-                <div class="horizontial__line">
-
-                </div>
-
-                <div class="new__article__container big__article__container">
-                    <div class="new__article__abstract big__article__abstract">
-                        <div class="new__article__abstract big__article__abstract-title">
-                            <a href="#" class="new__article__abstract-title_link big__article__abstract-title_link">
-                                Tín dụng đã 'chảy' nhanh hơn
-                            </a>
-                        </div>
-                        <div class="new__article__abstract-content big__article__abstract-content">
-                            <a href="#" class="new__article__abstract-content_link big__article__abstract-content_link">
-                                Theo Ngân hàng Nhà nước chi nhánh TP.HCM, tăng trưởng tín dụng tháng 3 có tốc độ
-                                nhanh nhất trong 3 tháng đầu năm, lên 1,37%, nâng mức tín dụng trong quý 1/2023 tăng
-                                1,25%.
-                            </a>
-                        </div>
-                        <div class="new__article____abstract-category_time big__article____abstract-category_time">
-                            <a href="#">Kinh tế</a>
-                            <p>16/04/2023 17:35 GMT+7</p>
-                        </div>
-                    </div>
-                    <a href="#" class="new__article__img big__article__img">
-                        <img src="/img/new/6.jpeg" alt="">
-                    </a>
-                </div>
-
-                <div class="horizontial__line">
-
-                </div>
-
-                <div class="new__article__container big__article__container">
-                    <div class="new__article__abstract big__article__abstract">
-                        <div class="new__article__abstract big__article__abstract-title">
-                            <a href="#" class="new__article__abstract-title_link big__article__abstract-title_link">
-                                Có cơ sở nâng quan hệ Việt - Mỹ lên tầm cao mới
-                            </a>
-                        </div>
-                        <div class="new__article__abstract-content big__article__abstract-content">
-                            <a href="#" class="new__article__abstract-content_link big__article__abstract-content_link">
-                                Tiếp Ngoại trưởng Mỹ Antony Blinken, Tổng Bí thư Nguyễn Phú Trọng cho rằng những kết
-                                quả tích cực trong quan hệ Việt - Mỹ thời gian qua là cơ sở để tiếp tục nâng quan hệ
-                                song phương lên tầm cao mới.
-                            </a>
-                        </div>
-                        <div class="new__article____abstract-category_time big__article____abstract-category_time">
-                            <a href="#">Thời sự</a>
-                            <p>16/04/2023 07:20 GMT+7</p>
-                        </div>
-                    </div>
-                    <a href="#" class="new__article__img big__article__img">
-                        <img src="/img/new/7.png" alt="">
-                    </a>
-                </div>
-
-                <div class="horizontial__line">
-
-                </div>
-
-                <div class="new__article__container big__article__container">
-                    <div class="new__article__abstract big__article__abstract">
-                        <div class="new__article__abstract big__article__abstract-title">
-                            <a href="#" class="new__article__abstract-title_link big__article__abstract-title_link">
-                                Tổng Bí thư Nguyễn Phú Trọng sẽ thăm Mỹ vào thời điểm thích hợp
-                            </a>
-                        </div>
-                        <div class="new__article__abstract-content big__article__abstract-content">
-                            <a href="#" class="new__article__abstract-content_link big__article__abstract-content_link">
-                                Thay mặt Tổng thống Mỹ, Ngoại trưởng Antony Blinken nhắc lại lời mời Tổng Bí thư
-                                Nguyễn Phú Trọng thăm Mỹ. Tổng Bí thư cảm ơn và đề nghị các cơ quan liên quan thu
-                                xếp vào thời điểm thích hợp.
-                            </a>
-                        </div>
-                        <div class="new__article____abstract-category_time big__article____abstract-category_time">
-                            <a href="#">Thời sự</a>
-                            <p>15/04/2023 19:51 GMT+7</p>
-                        </div>
-                    </div>
-                    <a href="#" class="new__article__img big__article__img">
-                        <img src="/img/new/8.jpg" alt="">
-                    </a>
-                </div>
-
-                <div class="horizontial__line">
-
-                </div>
-
-                <div class="new__article__container big__article__container">
-                    <div class="new__article__abstract big__article__abstract">
-                        <div class="new__article__abstract big__article__abstract-title">
-                            <a href="#" class="new__article__abstract-title_link big__article__abstract-title_link">
-                                Quảng Ninh: Liên tiếp phát hiện ổ dịch Covid-19 trong trường học
-                            </a>
-                        </div>
-                        <div class="new__article__abstract-content big__article__abstract-content">
-                            <a href="#" class="new__article__abstract-content_link big__article__abstract-content_link">
-                                Trong các ngày qua, số ca mắc Covid-19 tại Quảng Ninh đang tăng nhanh. Đáng lo ngại,
-                                nhiều ổ dịch được phát hiện trong trường học với hàng chục ca mắc.
-                            </a>
-                        </div>
-                        <div class="new__article____abstract-category_time big__article____abstract-category_time">
-                            <a href="#">Sức khỏe</a>
-                            <p>15/04/2023 19:11 GMT+7</p>
-                        </div>
-                    </div>
-                    <a href="#" class="new__article__img big__article__img">
-                        <img src="/img/new/9.jpg" alt="">
-                    </a>
-                </div>
+                <div class="horizontial__line"></div>
+                {{/each}}
 
             </div>
 
