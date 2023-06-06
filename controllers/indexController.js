@@ -1,5 +1,4 @@
 "use strict";
-"use strict";
 
 // Declare controller
 const controller = {};
@@ -19,19 +18,10 @@ controller.showHomePage = async (req, res) => {
       "summary",
       "isPremium",
     ],
-    attributes: [
-      "id",
-      "title",
-      "publishedAt",
-      "thumbnailUrl",
-      "summary",
-      "isPremium",
-    ],
     include: [
       {
         model: models.PostStatistic,
         attributes: ["id", "postId", "hot"],
-        order: [["hot", "DESC"]],
         order: [["hot", "DESC"]],
       },
       {
@@ -53,7 +43,7 @@ controller.showHomePage = async (req, res) => {
   });
 
   hotPosts.forEach(async (item) => {
-    let childCategory = item.Categories[0];
+    const childCategory = item.Categories[0];
     item.childCategory = childCategory;
     item.parentCategory = await models.Category.findOne({
       where: { id: childCategory.dataValues.parentId },
@@ -82,7 +72,6 @@ controller.showHomePage = async (req, res) => {
       },
       {
         model: models.Category,
-        attributes: ["id", "title", "parentId"],
         where: {
           parentId: { [Op.not]: null } 
         }
@@ -96,25 +85,17 @@ controller.showHomePage = async (req, res) => {
   });
 
   newPosts.forEach(async (item) => {
-    let childCategory = item.Categories[0];
+    const childCategory = item.Categories[0];
     item.childCategory = childCategory;
     item.parentCategory = await models.Category.findOne({
       where: { id: childCategory.dataValues.parentId },
     });
   });
-  console.log(newPosts)
+  
   res.locals.newPosts = newPosts;
 
   // Most view posts
   const mostViewPosts = await models.Post.findAll({
-    attributes: [
-      "id",
-      "title",
-      "publishedAt",
-      "thumbnailUrl",
-      "summary",
-      "isPremium",
-    ],
     attributes: [
       "id",
       "title",
@@ -132,9 +113,6 @@ controller.showHomePage = async (req, res) => {
       {
         model: models.PostStatus,
         where: {
-          id: 5, // Xuat ban
-        },
-      },
           id: 5, // Xuat ban
         },
       },
@@ -211,15 +189,11 @@ controller.showPage = (req, res, next) => {
     "article-review",
     "publish-article",
     "forgot-password",
-    "forgot-password",
   ];
   if (pages.includes(req.params.page)) {
     return res.render(req.params.page);
   }
   next();
-};
-
-module.exports = controller;
 };
 
 module.exports = controller;
