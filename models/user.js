@@ -19,8 +19,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
+      username: {type: DataTypes.STRING, unique: 'compositeIndex'}, // UNIQUE
       name: DataTypes.STRING,
-      email: DataTypes.STRING,
+      email: {type: DataTypes.STRING, unique: 'compositeIndex'},
       dob: DataTypes.DATEONLY,
       pseudonym: DataTypes.STRING,
       managementCategory: DataTypes.INTEGER,

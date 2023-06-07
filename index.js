@@ -14,10 +14,22 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 1234;
 const express_handlerbars = require("express-handlebars");
+const session  = require('express-session')
+const passport = require('./controllers/passport')
+const flash = require('connect-flash')
+
+const redisStore = require('connect-redis').default
+const {createClient} = require('redis')
+const redisClient = createClient({
+  url: process.env.REDIS_URL
+})
+redisClient.connect().catch(console.error)
+
 
 // Helpers
 const { upload, getTempLink } = require("./controllers/dropboxHelper")
 const {convertToVietnameseDateTime} = require("./controllers/helpers")
+
 // Config public static web folder
 app.use(express.static(PUBLIC));
 
@@ -39,9 +51,29 @@ app.engine(
 );
 app.set("view engine", EXT);
 
-// routes
+// Cau hinh su dung session
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  store: new redisStore({client: redisClient}),
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    httpOnly: true,
+    maxAge: 20 * 60 * 1000
+  }
+}))
+
+// Passport
+app.use(passport.initialize())
+app.use(passport.session())
+
+// Cau hinh su dudng connect-flash
+app.use(flash())
+
+// Routes
 app.use("/", require("./routes/indexRouter"));
 app.use("/posts", require("./routes/postsRouter"));
+app.use("/users", require("./routes/authRouter"));
 app.use("/users", require("./routes/usersRouter"));
 
 app.use((req, res, next) => {
