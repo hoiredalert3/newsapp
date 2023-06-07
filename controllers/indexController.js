@@ -6,10 +6,20 @@ const models = require("../models");
 const sequelize = require("sequelize");
 const Op = sequelize.Op;
 
+async function getCategories(posts) {
+  posts.forEach(async (item) => {
+    const childCategory = item.Categories[0];
+    item.childCategory = childCategory;
+    item.parentCategory = await models.Category.findOne({
+      where: { id: childCategory.dataValues.parentId },
+    });
+  });
+}
+
 // Show homepage
 controller.showHomePage = async (req, res) => {
   // Hots post
-  const hotPosts = await models.Post.findAll({
+  let hotPosts = await models.Post.findAll({
     attributes: [
       "id",
       "title",
@@ -41,20 +51,13 @@ controller.showHomePage = async (req, res) => {
     },
     limit: 5,
   });
-
-  hotPosts.forEach(async (item) => {
-    const childCategory = item.Categories[0];
-    item.childCategory = childCategory;
-    item.parentCategory = await models.Category.findOne({
-      where: { id: childCategory.dataValues.parentId },
-    });
-  });
+  getCategories(hotPosts);
 
   //console.log(hotPosts);
   res.locals.hotPosts = hotPosts;
 
   // New posts
-  const newPosts = await models.Post.findAll({
+  let newPosts = await models.Post.findAll({
     attributes: [
       "id",
       "title",
@@ -85,20 +88,11 @@ controller.showHomePage = async (req, res) => {
     limit: 10,
   });
 
-  newPosts.forEach(async (item) => {
-    const childCategory = item.Categories[0];
-    item.childCategory = childCategory;
-    console.log(item.childCategory)
-    item.parentCategory = await models.Category.findOne({
-      where: { id: childCategory.dataValues.parentId },
-    });
-    //console.log(item.parentCategory)
-  });
-  
+  getCategories(newPosts)
   res.locals.newPosts = newPosts;
 
   // Most view posts
-  const mostViewPosts = await models.Post.findAll({
+  let mostViewPosts = await models.Post.findAll({
     attributes: [
       "id",
       "title",
@@ -133,16 +127,8 @@ controller.showHomePage = async (req, res) => {
     limit: 10,
   });
 
-  mostViewPosts.forEach(async (item) => {
-    const childCategory = item.Categories[0];
-    item.childCategory = childCategory;
-    console.log(item.childCategory)
-    item.parentCategory = await models.Category.findOne({
-      where: { id: childCategory.dataValues.parentId },
-    });
-    //console.log(item.parentCategory)
-  });
-
+  getCategories(mostViewPosts);
+ 
   res.locals.mostViewPosts = mostViewPosts;
 
   // category-posts

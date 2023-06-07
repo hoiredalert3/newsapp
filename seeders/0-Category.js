@@ -15,10 +15,9 @@ module.exports = {
             // Children of 1
             { removedAt: null, parentId: 1, title: "Chính trị", content: null },
             { removedAt: null, parentId: 1, title: "Quốc phòng", content: null },
-            { removedAt: null, parentId: 1, title: "Lao động", content: null },
+            { removedAt: null, parentId: 1, title: "Lao động / Việc làm", content: null },
             { removedAt: null, parentId: 1, title: "Dân sinh", content: null },
             { removedAt: null, parentId: 1, title: "Thời luận", content: null },
-            { removedAt: null, parentId: 1, title: "Việc làm", content: null },
             { removedAt: null, parentId: 1, title: "Quyền được biết", content: null },
             { removedAt: null, parentId: 1, title: "Pháp luật", content: null },
             { removedAt: null, parentId: 1, title: "Phóng sự / điều tra", content: null },
@@ -45,7 +44,7 @@ module.exports = {
             { removedAt: null, parentId: 4, title: "Tuyển sinh", content: null },
             { removedAt: null, parentId: 4, title: "Chọn nghề - chọn trường", content: null },
             { removedAt: null, parentId: 4, title: "Du học", content: null },
-            { removedAt: null, parentId: 4, title: "Cẩm nang tuyển sinh 2023", content: null },
+            // { removedAt: null, parentId: 4, title: "Cẩm nang tuyển sinh 2023", content: null },
             { removedAt: null, parentId: 4, title: "Phụ huynh", content: null },
             { removedAt: null, parentId: 4, title: "Nhà trường", content: null },
 
