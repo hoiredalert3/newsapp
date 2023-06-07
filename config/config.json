@@ -5,7 +5,12 @@
     "password": "p!201102@P",
     "database": "newsDB",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "dialectOptions": {
+      "useUTC": false 
+    },
+    "timezone": "+07:00"
+
   },
   "test": {
     "username": "postgres",
