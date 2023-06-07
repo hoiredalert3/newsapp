@@ -144,13 +144,9 @@ nav {
     clear: both;
 }
 
-.template-user--header{
+.current-user--header{
     display: flex;
     align-items: center;
-}
-
-.current-user--header{
-
 }
 
 .current-user--header a{
