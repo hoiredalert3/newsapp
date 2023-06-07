@@ -1,16 +1,14 @@
-
 {
   "development": {
     "username": "postgres",
-    "password": "p!201102@P",
+    "password": "postgres",
     "database": "newsDB",
     "host": "127.0.0.1",
     "dialect": "postgres",
     "dialectOptions": {
-      "useUTC": false 
+      "useUTC": false
     },
     "timezone": "+07:00"
-
   },
   "test": {
     "username": "postgres",
