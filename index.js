@@ -1,5 +1,5 @@
 "use strict";
-require('dotenv').config()
+require("dotenv").config();
 
 // Declare some constant variable
 const PUBLIC = __dirname + "/public";
@@ -14,21 +14,21 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 1234;
 const express_handlerbars = require("express-handlebars");
-const session  = require('express-session')
-const passport = require('./controllers/passport')
-const flash = require('connect-flash')
+const session = require("express-session");
+const passport = require("./controllers/passport");
+const flash = require("connect-flash");
 
-const redisStore = require('connect-redis').default
-const {createClient} = require('redis')
+// Redis
+const redisStore = require("connect-redis").default;
+const { createClient } = require("redis");
 const redisClient = createClient({
-  url: process.env.REDIS_URL
-})
-redisClient.connect().catch(console.error)
-
+  url: process.env.REDIS_URL,
+});
+redisClient.connect().catch(console.error);
 
 // Helpers
-const { upload, getTempLink } = require("./controllers/dropboxHelper")
-const {convertToVietnameseDateTime} = require("./controllers/helpers")
+const { upload, getTempLink } = require("./controllers/dropboxHelper");
+const { convertToVietnameseDateTime } = require("./controllers/helpers");
 
 // Config public static web folder
 app.use(express.static(PUBLIC));
@@ -45,30 +45,61 @@ app.engine(
       allowProtoPropertiesByDefault: true,
     },
     helpers: {
-      convertToVietnameseDateTime
-    }
+      convertToVietnameseDateTime,
+    },
   })
 );
 app.set("view engine", EXT);
 
+// Cau hinh su dung doc du lieu
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
 // Cau hinh su dung session
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  store: new redisStore({client: redisClient}),
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    httpOnly: true,
-    maxAge: 20 * 60 * 1000
-  }
-}))
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    store: new redisStore({ client: redisClient }),
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      maxAge: 20 * 60 * 1000,
+    },
+  })
+);
 
 // Passport
-app.use(passport.initialize())
-app.use(passport.session())
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Cau hinh su dudng connect-flash
-app.use(flash())
+app.use(flash());
+
+// middleware
+app.use((req, res, next) => {
+  res.locals.isLoggedIn = req.isAuthenticated();
+  // console.log(req.user);
+  if (res.locals.isLoggedIn == true) {
+    res.locals.user = req.user;
+    const typeId = req.user.dataValues.typeId;
+    switch (typeId) {
+      case 2:
+        res.locals.writer = true
+        break;
+      case 3:
+        res.locals.editor = true
+        break;
+      case 4:
+        res.locals.admin = true
+        break;
+      default:
+        res.locals.unpremium = true
+        break;
+    }
+  }
+  next();
+});
 
 // Routes
 app.use("/", require("./routes/indexRouter"));

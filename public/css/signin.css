@@ -14,44 +14,47 @@ body {
 }
 
 .login-btn {
-    background-color: gray;
-    color: black;
+    background-color: cornflowerblue;
+    color: white    ;
     border: none;
     border-radius: 5px;
     padding: 0.8em 1.5em;
 }
 
 .login-btn:hover {
-    background-color: lightyellow;
+    background-color: blue;
+    opacity: 0.6;
     box-shadow: 0px 0px 50px 10px rgba(255, 255, 224);
-    transition: 0.5s;
+    transition: 0.2s;
 }
 
 .google-signin-btn {
     border: 1px solid black;
     border-radius: 5px;
     width: fit-content;
+    cursor: pointer;
+    font-weight: 500;
 }
 
 .google-signin-btn:hover {
-    background-color: lightyellow;
-    box-shadow: 0px 0px 50px 10px rgba(255, 255, 224);
+    background-color: aliceblue;
     border: none;
-    transition-duration: 0.5s;
+    transition-duration: 0.2s;
     transition-timing-function: ease;
 }
 
 .facebook-signin-btn {
+    cursor: pointer;
     border: 1px solid black;
     border-radius: 5px;
     width: fit-content;
+    font-weight: 500;
 }
 
 .facebook-signin-btn:hover {
-    background-color: lightyellow;
-    box-shadow: 0px 0px 50px 10px rgba(255, 255, 224);
+    background-color:aliceblue;
     border: none;
-    transition-duration: 0.5s;
+    transition-duration: 0.2s;
     transition-timing-function: ease;
 }
 
@@ -72,4 +75,27 @@ input#password {
     border: 1px solid black;
     border-radius: 5px;
     padding: 1em 1.5em;
+}
+
+.custom-radio,
+.custom-checkbox {
+    margin-bottom: 5px;
+    display: flex;
+}
+
+
+.custom-radio .custom-control-label::before,
+.custom-checkbox .custom-control-label::before {
+    border-color: #3F69AA;
+    border-radius: 0;
+}
+
+.custom-radio .custom-control-input:checked~.custom-control-label::before,
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+    color: #ffffff;
+    background: #3F69AA;
+}
+
+#newaccount{
+    margin-right: 10px;
 }

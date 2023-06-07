@@ -145,12 +145,12 @@ nav {
 }
 
 .template-user--header{
-    display: none;
+    display: flex;
+    align-items: center;
 }
 
 .current-user--header{
-    display: flex;
-    align-items: center;
+
 }
 
 .current-user--header a{
@@ -234,14 +234,14 @@ nav {
     cursor: pointer;
 }
 
-#sign-in-btn>span {
+#sign-in-btn span {
     color: white;
     font-size: 15px;
     position: relative;
     transition: 0.5s;
 }
 
-#sign-in-btn>span:after {
+#sign-in-btn span:after {
     content: '\2192';
     position: absolute;
     opacity: 0;
@@ -250,11 +250,11 @@ nav {
     transition: 0.5s;
 }
 
-#sign-in-btn:hover>span {
+#sign-in-btn:hover span {
     padding-right: 25px;
 }
 
-#sign-in-btn:hover>span:after {
+#sign-in-btn:hover span:after {
     opacity: 1;
     right: 0;
 }

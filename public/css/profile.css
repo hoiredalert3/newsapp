@@ -50,14 +50,14 @@ main {
     color: white;
 }
 
-#logout-btn>span {
+#logout-btn span {
     color: white;
     font-size: 15px;
     position: relative;
     transition: 0.5s;
 }
 
-#logout-btn>span:after {
+#logout-btn span:after {
     content: '\2192';
     position: absolute;
     opacity: 0;
@@ -65,11 +65,11 @@ main {
     transition: 0.5s;
 }
 
-#logout-btn:hover>span {
+#logout-btn:hover span {
     padding-right: 20px;
 }
 
-#logout-btn:hover>span:after {
+#logout-btn:hover span:after {
     opacity: 1;
     right: 0;
 }
