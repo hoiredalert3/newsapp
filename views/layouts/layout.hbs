@@ -43,157 +43,25 @@
         <img src="/img/logo/news-logo.png" alt="" id="logo" />
       </a>
       <nav class="header-child">
+        {{#each categories}}
         <div class="level-1">
-          <a href="/posts?category=1">Thời sự</a>
+          <a href="/posts?category={{id}}">{{title}}</a>
           <div class="level-2">
             <div class="category">
-              <h2>Thời sự</h2>
+              <h2>{{title}}</h2>
             </div>
             <div class="row">
-              <div class="column">
-                <a href="/posts">Chính trị</a>
-                <a href="/posts">Dân sinh</a>
-                <a href="/posts">Quyền được biết</a>
-              </div>
-              <div class="column">
-                <a href="/posts">Quốc phòng</a>
-                <a href="/posts">Thời luận</a>
-                <a href="/posts">Pháp luật</a>
-              </div>
-              <div class="column">
-                <a href="/posts">Lao động</a>
-                <a href="/posts">Việc làm</a>
-                <a href="/posts">Phóng sự / Điều tra</a>
-              </div>
+              {{#each arrChildren}}        
+                <div class="column">
+                  {{#each children}}
+                  <a href="/posts?category={{id}}">{{title}}</a>
+                  {{/each}}
+                </div>
+              {{/each}}
             </div>
           </div>
         </div>
-
-        <div class="level-1">
-          <a href="/posts?category=2">Thế giới</a>
-          <div class="level-2">
-            <div class="category">
-              <h2>Thế giới</h2>
-            </div>
-            <div class="row">
-              <div class="column">
-                <a href="/posts">Kinh tế thế giới</a>
-                <a href="/posts">Góc nhìn</a>
-                <a href="/posts">Người Việt năm châu</a>
-              </div>
-              <div class="column">
-                <a href="/posts">Quân sự</a>
-                <a href="/posts">Hồ sơ</a>
-                <a href="/posts">Chuyện lạ</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="level-1">
-          <a href="/posts?category=3">Kinh tế</a>
-          <div class="level-2">
-            <div class="category">
-              <h2>Kinh tế</h2>
-            </div>
-            <div class="row">
-              <div class="column">
-                <a href="/posts">Kinh tế xanh</a>
-                <a href="/posts">Ngân hàng</a>
-                <a href="/posts">Doanh nghiệp</a>
-              </div>
-              <div class="column">
-                <a href="/posts">Làm giàu</a>
-                <a href="/posts">Chính sách - phát triển</a>
-                <a href="/posts">Chứng khoáng</a>
-              </div>
-              <div class="column">
-                <a href="/posts">Doanh nhân</a>
-                <a href="/posts">Địa ốc</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="level-1">
-          <a href="/posts?category=4">Giáo dục</a>
-          <div class="level-2">
-            <div class="category">
-              <h2>Giáo dục</h2>
-            </div>
-            <div class="row">
-              <div class="column">
-                <a href="/posts">Tuyển sinh</a>
-                <a href="/posts">Du học</a>
-                <a href="/posts">Phụ huynh</a>
-              </div>
-              <div class="column">
-                <a href="/posts">Chọn nghề - chọn trường</a>
-                <a href="/posts">Cẩm nang tuyển sinh 2023</a>
-                <a href="/posts">Nhà trường</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="level-1">
-          <a href="/posts?category=5">Du lịch</a>
-          <div class="level-2">
-            <div class="category">
-              <h2>Du lịch</h2>
-            </div>
-            <div class="row">
-              <div class="column">
-                <a href="/posts">Khám phá</a>
-                <a href="/posts">Chơi gì, ăn đâu, đi thế nào</a>
-                <a href="/posts">Câu chuyện du lịch</a>
-              </div>
-              <div class="column">
-                <a href="/posts">Tin tức sự kiện</a>
-                <a href="/posts">Bất động sản du lịch</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="level-1">
-          <a href="/posts?category=6">Sức khỏe</a>
-          <div class="level-2">
-            <div class="category">
-              <h2>Sức khỏe</h2>
-            </div>
-            <div class="row">
-              <div class="column">
-                <a href="/posts">Khỏe đẹp mỗi ngày</a>
-                <a href="/posts">Làm đẹp</a>
-              </div>
-              <div class="column">
-                <a href="/posts">Niềm tin vào y đức</a>
-                <a href="/posts">Giới tính</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="level-1">
-          <a href="/posts?category=7">Văn hóa</a>
-          <div class="level-2">
-            <div class="category">
-              <h2>Văn hóa</h2>
-            </div>
-            <div class="row">
-              <div class="column">
-                <a href="/posts">Câu chuyện văn hóa</a>
-                <a href="/posts">Xem - nghe</a>
-              </div>
-              <div class="column">
-                <a href="/posts">Khảo cứu</a>
-                <a href="/posts">Sống đẹp</a>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        {{/each}}
       </nav>
 
       <div class="header-child">

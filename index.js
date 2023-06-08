@@ -73,11 +73,42 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Cau hinh su dudng connect-flash
+// Cau hinh su dung connect-flash
 app.use(flash());
 
 // middleware
-app.use((req, res, next) => {
+const models = require("./models");
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
+
+app.use(async (req, res, next) => {
+  // Load categories cho header
+  try {
+    const categories = await models.Category.findAll({
+      // Cap 1
+      attributes: ["id", "title", "parentId"],
+      where: { parentId: null },
+    });
+    categories.forEach(async (parent) => {
+      const parentId = parent.dataValues.id;
+      let children = await models.Category.findAll({
+        // Cap 2
+        attributes: ["id", "title", "parentId"],
+        where: { parentId },
+      });
+      // console.log(children.length);
+      const arrChildren = [];
+      while (children.length)
+        arrChildren.push({children: children.splice(0, Math.min(3, children.length))});
+      parent.arrChildren = arrChildren;
+      console.log(arrChildren);
+    });
+    res.locals.categories = categories;
+  } catch (error) {
+    console.log(`Error: ${error}`);
+  }
+
+  // Authenticate user
   res.locals.isLoggedIn = req.isAuthenticated();
   // console.log(req.user);
   if (res.locals.isLoggedIn == true) {
@@ -85,16 +116,16 @@ app.use((req, res, next) => {
     const typeId = req.user.dataValues.typeId;
     switch (typeId) {
       case 2:
-        res.locals.writer = true
+        res.locals.writer = true;
         break;
       case 3:
-        res.locals.editor = true
+        res.locals.editor = true;
         break;
       case 4:
-        res.locals.admin = true
+        res.locals.admin = true;
         break;
       default:
-        res.locals.unpremium = true
+        res.locals.unpremium = true;
         break;
     }
   }
