@@ -42,17 +42,36 @@
                 Đăng xuất <span></span>
             </button>
         </div>
-        {{#with user}}
+
         <div>
+            {{#with user}}
             <div class="username--profile username">
                 {{username}}
             </div>
+            {{/with}}
             <div id="roles">
-
+                {{#if writer}}
+                Phóng viên
+                {{else}}
+                {{#if editor}}
+                Biên tập viên
+                {{else}}
+                {{#if admin}}
+                Quản trị viên
+                {{else}}
+                Người đọc
+                {{/if}}
+                {{/if}}
+                {{/if}}
             </div>
+
+            {{#if unpremium}}
             <button id="subscribe-btn" onclick="displaySubscribe()">
                 Đăng ký
             </button>
+            {{/if}}
+
+            {{#with premium}}
             <div id="premium-display">
                 <div>
                     <img src="/img/icons/subscriber.png" alt="">
@@ -61,12 +80,13 @@
                     </p>
                 </div>
                 <div>
-                    HSD <span class="premium-exp">6</span> ngày
+                    HSD <span class="premium-exp">{{rest}}</span> ngày
                 </div>
             </div>
+            {{/with}}
         </div>
     </div>
-    {{/with}}
+
 
     <div class="container-2">
         <div class="current-section profile-section" onclick="changeSection(0)">
@@ -77,7 +97,7 @@
 
             </div>
         </div>
-
+        {{#if writer}}
         <div class="profile-section" onclick="changeSection(1)">
             <p>
                 Bài viết của tôi
@@ -86,6 +106,18 @@
 
             </div>
         </div>
+        {{else}}
+        {{#if editor}}
+        <div class="profile-section" onclick="changeSection(1)">
+            <p>
+                Danh sách duyệt
+            </p>
+            <div class="vertical-line-animate">
+
+            </div>
+        </div>
+        {{/if}}
+        {{/if}}
     </div>
 
     <div class="container-3">
@@ -95,12 +127,11 @@
             <form action="" id="general-infomation-form--section">
                 <div>
                     <div class="input-container">
-                        <input type="text" id="username-input" name="username-input" value="{{name}}" 
-                            required>
+                        <input type="text" id="username-input" name="username-input" value="{{name}}" required>
                         <div>
                         </div>
                         <p>
-                            Họ tên
+                            Họ và tên
                         </p>
                     </div>
 
@@ -125,7 +156,7 @@
 
 
                     <div class="input-container">
-                        <input type="password" id="password-input" name="password-input" value="{{password}}"
+                        <input type="password" id="password-input" name="password-input" value=""
                             placeholder="Nhập mật khẩu mới...">
                         <div>
                         </div>
@@ -133,25 +164,30 @@
                             Mật khẩu mới
                         </p>
                     </div>
-
+                    {{#if writer}}
                     <div class="input-container special-input-container">
-                        <input type="text" id="pseudonym-input" name="pseudonym-input" placeholder="Bút danh" readonly>
+                        <input type="text" id="pseudonym-input" name="pseudonym-input" placeholder="Bút danh"
+                            value="{{pseudonym}}" readonly>
                         <div>
                         </div>
                         <p>
                             Bút danh
                         </p>
                     </div>
-
+                    {{/if}}
+                    {{#if editor}}
                     <div class="input-container special-input-container">
                         <input type="text" id="category-manage-input" name="category-manage-input" placeholder="Văn hóa"
-                            readonly>
+                            value="{{categoryName}}" readonly>
                         <div>
                         </div>
                         <p>
                             Chuyên mục quản lý
                         </p>
                     </div>
+                    {{/if}}
+
+
                 </div>
 
                 <button type="submit">
@@ -161,21 +197,46 @@
             {{/with}}
         </div>
 
+        {{#if writer}}
         <!-- Cac bai viet cua toi -->
         <div class="section-content">
             <div class="list-of-content">
                 <ul>
                     <li onclick="changeIndexOfContent(1, 0)">
-                        Bị từ chối
+                        <div>Bị từ chối</div>
+                        <div>
+                            <img src="/img/icons/info.png" alt="" class="info-img">
+                            <div class="note-item">
+                                Danh sách bài viết đã bị từ chối
+                            </div>
+                        </div>
                     </li>
                     <li onclick="changeIndexOfContent(1, 1)">
-                        Chưa được duyệt
+                        <div>Chưa được duyệt</div>
+                        <div>
+                            <img src="/img/icons/info.png" alt="" class="info-img">
+                            <div class="note-item">
+                                Danh sách bài viết chưa được kiểm duyệt
+                            </div>
+                        </div>
                     </li>
                     <li onclick="changeIndexOfContent(1, 2)">
-                        Đã được duyệt
+                        <div>Đã được duyệt</div>
+                        <div>
+                            <img src="/img/icons/info.png" alt="" class="info-img">
+                            <div class="note-item">
+                                Danh sách bài viết đã được kiểm duyệt
+                            </div>
+                        </div>
                     </li>
                     <li onclick="changeIndexOfContent(1, 3)">
-                        Đã xuất bản
+                        <div>Đã xuất bản</div>
+                        <div>
+                            <img src="/img/icons/info.png" alt="" class="info-img">
+                            <div class="note-item">
+                                Danh sách bài viết đã được xuất bản do mình viết
+                            </div>
+                        </div>
                     </li>
                 </ul>
                 <div style="background: none; text-align: center; padding-top: 3em;">
@@ -362,16 +423,34 @@
                 </div>
             </div>
         </div>
+        {{/if}}
 
-        <!-- Danh sach duyet -->
+        {{#if editor}}
+        <!-- EDITOR - REVIEW -->
         <div class="section-content" id="censorship-section">
             <div class="list-of-content">
                 <ul>
-                    <li onclick="changeIndexOfContent(2, 0)">
-                        Chưa kiểm duyệt
+                    <li onclick="changeIndexOfContent(1, 0)">
+                        <div>
+                            Chưa kiểm duyệt
+                        </div>
+                        <div>
+                            <img src="/img/icons/info.png" alt="" class="info-img">
+                            <div class="note-item">
+                                Danh sách bài viết chưa kiểm duyệt
+                            </div>
+                        </div>
                     </li>
-                    <li onclick="changeIndexOfContent(2, 1)">
-                        Đã xuất bản
+                    <li onclick="changeIndexOfContent(1, 1)">
+                        <div>
+                            Đã xuất bản
+                        </div>
+                        <div>
+                            <img src="/img/icons/info.png" alt="" class="info-img">
+                            <div class="note-item">
+                                Danh sách bài viết đã được xuất bản do mình kiểm duyệt
+                            </div>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -553,13 +632,14 @@
                 </div>
             </div>
         </div>
+        {{/if}}
     </div>
 
 
     <div style="padding: 50px;">
     </div>
 
-    <div class="div1">
+    {{!-- <div class="div1">
         <div class="div2" onclick="switchUser()">
             Đổi role's user
             <div class="div3">
@@ -575,7 +655,7 @@
                 Chỉ để đổi hiển thị khi chưa cài Backend
             </div>
         </div>
-    </div>
+    </div> --}}
 
 </main>
 <script src="/js/profile.js"></script>

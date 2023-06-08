@@ -5,7 +5,7 @@ const passport = require("./passport");
 const models = require("../models");
 
 controller.showLogin = (req, res) => {
-  console.log(req.isAuthenticated())
+  console.log(req.isAuthenticated());
   if (req.isAuthenticated()) {
     return res.redirect("/");
   }
@@ -24,10 +24,9 @@ controller.isLoggedIn = (req, res, next) => {
 };
 
 controller.login = (req, res, next) => {
-  let keepSignedIn = req.body.keepSignedIn;
-  let reqUrl = req.body.reqUrl ? req.body.reqUrl : "/users/profile/";
-  console.log(keepSignedIn)
-  console.log(reqUrl)
+  let reqUrl = req.body.reqUrl ? req.body.reqUrl : "/";
+  // console.log(keepSignedIn);
+  // console.log(reqUrl);
   passport.authenticate("local-login", (error, user) => {
     // console.log(user);
     if (error) {
@@ -40,13 +39,19 @@ controller.login = (req, res, next) => {
       if (error) {
         return next(error);
       }
-      req.session.cookie.maxAge = keepSignedIn ? 24 * 60 * 60 * 1000 : null;
+      if (req.body.keepSignedIn) {
+        console.log("Remember me");
+        req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // Cookie expires after 30 days
+      } else {
+        console.log("Dont remember me!");
+        req.session.cookie.expires = false; // Cookie expires at end of session
+      }
+      // console.log(req.session.cookie.maxAge);
       // console.log(reqUrl)
       return res.redirect(reqUrl);
     });
   })(req, res, next);
-}
-
+};
 
 controller.logout = (req, res) => {
   req.logout((error) => {

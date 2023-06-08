@@ -64,7 +64,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      maxAge: 20 * 60 * 1000,
+      maxAge: 24 * 60 * 1000,
     },
   })
 );
@@ -78,8 +78,37 @@ app.use(flash());
 
 // middleware
 const models = require("./models");
-const sequelize = require("sequelize");
-const Op = sequelize.Op;
+
+const minute = 60 * 1000;
+setInterval(updatePremium, minute);
+
+async function updatePremium() {
+  try {
+    const premiums = await models.PremiumDetails.findAll({
+      attributes: ["id", "grantedSince", "status"],
+      where: {
+        status: true,
+      }
+    });
+    premiums.forEach(async (premium) => {
+      const grantdSince = new Date(premium.dataValues.grantedSince);
+      const currentDate = new Date();
+      const expiredDate = new Date(
+        grantdSince.getFullYear(),
+        grantdSince.getMonth(),
+        grantdSince.getDate() + 7
+      );
+
+      if (expiredDate <= currentDate)
+        await models.PremiumDetails.update(
+          { statusId: false },
+          { where: { id: premium.dataValues.id } }
+        );
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 app.use(async (req, res, next) => {
   // Load categories cho header
@@ -99,9 +128,11 @@ app.use(async (req, res, next) => {
       // console.log(children.length);
       const arrChildren = [];
       while (children.length)
-        arrChildren.push({children: children.splice(0, Math.min(3, children.length))});
+        arrChildren.push({
+          children: children.splice(0, Math.min(3, children.length)),
+        });
       parent.arrChildren = arrChildren;
-      console.log(arrChildren);
+      // console.log(arrChildren);
     });
     res.locals.categories = categories;
   } catch (error) {
@@ -113,8 +144,41 @@ app.use(async (req, res, next) => {
   // console.log(req.user);
   if (res.locals.isLoggedIn == true) {
     res.locals.user = req.user;
+    // Get user type
     const typeId = req.user.dataValues.typeId;
+    console.log(`Typeid: ${typeId}`)
     switch (typeId) {
+      case 1:
+        try {
+          // check if premium
+          const premium = await models.PremiumDetails.findAll({
+            attributes: ["id", "userId", "grantedSince", "status"],
+            where: {
+              userId: req.user.dataValues.id,
+              status: true,
+            },
+            order: [['grantedSince', 'DESC']],  
+            limit: 1
+          });
+          if (premium.length > 0) {
+            const grantdSince = new Date(premium[0].dataValues.grantedSince);
+            const currentDate = new Date();
+            const expiredDay = new Date(
+              grantdSince.getFullYear(),
+              grantdSince.getMonth(),
+              grantdSince.getDate() + 7
+            );
+            // console.log(expiredDay)
+            const differenceInMilliseconds = Math.abs(currentDate.getTime() - expiredDay.getTime());
+            premium[0].rest = Math.floor(differenceInMilliseconds / 1000 / 60 / 60 / 24);
+            res.locals.premium = premium[0];
+            console.log(res.locals.premium.dataValues)
+          }
+          else res.locals.unpremium = true;
+        } catch (error) {
+          console.log(error);
+        }
+        break;
       case 2:
         res.locals.writer = true;
         break;

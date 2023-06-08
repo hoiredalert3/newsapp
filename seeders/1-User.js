@@ -806,8 +806,11 @@ module.exports = {
           }]          
 
         items.forEach((item) => {
-            if (item.typeId != 4) {
+            if (item.typeId != 2) {
                 item.pseudonym = null;
+            }
+            if(item.typeId != 3){
+              item.managementCategory = null;
             }
             const bcrypt = require("bcrypt");
             item.password = bcrypt.hashSync("Nhom11@20TN", bcrypt.genSaltSync(8));

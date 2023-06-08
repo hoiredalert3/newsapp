@@ -85,6 +85,7 @@ main {
 
 #subscribe-btn,
 #buy-premium--btn {
+    display: inline-block;
     margin-top: 15px;
     cursor: pointer;
     width: 120px;
@@ -92,10 +93,6 @@ main {
     border-radius: 10px;
     background-color: goldenrod;
     color: white;
-}
-
-#subscribe-btn {
-    display: none;
 }
 
 #buy-premium--btn {
@@ -108,7 +105,6 @@ main {
 
 #premium-display {
     margin-top: 15px;
-    display: none;
     flex-direction: column;
 }
 
@@ -124,6 +120,7 @@ main {
     object-fit: contain;
     object-position: center;
     margin-right: 10px;
+
 }
 
 #premium-display p {
@@ -189,7 +186,7 @@ main {
 
 #general-infomation-form--section>div {
     display: grid;
-    grid-template-columns: 200px 200px;
+    grid-template-columns: 275px 275px;
     column-gap: 50px;
     row-gap: 20px;
 }
@@ -236,9 +233,6 @@ main {
 
 }
 
-.special-input-container {
-    display: none;
-}
 
 #censorship-section {}
 
@@ -250,6 +244,35 @@ main {
     position: sticky;
     top: 100px;
 }
+
+.list-of-content li{
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    z-index: 100;
+}
+.info-img{
+    width: 24px;
+    height: 24px;
+}
+
+.note-item{
+    padding: 10px 15px;
+    background-color: white;
+    opacity: 1;
+    border-radius: 10px;
+    display: none;
+    position: absolute;
+    right: 0px;
+    top: -75px;
+    width: 200px;
+}
+
+.list-of-content li div:hover .note-item{
+    display: inline-block;
+    z-index: 100000;
+}
+
 
 .list-of-article {
     flex: 0.8;

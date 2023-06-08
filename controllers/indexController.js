@@ -7,175 +7,183 @@ const sequelize = require("sequelize");
 const Op = sequelize.Op;
 
 async function getCategories(posts) {
-  posts.forEach(async (item) => {
-    const childCategory = item.Categories[0];
-    item.childCategory = childCategory;
-    item.parentCategory = await models.Category.findOne({
-      where: { id: childCategory.dataValues.parentId },
+  try {
+    posts.forEach(async (item) => {
+      const childCategory = item.Categories[0];
+      item.childCategory = childCategory;
+      item.parentCategory = await models.Category.findOne({
+        where: { id: childCategory.dataValues.parentId },
+      });
     });
-  });
+  }
+  catch (error) {
+    console.log(error)
+  }
 }
 
 // Show homepage
 controller.showHomePage = async (req, res) => {
-  // Hots post
-  let hotPosts = await models.Post.findAll({
-    attributes: [
-      "id",
-      "title",
-      "publishedAt",
-      "thumbnailUrl",
-      "summary",
-      "isPremium",
-    ],
-    include: [
-      {
-        model: models.PostStatistic,
-        attributes: ["id", "postId", "hot"],
-        order: [["hot", "DESC"]],
-      },
-      {
-        model: models.PostStatus,
-        where: {
-          id: 5, // Xuat ban
+  try {
+    // Hots post
+    let hotPosts = await models.Post.findAll({
+      attributes: [
+        "id",
+        "title",
+        "publishedAt",
+        "thumbnailUrl",
+        "summary",
+        "isPremium",
+      ],
+      include: [
+        {
+          model: models.PostStatistic,
+          attributes: ["id", "postId", "hot"],
+          order: [["hot", "DESC"]],
         },
-      },
-      {
-        model: models.Category,
-        attributes: ["id", "title", "parentId"],
-        where: { parentId: { [Op.not]: null } },
-      },
-    ],
-    where: {
-      removedAt: null,
-    },
-    limit: 5,
-  });
-  getCategories(hotPosts);
-
-  //console.log(hotPosts);
-  res.locals.hotPosts = hotPosts;
-
-  // New posts
-  let newPosts = await models.Post.findAll({
-    attributes: [
-      "id",
-      "title",
-      "publishedAt",
-      "thumbnailUrl",
-      "summary",
-      "isPremium",
-    ],
-    include: [
-      {
-        model: models.PostStatus,
-        where: {
-          id: 5, // Xuat ban
-        },
-      },
-      {
-        model: models.Category,
-        attributes: ["id", "title", "parentId"],
-        where: {
-          parentId: { [Op.not]: null } 
-        }
-      }
-    ],
-    where: {
-      removedAt: null,
-    },
-    order: [["publishedAt", "DESC"]],
-    limit: 10,
-  });
-
-  getCategories(newPosts)
-  res.locals.newPosts = newPosts;
-
-  // Most view posts
-  let mostViewPosts = await models.Post.findAll({
-    attributes: [
-      "id",
-      "title",
-      "publishedAt",
-      "thumbnailUrl",
-      "summary",
-      "isPremium",
-    ],
-    include: [
-      {
-        model: models.PostStatistic,
-        attributes: ["id", "postId", "views"],
-        order: [["views", "DESC"]],
-      },
-      {
-        model: models.PostStatus,
-        where: {
-          id: 5, // Xuat ban
-        },
-      },
-      {
-        model: models.Category,
-        attributes: ["id", "title", "parentId"],
-        where: {
-          parentId: { [Op.not]: null } 
-        }
-      }
-    ],
-    where: {
-      removedAt: null,
-    },
-    limit: 10,
-  });
-
-  getCategories(mostViewPosts);
- 
-  res.locals.mostViewPosts = mostViewPosts;
-
-  // category-posts
-  const categoryPosts = await models.Category.findAll({
-    attributes: ["id", "title", "parentId"],
-    include: [
-      {
-        model: models.Post,
-        attributes: [
-          "id",
-          "title",
-          "publishedAt",
-          "thumbnailUrl",
-          "summary",
-          "isPremium",
-        ],
-        include: [
-          {
-            model: models.PostStatus,
-            where: {
-              id: 5,
-            },
+        {
+          model: models.PostStatus,
+          where: {
+            id: 5, // Xuat ban
           },
-        ],
-        order: [["publishedAt", "DESC"]],
+        },
+        {
+          model: models.Category,
+          attributes: ["id", "title", "parentId"],
+          where: { parentId: { [Op.not]: null } },
+        },
+      ],
+      where: {
+        removedAt: null,
       },
-    ],
-    where: {
-      parentId: null,
-    },
-  });
+      limit: 5,
+    });
+    getCategories(hotPosts);
 
-  categoryPosts.forEach((item) => {
-    if (item.dataValues.Posts.length > 0) {
-      item.Post = item.dataValues.Posts[0];
-    }
-  });
-  // console.log(categoryPosts);
-  let leftCategoryPosts = categoryPosts.splice(
-    0,
-    Math.ceil(categoryPosts.length * 0.25)
-  );
-  let rightCategoryPosts = categoryPosts;
-  //console.log(leftCategoryPosts);
-  res.locals.leftCategoryPosts = leftCategoryPosts;
-  res.locals.rightCategoryPosts = rightCategoryPosts;
+    //console.log(hotPosts);
+    res.locals.hotPosts = hotPosts;
 
+    // New posts
+    let newPosts = await models.Post.findAll({
+      attributes: [
+        "id",
+        "title",
+        "publishedAt",
+        "thumbnailUrl",
+        "summary",
+        "isPremium",
+      ],
+      include: [
+        {
+          model: models.PostStatus,
+          where: {
+            id: 5, // Xuat ban
+          },
+        },
+        {
+          model: models.Category,
+          attributes: ["id", "title", "parentId"],
+          where: {
+            parentId: { [Op.not]: null },
+          },
+        },
+      ],
+      where: {
+        removedAt: null,
+      },
+      order: [["publishedAt", "DESC"]],
+      limit: 10,
+    });
+
+    getCategories(newPosts);
+    res.locals.newPosts = newPosts;
+
+    // Most view posts
+    let mostViewPosts = await models.Post.findAll({
+      attributes: [
+        "id",
+        "title",
+        "publishedAt",
+        "thumbnailUrl",
+        "summary",
+        "isPremium",
+      ],
+      include: [
+        {
+          model: models.PostStatistic,
+          attributes: ["id", "postId", "views"],
+          order: [["views", "DESC"]],
+        },
+        {
+          model: models.PostStatus,
+          where: {
+            id: 5, // Xuat ban
+          },
+        },
+        {
+          model: models.Category,
+          attributes: ["id", "title", "parentId"],
+          where: {
+            parentId: { [Op.not]: null },
+          },
+        },
+      ],
+      where: {
+        removedAt: null,
+      },
+      limit: 10,
+    });
+
+    getCategories(mostViewPosts);
+
+    res.locals.mostViewPosts = mostViewPosts;
+
+    // category-posts
+    const categoryPosts = await models.Category.findAll({
+      attributes: ["id", "title", "parentId"],
+      include: [
+        {
+          model: models.Post,
+          attributes: [
+            "id",
+            "title",
+            "publishedAt",
+            "thumbnailUrl",
+            "summary",
+            "isPremium",
+          ],
+          include: [
+            {
+              model: models.PostStatus,
+              where: {
+                id: 5,
+              },
+            },
+          ],
+          order: [["publishedAt", "DESC"]],
+        },
+      ],
+      where: {
+        parentId: null,
+      },
+    });
+
+    categoryPosts.forEach((item) => {
+      if (item.dataValues.Posts.length > 0) {
+        item.Post = item.dataValues.Posts[0];
+      }
+    });
+    // console.log(categoryPosts);
+    let leftCategoryPosts = categoryPosts.splice(
+      0,
+      Math.ceil(categoryPosts.length * 0.25)
+    );
+    let rightCategoryPosts = categoryPosts;
+    //console.log(leftCategoryPosts);
+    res.locals.leftCategoryPosts = leftCategoryPosts;
+    res.locals.rightCategoryPosts = rightCategoryPosts;
+  } catch (error) {
+    console.log(`Index controller error: ${error}`);
+  }
   res.render("index");
 };
 
@@ -191,7 +199,7 @@ controller.showPage = (req, res, next) => {
     "admin-tags",
     "admin-users",
     //"signin",
-   // "signup",
+    // "signup",
     "writer-create",
     "article-review",
     "publish-article",

@@ -11,6 +11,26 @@ router.get("/createDB", (req, res) => {
   });
 });
 
+router.get("/dropSession", (req, res) => {
+  req.session.destroy();
+});
+
+router.get("/dropDB", (req, res) => {
+  // destroy session
+  req.session.destroy();
+  // drop db
+  let models = require("../models");
+  let sequelize = models.sequelize
+  sequelize
+  .sync() // create the database table for our model(s)
+  .then(function(){
+    res.render("success", { message: "Drop database successfully!" });
+  })
+  .then(function(){
+    return sequelize.drop() // drop all tables in the db
+  });
+})
+
 router.get("/", controller.showHomePage);
 router.get("/:page", controller.showPage);
 

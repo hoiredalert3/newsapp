@@ -714,7 +714,7 @@ main>div:first-child>div:last-child {
     }
 
     #container-2 {
-        height: 750px;
+        height: 800px;
     }
 }
 
@@ -732,9 +732,6 @@ main>div:first-child>div:last-child {
         height: 3200px;
     }
 
-    #container-2 {
-        height: 600px;
-    }
 }
 
 @media screen and (max-width: 1024px) {
@@ -747,13 +744,7 @@ main>div:first-child>div:last-child {
         max-height: 225px;
     }
 
-    #container-1 {
-        height: 2700px;
-    }
 
-    #container-2 {
-        height: 610px;
-    }
 }
 
 @media screen and (max-width: 720px) {
