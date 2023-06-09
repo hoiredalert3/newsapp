@@ -10,29 +10,30 @@ body {
     backdrop-filter: blur(15px);
     padding: 3%;
 }
-
+#username,
 #email,
-#pw,
-#re-pw,
+#password,
+#re-password,
 #name {
     background: none;
-    padding: 1em 2em;
+    padding: .75em 1.5em;
     border: 1px solid black;
     border-radius: 5px;
 }
 
 #l1-continue-btn {
     width: fit-content;
-    background-color: gray;
-    color: black;
+    background-color: cornflowerblue;
+    color: white;
     border: none;
     border-radius: 5px;
     padding: 0.8em 2em;
 }
 
 #l1-continue-btn:hover {
-    background-color: lightyellow;
-    box-shadow: 0px 0px 50px 10px rgba(255, 255, 224);
+    background-color: blue;
+    opacity: 0.6;
+    transition: 0.2s;
 }
 
 .signup-layout-1>a {
@@ -77,8 +78,8 @@ body {
 
 #signup-btn {
     width: fit-content;
-    background-color: gray;
-    color: black;
+    background-color: cornflowerblue;
+    color: white;
     border: none;
     border-radius: 5px;
     padding: 0.8em 2em;
@@ -87,7 +88,53 @@ body {
 }
 
 #signup-btn:hover {
-    background-color: lightyellow;
-    box-shadow: 0px 0px 50px 10px rgba(255, 255, 224);
-    transition: all 0.5s ease;
+    background-color: blue;
+    opacity: 0.6;
+    transition: all 0.2s ease;
+}
+
+.input-container{
+    position: relative;
+}
+
+.input-container > input{
+    width: 100%;
+}
+
+.input-container > div{
+    position: absolute;
+    top:50%;
+    right:10px;
+    transform: translateY(-50%);
+}
+
+.info-img{
+    width: 24px;
+    height: 24px;
+}
+
+.note-item{
+    
+    padding: 10px 15px;
+    background-color: white;
+    opacity: 1;
+    border-radius: 10px;
+    display: none;
+    position: absolute;
+
+    box-shadow: 0 0 5px 0;
+}
+
+.note-item-custom1{
+    width: 300px;
+    right: -320px;
+    top:-40px;
+}
+.note-item-custom2{
+    width: 250px;
+    right: -270px;
+    top:-15px;
+}
+.input-container > div:hover .note-item{
+    display: block;
 }

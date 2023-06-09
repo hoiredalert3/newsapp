@@ -106,53 +106,69 @@ passport.use(
   )
 );
 
-// // Dang ki tai khoan
-// passport.use(
-//   "local-register",
-//   new LocalStrategy(
-//     {
-//       usernameField: "email",
-//       passwordField: "password",
-//       passReqToCallback: true,
-//     },
-//     async (req, email, password, done) => {
-//       if (email) {
-//         email = email.toLowerCase();
-//       }
-//       if (req.user) {
-//         return done(null, req.user);
-//       }
-//       try {
-//         let user = await models.User.findOne({ where: { email } });
-//         if (user) {
-//           return done(
-//             null,
-//             false,
-//             req.flash("registerMessage", "Email is already used!")
-//           );
-//         }
-//         user = await models.User.create({
-//           email: email,
-//           password: bcrypt.hashSync(password, bcrypt.genSaltSync(8)),
-//           firstName: req.body.firstName,
-//           lastName: req.body.lastName,
-//           mobile: req.body.mobile,
-//         });
+// Dang ki tai khoan
+passport.use(
+  "local-register",
+  new LocalStrategy(
+    {
+      usernameField: "username",
+      passwordField: "password",
+      passReqToCallback: true,
+    },
+    async (req, username, password, done) => {
+      if (req.user) {
+        return done(null, req.user);
+      }
+      try {
+        let user_by_username = await models.User.findOne({
+          where: { username },
+        });
+        let user_by_email = await models.User.findOne({
+          where: { email: req.body.email },
+        });
 
-//         // Thong bao dang ki thanh cong
-//         done(
-//           null,
-//           false,
-//           req.flash(
-//             "registerMessage",
-//             "You have registered successfully, please log in."
-//           )
-//         );
-//       } catch (error) {
-//         done(error)
-//       }
-//     }
-//   )
-// );
+        if (user_by_username) {
+          return done(
+            null,
+            false,
+            req.flash("registerMessage", "Tên người dùng đã bị sử dụng")
+          );
+        }
+
+        if (user_by_email) {
+          return done(
+            null,
+            false,
+            req.flash("registerMessage", "Email đã bị sử dụng")
+          );
+        }
+
+        let user = await models.User.create({
+          username,
+          email: req.body.email,
+          password: bcrypt.hashSync(password, bcrypt.genSaltSync(8)),
+          name: req.body.name,
+          dob: req.body.dob,
+          typeId: 1,
+          pseudonym: null,
+          managementCategory: null,
+        });
+
+        console.log(user)
+        // Thong bao dang ki thanh cong
+        done(
+          null,
+          false,
+          req.flash(
+            "registerMessageSuccess",
+            "Bạn đã đăng ký thành công, hãy đăng nhập."
+          )
+        );
+      } catch (error) {
+        done(error);
+      }
+    }
+  )
+);
 
 module.exports = passport;

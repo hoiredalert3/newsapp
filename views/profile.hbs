@@ -124,10 +124,13 @@
 
         <div class="current-section-content section-content">
             {{#with user}}
-            <form action="" id="general-infomation-form--section">
+            <form action="/users/profile/update-infos" 
+                method="post" 
+                id="general-infomation-form--section"
+                onclick="updateInfos(event)">
                 <div>
                     <div class="input-container">
-                        <input type="text" id="username-input" name="username-input" value="{{name}}" required>
+                        <input type="text" id="username-input" name="username" value="{{name}}" required>
                         <div>
                         </div>
                         <p>
@@ -136,7 +139,7 @@
                     </div>
 
                     <div class="input-container">
-                        <input type="date" id="dob-input" name="dob-input" value="{{dob}}" required>
+                        <input type="date" id="dob-input" name="dob" value="{{dob}}" required>
                         <div>
                         </div>
                         <p>
@@ -145,7 +148,7 @@
                     </div>
 
                     <div class="input-container">
-                        <input type="email" id="email-input" name="email-input" value="{{email}}" placeholder=""
+                        <input type="email" id="email-input" name="email" value="{{email}}" placeholder=""
                             required>
                         <div>
                         </div>
@@ -156,7 +159,7 @@
 
 
                     <div class="input-container">
-                        <input type="password" id="password-input" name="password-input" value=""
+                        <input type="password" id="password-input" name="password" value=""
                             placeholder="Nhập mật khẩu mới...">
                         <div>
                         </div>
@@ -166,7 +169,7 @@
                     </div>
                     {{#if writer}}
                     <div class="input-container special-input-container">
-                        <input type="text" id="pseudonym-input" name="pseudonym-input" placeholder="Bút danh"
+                        <input type="text" id="pseudonym-input" name="pseudonym" placeholder="Bút danh"
                             value="{{pseudonym}}" readonly>
                         <div>
                         </div>
@@ -177,7 +180,7 @@
                     {{/if}}
                     {{#if editor}}
                     <div class="input-container special-input-container">
-                        <input type="text" id="category-manage-input" name="category-manage-input" placeholder="Văn hóa"
+                        <input type="text" id="category-management" name="category-management" placeholder="Văn hóa"
                             value="{{categoryName}}" readonly>
                         <div>
                         </div>
@@ -186,11 +189,15 @@
                         </p>
                     </div>
                     {{/if}}
-
-
                 </div>
-
-                <button type="submit">
+                {{#if updateMessage}}
+                <div class="col-md-12">
+                    <div class="p-3 mt-3 alert alert-warning">
+                        {{{updateMessage}}}
+                    </div>
+                </div>
+                {{/if}}
+                <button type="submit" onclick="submitInfomations()">
                     Lưu thay đổi
                 </button>
             </form>
@@ -457,177 +464,57 @@
             <div class="list-of-article">
                 <!-- Danh sach chua duyet -->
                 <div class="list-of-article--container">
+                    {{#each yetUnapprovedPosts}}
                     <div class="article-container">
                         <a href="/article-review">
-                            <img src="/img/profile/article/0.png" alt="">
+                            <img src="{{thumbnailUrl}}" alt="">
                         </a>
+                        
                         <div class="article-content">
                             <div class="article-content--top">
                                 <div class="article-content--tilte">
-                                    <a href="/article-review">Cái lý của người Mông: Đi tìm con chữ</a>
+                                    <a href="/article-review">{{title}}</a>
                                 </div>
+                                {{#with Category}}
                                 <div class="article-content--tag">
-                                    <a href="/article-review">Văn hóa</a>
+                                    <a href="/article-review">{{title}}</a>
                                 </div>
+                                {{/with}}
                             </div>
                             <div class="article-content--abstract">
-                                <a href="/article-review">Người Mông ở Nghệ An, nhất là phụ nữ trên 35 tuổi phần
-                                    lớn không biết chữ, và những lớp dạy chữ được mở ra khiến nhiều người háo hức đi
-                                    học cho biết chữ để… sử dụng điện thoại.</a>
+                                <a href="/article-review">{{summary}}</a>
                             </div>
                         </div>
                     </div>
-
-                    <div class="article-container">
-                        <a href="#">
-                            <img src="/img/profile/article/0.png" alt="">
-                        </a>
-                        <div class="article-content">
-                            <div class="article-content--top">
-                                <div class="article-content--tilte">
-                                    <a href="/article-review">Cái lý của người Mông: Đi tìm con chữ</a>
-                                </div>
-                                <div class="article-content--tag">
-                                    <a href="/article-review">Văn hóa</a>
-                                </div>
-                            </div>
-                            <div class="article-content--abstract">
-                                <a href="/article-review">Người Mông ở Nghệ An, nhất là phụ nữ trên 35 tuổi phần
-                                    lớn không biết chữ, và những lớp dạy chữ được mở ra khiến nhiều người háo hức đi
-                                    học cho biết chữ để… sử dụng điện thoại.</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="article-container">
-                        <a href="#">
-                            <img src="/img/profile/article/0.png" alt="">
-                        </a>
-                        <div class="article-content">
-                            <div class="article-content--top">
-                                <div class="article-content--tilte">
-                                    <a href="/article-review">Cái lý của người Mông: Đi tìm con chữ</a>
-                                </div>
-                                <div class="article-content--tag">
-                                    <a href="/article-review">Văn hóa</a>
-                                </div>
-                            </div>
-                            <div class="article-content--abstract">
-                                <a href="/article-review">Người Mông ở Nghệ An, nhất là phụ nữ trên 35 tuổi phần
-                                    lớn không biết chữ, và những lớp dạy chữ được mở ra khiến nhiều người háo hức đi
-                                    học cho biết chữ để… sử dụng điện thoại.</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="article-container">
-                        <a href="/article-review">
-                            <img src="/img/profile/article/0.png" alt="">
-                        </a>
-                        <div class="article-content">
-                            <div class="article-content--top">
-                                <div class="article-content--tilte">
-                                    <a href="/article-review">Cái lý của người Mông: Đi tìm con chữ</a>
-                                </div>
-                                <div class="article-content--tag">
-                                    <a href="/article-review">Văn hóa</a>
-                                </div>
-                            </div>
-                            <div class="article-content--abstract">
-                                <a href="/article-review">Người Mông ở Nghệ An, nhất là phụ nữ trên 35 tuổi phần
-                                    lớn không biết chữ, và những lớp dạy chữ được mở ra khiến nhiều người háo hức đi
-                                    học cho biết chữ để… sử dụng điện thoại.</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="article-container">
-                        <a href="/article-review">
-                            <img src="/img/profile/article/0.png" alt="">
-                        </a>
-                        <div class="article-content">
-                            <div class="article-content--top">
-                                <div class="article-content--tilte">
-                                    <a href="/article-review">Cái lý của người Mông: Đi tìm con chữ</a>
-                                </div>
-                                <div class="article-content--tag">
-                                    <a href="/article-review">Văn hóa</a>
-                                </div>
-                            </div>
-                            <div class="article-content--abstract">
-                                <a href="/article-review">Người Mông ở Nghệ An, nhất là phụ nữ trên 35 tuổi phần
-                                    lớn không biết chữ, và những lớp dạy chữ được mở ra khiến nhiều người háo hức đi
-                                    học cho biết chữ để… sử dụng điện thoại.</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="article-container">
-                        <a href="/article-review">
-                            <img src="/img/profile/article/0.png" alt="">
-                        </a>
-                        <div class="article-content">
-                            <div class="article-content--top">
-                                <div class="article-content--tilte">
-                                    <a href="/article-review">Cái lý của người Mông: Đi tìm con chữ</a>
-                                </div>
-                                <div class="article-content--tag">
-                                    <a href="/article-review">Văn hóa</a>
-                                </div>
-                            </div>
-                            <div class="article-content--abstract">
-                                <a href="/article-review">Người Mông ở Nghệ An, nhất là phụ nữ trên 35 tuổi phần
-                                    lớn không biết chữ, và những lớp dạy chữ được mở ra khiến nhiều người háo hức đi
-                                    học cho biết chữ để… sử dụng điện thoại.</a>
-                            </div>
-                        </div>
-                    </div>
+                    {{/each}}
+            
                 </div>
 
                 <!-- Danh sach da duoc xuat ban -->
                 <div class="list-of-article--container">
-
+                    {{#each approvedPosts}}
                     <div class="article-container">
                         <a href="#">
-                            <img src="/img/profile/article/1.png" alt="">
+                            <img src="{{thumbnailUrl}}" alt="">
                         </a>
+                        
                         <div class="article-content">
                             <div class="article-content--top">
                                 <div class="article-content--tilte">
-                                    <a href="#">Hội họa xã hội chủ nghĩa có bùng nổ giá như tranh 'Đông Dương'?</a>
+                                    <a href="#">{{title}}</a>
                                 </div>
+                                {{#with Category}}
                                 <div class="article-content--tag">
-                                    <a href="#">Văn hóa</a>
+                                    <a href="#">{{title}}</a>
                                 </div>
+                                {{/with}}
                             </div>
                             <div class="article-content--abstract">
-                                <a href="#">Trong khi tranh "Đông Dương" liên tục tăng giá, liệu tới đây hội họa xã
-                                    hội chủ nghĩa có bùng nổ về giá sưu tập?</a>
+                                <a href="#">{{summary}}</a>
                             </div>
                         </div>
                     </div>
-
-                    <div class="article-container">
-                        <a href="#">
-                            <img src="/img/profile/article/2.jpg" alt="">
-                        </a>
-                        <div class="article-content">
-                            <div class="article-content--top">
-                                <div class="article-content--tilte">
-                                    <a href="#">Ấn tượng triển lãm bày gần 40 bức tranh, sản phẩm thủ công của người
-                                        khuyết tật</a>
-                                </div>
-                                <div class="article-content--tag">
-                                    <a href="#">Văn hóa</a>
-                                </div>
-                            </div>
-                            <div class="article-content--abstract">
-                                <a href="#">Chiều nay 18.4, tại Bảo tàng Hà Nội, Hợp tác xã Vụn Art tổ chức khai mạc
-                                    triển lãm mang tên Những mảnh vụn trưng bày các sản phẩm được thiết kế bởi bàn
-                                    tay của những người khuyết tật, yếu thế trong cuộc sống.</a>
-                            </div>
-                        </div>
-                    </div>
+                    {{/each}}
 
                 </div>
             </div>

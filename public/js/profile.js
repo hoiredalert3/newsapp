@@ -153,3 +153,10 @@ function displayAdmin() {
 function toSignIn() {
     window.location.href = '/users/login';
 }
+
+function updateInfos(event){
+    event.prevent
+}
+function submitInfomations() {
+    
+}

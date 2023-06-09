@@ -11,8 +11,7 @@ controller.showLogin = (req, res) => {
   }
   res.render("signin", {
     loginMessage: req.flash("loginMessage"),
-    reqUrl: req.query.reqUrl,
-    registerMessage: req.flash("registerMessage"),
+    reqUrl: req.query.reqUrl
   });
 };
 
@@ -52,6 +51,34 @@ controller.login = (req, res, next) => {
     });
   })(req, res, next);
 };
+
+controller.showSignup = (req, res) => {
+  console.log(req.isAuthenticated());
+  if (req.isAuthenticated()) {
+    return res.redirect("/");
+  }
+  res.render("signup", {
+    reqUrl: req.query.reqUrl,
+    registerMessage: req.flash("registerMessage"),
+    registerMessageSuccess: req.flash("registerMessageSuccess")
+  });
+};
+
+controller.signup = (req, res, next) => {
+  let reqUrl = req.body.reqUrl ? req.body.reqUrl : "/users/profile";
+  passport.authenticate("local-register", (error, user) => {
+    if (error) {
+      return next(error);
+    }
+    if (!user) {
+      return res.redirect(`/users/register?reqUrl=${reqUrl}`);
+    }
+    req.logIn(user, (error) => {
+      if (error) return next(error);
+      res.redirect(reqUrl);
+    });
+  })(req, res, next);
+}
 
 controller.logout = (req, res) => {
   req.logout((error) => {

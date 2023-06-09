@@ -19,7 +19,15 @@ l2_back_btn.onclick = function () {
     swapOverlay(l2, l1);
 }
 
-signup_btn.onclick = function () {
 
-    window.location.href = '/signin'
-}
+function checkPasswordConfirm(formId){
+    let password = document.querySelector(`#${formId} [name=password]`)
+    let cfPassword = document.querySelector(`#${formId} [name=confirmPassword]`)
+    if(password.value != cfPassword.value){
+      cfPassword.setCustomValidity('Mật khẩu không khớp!')
+      cfPassword.reportValidity()
+    }
+    else{
+      cfPassword.setCustomValidity('')
+    }
+  }
