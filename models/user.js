@@ -10,11 +10,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       User.belongsTo(models.UserType, { foreignKey: "typeId" });
-
       User.hasMany(models.Post, { foreignKey: "authorId" });
       User.hasMany(models.PostComment, { foreignKey: "userId" });
       User.hasMany(models.RejectedPost, { foreignKey: "reviewerId" });
       User.hasMany(models.ApprovedPost, { foreignKey: "approverId" });
+      User.hasMany(models.OTP, { foreignKey: "userId" });
     }
   }
   User.init(
