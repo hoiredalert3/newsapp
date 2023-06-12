@@ -25,11 +25,12 @@ main {
     border-radius: 5px;
 }
 
-#title, #summary {
+#title,
+#summary {
     padding: 1em 2em;
 }
 
-.cancel-btn, .post-btn {
+.cancel-btn,
+.post-btn {
     padding: 1em 1.5em;
 }
-

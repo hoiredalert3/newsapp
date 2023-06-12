@@ -17,6 +17,7 @@ const express_handlerbars = require("express-handlebars");
 const session = require("express-session");
 const passport = require("./controllers/passport");
 const flash = require("connect-flash");
+const path = require('path');
 
 // Redis
 const redisStore = require("connect-redis").default;
@@ -76,8 +77,12 @@ app.use(passport.session());
 // Cau hinh su dung connect-flash
 app.use(flash());
 
+// cau hinh tinymce
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+
 // middleware
 const models = require("./models");
+
 
 const minute = 60 * 1000;
 setInterval(updatePremium, minute);
@@ -146,7 +151,7 @@ app.use(async (req, res, next) => {
     res.locals.user = req.user;
     // Get user type
     const typeId = req.user.dataValues.typeId;
-    console.log(`Typeid: ${typeId}`)
+    //console.log(`Typeid: ${typeId}`)
     switch (typeId) {
       case 1:
         try {
