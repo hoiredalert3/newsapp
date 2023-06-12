@@ -11,7 +11,7 @@ controller.showLogin = (req, res) => {
   }
   res.render("signin", {
     loginMessage: req.flash("loginMessage"),
-    reqUrl: req.query.reqUrl
+    reqUrl: req.query.reqUrl,
   });
 };
 
@@ -60,7 +60,7 @@ controller.showSignup = (req, res) => {
   res.render("signup", {
     reqUrl: req.query.reqUrl,
     registerMessage: req.flash("registerMessage"),
-    registerMessageSuccess: req.flash("registerMessageSuccess")
+    registerMessageSuccess: req.flash("registerMessageSuccess"),
   });
 };
 
@@ -78,7 +78,7 @@ controller.signup = (req, res, next) => {
       res.redirect(reqUrl);
     });
   })(req, res, next);
-}
+};
 
 controller.logout = (req, res) => {
   req.logout((error) => {
@@ -86,6 +86,213 @@ controller.logout = (req, res) => {
       return next(error);
     }
     res.redirect("/");
+  });
+};
+
+const validateEmail = (email) => {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
+
+controller.forgotPassword1 = async (req, res) => {
+  let account = req.body.account;
+  let email = null,
+    username = null;
+  let user;
+  if (validateEmail(account)) {
+    email = account.toLowerCase();
+    user = await models.User.findOne({ where: { email } });
+  } else {
+    username = account;
+    user = await models.User.findOne({
+      attributes: ["email"],
+      where: { username },
+    });
+    if(user)
+      email = user.dataValues.email;
+  }
+
+  if (user) {
+    // Requirement
+    const { sign } = require("../services/jwt");
+    const { generateOTP } = require("../services/otp");
+    const bcrypt = require("bcrypt");
+
+    const otp = generateOTP();
+    const signedOTP = sign(otp);
+    const encryptedOTP = bcrypt.hashSync(otp, bcrypt.genSaltSync(8));
+    const otpLink = `/users/otp?email=${email}`;
+
+    // Print
+    // console.log(signOTP);
+    // console.log(otpLink);
+
+    // Gui mail
+    const { sendForgotPasswordMail } = require("../services/mailjet");
+    sendForgotPasswordMail(user, otp)
+      .then(async (result) => {
+        console.log("email has been sent");
+        try {
+          let OTP = await models.OTP.create({
+            userId: user.dataValues.id,
+            email,
+            signedOTP,
+            encryptedOTP,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          });
+        } catch (error) {
+          return res.render("forgot-password-0", {
+            message:
+              "Có lỗi đã xảy ra trong quá trình tạo dữ liệu, chúng tôi rất tiếc về tình huống này...",
+          });
+        }
+        return res.redirect(otpLink);
+      })
+      .catch((error) => {
+        console.log(error.statusCode);
+        return res.render("forgot-password-0", {
+          message:
+            "Có lỗi đã xảy ra trong quá trình gửi email, chúng tôi rất tiếc về tình huống này...",
+        });
+      });
+  } else {
+    if (email) {
+      return res.render("forgot-password-0", {
+        message: "Email của bạn không tồn tại!",
+      });
+    } else {
+      return res.render("forgot-password-0", {
+        message: "Username của bạn không tồn tại!",
+      });
+    }
+  }
+};
+
+controller.showOTPVerify = async (req, res) => {
+  let email = req.query.email;
+
+  try {
+    let OTP = await models.OTP.findOne({
+      attributes: ["email", "signedOTP", "createdAt"],
+      where: { email },
+      order: [["createdAt", "DESC"]],
+    });
+    console.log(OTP);
+    const hiddenEmail = email.replace(
+      email.substring(0, Math.min(email.indexOf("@"), 5)),
+      "***"
+    );
+    let signedOTP = OTP.dataValues.signedOTP;
+    console.log(signedOTP);
+    console.log(hiddenEmail);
+    let { verify } = require("../services/jwt");
+    if (!OTP || !signedOTP || !verify(signedOTP)) {
+      return res.render("forgot-password-0", {
+        message:
+          "Liên kết này đã hết hạn hoặc không tồn tại! \nHãy thử lại lần khác",
+      });
+    } else {
+      return res.render("forgot-password-1", {
+        sendEmail: `Chúng tôi đã gửi một mã gồm 6 chữ cái đến ${hiddenEmail} của bạn.`,
+        email,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.render("forgot-password-0", {
+      message:
+        "Liên kết này đã hết hạn hoặc không tồn tại! \nHãy thử lại lần khác",
+    });
+  }
+};
+
+controller.OTPVerify = async (req, res) => {
+  let otp =
+    req.body.otp1 +
+    req.body.otp2 +
+    req.body.otp3 +
+    req.body.otp4 +
+    req.body.otp5 +
+    req.body.otp6;
+  const email = req.body.email;
+  try {
+    let OTP = await models.OTP.findOne({
+      attributes: ["email", "signedOTP", "encryptedOTP", "createdAt"],
+      where: { email },
+      order: [["createdAt", "DESC"]],
+    });
+    console.log(OTP);
+    console.log(`OTP: ${otp}, email: ${email}`);
+
+    const bcrypt = require("bcrypt");
+    let { verify } = require("../services/jwt");
+
+    let signedOTP = OTP.dataValues.signedOTP;
+    let encryptedOTP = OTP.dataValues.encryptedOTP;
+    if (!OTP || !signedOTP || !verify(signedOTP)) {
+      return res.render("forgot-password-0", {
+        message:
+          "Liên kết này đã hết hạn hoặc không tồn tại! \nHãy thử lại lần khác",
+      });
+    } else {
+      if (!bcrypt.compareSync(otp, encryptedOTP)) {
+        return res.render("forgot-password-1", {
+          message: "Mã OTP của bạn không đúng!",
+        });
+      } else {
+        const link = `/users/reset/?email=${email}`;
+        return res.redirect(link);
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    return res.render("forgot-password-0", {
+      message:
+        "Liên kết này đã hết hạn hoặc không tồn tại! \nHãy thử lại lần khác",
+    });
+  }
+};
+
+controller.showResetPassword = async (req, res) => {
+  const email = req.query.email;
+  try {
+    let OTP = await models.OTP.findOne({
+      attributes: ["email", "signedOTP", "encryptedOTP"],
+      where: { email },
+      order: [["createdAt", "DESC"]],
+    });
+    const signedOTP = OTP.dataValues.signedOTP;
+    let { verify } = require("../services/jwt");
+    if (!signedOTP || !verify(signedOTP)) {
+      return res.render("forgot-password-0", {
+        message:
+          "Liên kết này đã hết hạn hoặc không tồn tại!\n Hãy thử lại lần khác",
+      });
+    } else {
+      return res.render("forgot-password-2", { email });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.render("forgot-password-0", {
+      message:
+        "Liên kết này đã hết hạn hoặc không tồn tại! \nHãy thử lại lần khác",
+    });
+  }
+};
+
+controller.resetPassword = async (req, res) => {
+  let email = req.body.email;
+  let bcrypt = require("bcrypt");
+  let password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8));
+  await models.OTP.destroy({ where: { email } });
+  await models.User.update({ password }, { where: { email } });
+
+  res.render("forgot-password-2", {
+    message: "Bạn đã đổi mật khẩu thành công, vui lòng đăng nhập.",
   });
 };
 

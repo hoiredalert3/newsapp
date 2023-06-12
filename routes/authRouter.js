@@ -3,6 +3,7 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controllers/authController");
+
 const { body, getErrorMessage } = require("../controllers/validator");
 
 router.get("/login", controller.showLogin);
@@ -19,6 +20,7 @@ router.post(
   },
   controller.login
 );
+
 router.get("/register", controller.showSignup);
 
 router.post(
@@ -43,7 +45,7 @@ router.post(
     ),
   body("confirmPassword").custom((confirmPassword, { req }) => {
     if (confirmPassword != req.body.password) {
-      throw new Error("Passwords dont match");
+      throw new Error("Mật khẩu nhập lại không khớp");
     }
     return true;
   }),
@@ -53,13 +55,45 @@ router.post(
   (req, res, next) => {
     let message = getErrorMessage(req);
     if (message) {
-      return res.render("signin", { registerMessage: message });
+      return res.render("signup", { registerMessage: message });
     }
     next();
   },
   controller.signup
 );
-
 router.get("/logout", controller.logout);
+
+// Forgot password
+router.get("/forgot", (req, res) => {
+  res.render("forgot-password-0");
+});
+router.get("/otp", controller.showOTPVerify);
+router.get("/reset", controller.showResetPassword);
+
+router.post("/forgot", controller.forgotPassword1);
+router.post("/otp", controller.OTPVerify);
+router.post(
+  "/reset",
+  body("password").trim().notEmpty().withMessage("Password is required!"),
+  body("password")
+    .matches(/(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/)
+    .withMessage(
+      "Mật khẩu phải gồm ít nhất 1 chữ cái thường, 1 in hoa, 1 chữ số, 1 kí tự đặc biệc và 8 kí tự."
+    ),
+  body("confirmPassword").custom((confirmPassword, { req }) => {
+    if (confirmPassword != req.body.password) {
+      throw new Error("Mật khẩu nhập lại không khớp");
+    }
+    return true;
+  }),
+  (req, res, next) => {
+    let message = getErrorMessage(req);
+    if (message) {
+      return res.render("reset-password", { registerMessage: message });
+    }
+    next();
+  },
+  controller.resetPassword
+);
 
 module.exports = router;
