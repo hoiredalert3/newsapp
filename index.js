@@ -14,10 +14,11 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 1234;
 const express_handlerbars = require("express-handlebars");
+const { createPagination } = require("express-handlebars-paginate");
 const session = require("express-session");
 const passport = require("./controllers/passport");
 const flash = require("connect-flash");
-const path = require('path');
+const path = require("path");
 
 // Redis
 const redisStore = require("connect-redis").default;
@@ -47,6 +48,7 @@ app.engine(
     },
     helpers: {
       convertToVietnameseDateTime,
+      createPagination,
     },
   })
 );
@@ -78,11 +80,13 @@ app.use(passport.session());
 app.use(flash());
 
 // cau hinh tinymce
-app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+app.use(
+  "/tinymce",
+  express.static(path.join(__dirname, "node_modules", "tinymce"))
+);
 
 // middleware
 const models = require("./models");
-
 
 const minute = 60 * 1000;
 setInterval(updatePremium, minute);
@@ -93,7 +97,7 @@ async function updatePremium() {
       attributes: ["id", "grantedSince", "status"],
       where: {
         status: true,
-      }
+      },
     });
     premiums.forEach(async (premium) => {
       const grantdSince = new Date(premium.dataValues.grantedSince);
@@ -162,8 +166,8 @@ app.use(async (req, res, next) => {
               userId: req.user.dataValues.id,
               status: true,
             },
-            order: [['grantedSince', 'DESC']],  
-            limit: 1
+            order: [["grantedSince", "DESC"]],
+            limit: 1,
           });
           if (premium.length > 0) {
             const grantdSince = new Date(premium[0].dataValues.grantedSince);
@@ -174,12 +178,15 @@ app.use(async (req, res, next) => {
               grantdSince.getDate() + 7
             );
             // console.log(expiredDay)
-            const differenceInMilliseconds = Math.abs(currentDate.getTime() - expiredDay.getTime());
-            premium[0].rest = Math.floor(differenceInMilliseconds / 1000 / 60 / 60 / 24);
+            const differenceInMilliseconds = Math.abs(
+              currentDate.getTime() - expiredDay.getTime()
+            );
+            premium[0].rest = Math.floor(
+              differenceInMilliseconds / 1000 / 60 / 60 / 24
+            );
             res.locals.premium = premium[0];
-            console.log(res.locals.premium.dataValues)
-          }
-          else res.locals.unpremium = true;
+            console.log(res.locals.premium.dataValues);
+          } else res.locals.unpremium = true;
         } catch (error) {
           console.log(error);
         }

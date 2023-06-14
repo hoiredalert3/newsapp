@@ -55,8 +55,25 @@ controller.showPosts = async (req, res) => {
   res.locals.parentCategory = parentCategory;
   res.locals.childCategories = childCategories;
 
+  //Handle pagination
+  const page = isNaN(req.query.page)
+    ? 1
+    : Math.max(1, parseInt(req.query.page));
+  const limit = 8;
+  options.limit = limit;
+  options.offset = limit * (page - 1);
+
+  const { rows, count } = await models.Post.findAndCountAll(options);
+
+  res.locals.pagination = {
+    page: page,
+    limit: limit,
+    totalRows: count,
+    queryParams: req.query,
+  };
+
   const posts = await models.Post.findAll(options);
-  res.locals.posts = posts;
+  res.locals.posts = rows;
 
   // console.log(posts);
 

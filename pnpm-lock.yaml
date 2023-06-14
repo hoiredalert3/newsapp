@@ -25,21 +25,24 @@ dependencies:
   express-handlebars:
     specifier: ^7.0.7
     version: 7.0.7
+  express-handlebars-paginate:
+    specifier: ^1.0.3
+    version: 1.0.3
   express-session:
     specifier: ^1.17.3
     version: 1.17.3
   express-validator:
     specifier: ^7.0.1
     version: 7.0.1
+  jsonwebtoken:
+    specifier: ^9.0.0
+    version: 9.0.0
   multer:
     specifier: 1.4.5-lts.1
     version: 1.4.5-lts.1
   multer-storage-cloudinary:
     specifier: ^4.0.0
     version: 4.0.0(cloudinary@1.37.1)
-  jsonwebtoken:
-    specifier: ^9.0.0
-    version: 9.0.0
   node-mailjet:
     specifier: ^6.0.2
     version: 6.0.2
@@ -356,10 +359,12 @@ packages:
       balanced-match: 1.0.2
     dev: false
 
-  /buffer-from@1.1.2:
-    resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
   /buffer-equal-constant-time@1.0.1:
     resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
+    dev: false
+
+  /buffer-from@1.1.2:
+    resolution: {integrity: sha512-E+XQCRwSbaaiChtv6k6Dwgc+bx+Bs6vuKJHHl5kox/BaKbhiXzqQOwK4cO22yElGp2OCmjwVhT3HmxgyPGnJfQ==}
     dev: false
 
   /buffer-writer@2.0.0:
@@ -767,6 +772,10 @@ packages:
     dependencies:
       d: 1.0.1
       es5-ext: 0.10.62
+    dev: false
+
+  /express-handlebars-paginate@1.0.3:
+    resolution: {integrity: sha512-dj1d8ntEfneIU+gs//7s8KYpn7w6RQxovQ0ThSqO5ziqbhhlMaGex+vQgVHqCLYxWFXNrN2EEoMmQjJS07lBgg==}
     dev: false
 
   /express-handlebars@7.0.7:
@@ -1213,6 +1222,13 @@ packages:
       bignumber.js: 9.1.1
     dev: false
 
+  /jsonfile@4.0.0:
+    resolution: {integrity: sha512-m6F1R3z8jjlf2imQHS2Qez5sjKWQzbuuhuJ/FKYFRZvPE3PuHcSMVZzfsLhGVOkfd20obL5SWEBew5ShlquNxg==}
+    optionalDependencies:
+      graceful-fs: 4.2.11
+    dev: false
+    optional: true
+
   /jsonfile@6.1.0:
     resolution: {integrity: sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==}
     dependencies:
@@ -1221,14 +1237,6 @@ packages:
       graceful-fs: 4.2.11
     dev: false
 
-  /levn@0.3.0:
-    resolution: {integrity: sha512-0OO4y2iOHix2W6ujICbKIaEQXvFQHue65vUG3pb5EUomzPI90z9hsA1VsO/dbIIpC53J8gxM9Q4Oho0jrCM/yA==}
-    engines: {node: '>= 0.8.0'}
-    dependencies:
-      prelude-ls: 1.1.2
-      type-check: 0.3.2
-    dev: false
-    optional: true
   /jsonwebtoken@9.0.0:
     resolution: {integrity: sha512-tuGfYXxkQGDPnLJ7SibiQgVgeDgfbPq2k2ICcbgqW8WxWLBAxKQM/ZCu/IT8SOSwmaYl4dpTFCW5xZv7YbbWUw==}
     engines: {node: '>=12', npm: '>=6'}
@@ -1253,6 +1261,15 @@ packages:
       jwa: 1.4.1
       safe-buffer: 5.2.1
     dev: false
+
+  /levn@0.3.0:
+    resolution: {integrity: sha512-0OO4y2iOHix2W6ujICbKIaEQXvFQHue65vUG3pb5EUomzPI90z9hsA1VsO/dbIIpC53J8gxM9Q4Oho0jrCM/yA==}
+    engines: {node: '>= 0.8.0'}
+    dependencies:
+      prelude-ls: 1.1.2
+      type-check: 0.3.2
+    dev: false
+    optional: true
 
   /lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
@@ -1566,6 +1583,11 @@ packages:
     dev: false
     optional: true
 
+  /otp-generator@4.0.1:
+    resolution: {integrity: sha512-2TJ52vUftA0+J3eque4wwVtpaL4/NdIXDL0gFWFJFVUAZwAN7+9tltMhL7GCNYaHJtuONoier8Hayyj4HLbSag==}
+    engines: {node: '>=14.10.0'}
+    dev: false
+
   /pac-proxy-agent@5.0.0:
     resolution: {integrity: sha512-CcFG3ZtnxO8McDigozwE3AqAw15zDvGH+OjXO4kzf7IkEKkQ4gxQ+3sdF50WmhQ4P/bVusXcqNE2S3XrNURwzQ==}
     engines: {node: '>= 8'}
@@ -1593,10 +1615,6 @@ packages:
       netmask: 2.0.2
     dev: false
     optional: true
-  /otp-generator@4.0.1:
-    resolution: {integrity: sha512-2TJ52vUftA0+J3eque4wwVtpaL4/NdIXDL0gFWFJFVUAZwAN7+9tltMhL7GCNYaHJtuONoier8Hayyj4HLbSag==}
-    engines: {node: '>=14.10.0'}
-    dev: false
 
   /packet-reader@1.0.0:
     resolution: {integrity: sha512-HAKu/fG3HpHFO0AA8WE8q2g+gBJaZ9MG7fcKk+IJPLTGAD6Psw4443l+9DGRbOIh3/aXr7Phy0TjilYivJo5XQ==}
