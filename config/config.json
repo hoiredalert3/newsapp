@@ -1,5 +1,6 @@
 {
   "development": {
+    "use_env_variable": "POSTGRESQL_URL",
     "username": "postgres",
     "password": "postgres",
     "database": "newsDB",
