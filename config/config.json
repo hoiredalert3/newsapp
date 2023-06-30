@@ -7,7 +7,11 @@
     "host": "127.0.0.1",
     "dialect": "postgres",
     "dialectOptions": {
-      "useUTC": false
+      "useUTC": false,
+      "ssl": {
+        "require": true,
+        "rejectUnauthorized": false
+      }
     },
     "timezone": "+07:00",
     "logging": false
