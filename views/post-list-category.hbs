@@ -47,7 +47,7 @@
     <div class="row">
       <div class="col-md-8">
         <div class="posts-search form-outline">
-          <form class="d-flex" "/posts" method="GET">
+          <form class="d-flex" action="/posts" method="GET">
             <input class="form-control outline-primary" type="search" name="keyword" id="keywordInput"
               placeholder="Search" required>
             <button class="btn btn-outline-primary"><i class="fa fa-search"></i></button>
@@ -81,7 +81,7 @@
       </div>
       <div class="col-md-8 col my-3">
         <div class="post-meta-data d-flex justify-content-between">
-          <a href="/posts?category=1">Nông sản</a>
+          <a href="/posts?category={{CategoryId}}">{{CategoryTitle}}</a>
           <span>{{ convertToVietnameseDateTime publishedAt}}</span>
         </div>
         <a href="/posts/{{id}}">

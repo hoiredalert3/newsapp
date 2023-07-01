@@ -7,9 +7,9 @@
             <h1 id="company-name">
                 Tòa soạn Báo mới Việt Nam
             </h1>
-            <form action="#" method="get" id="seaching-form">
+            <form action="/posts" method="get" id="seaching-form">
                 <div>
-                    <input type="text" placeholder="Nhập từ khóa..." name="search-input" id="search-input" required>
+                    <input type="search" placeholder="Nhập từ khóa..." name="keyword" id="search-input" required>
                     <div id="recommended-keywords--container">
                         <a href="#" class="recommended-keyword">Chính trị hôm nay</a>
                         <a href="#" class="recommended-keyword">Số ca COVID tăng</a>
@@ -128,7 +128,8 @@
                             </a>
                         </div>
                         <div class="new__article____abstract-category_time big__article____abstract-category_time">
-                            <div href="#"> <a href="#">{{childCategory.title}}</a> <span style="opacity:0.5;">&#x25CF;</span><a href="#">{{parentCategory.title}}</a></div>
+                            <div href="#"> <a href="#">{{childCategory.title}}</a> <span
+                                    style="opacity:0.5;">&#x25CF;</span><a href="#">{{parentCategory.title}}</a></div>
                             <p>{{ convertToVietnameseDateTime publishedAt }}</p>
                         </div>
                     </div>
@@ -167,7 +168,8 @@
                         </div>
 
                         <div class="mini__article__bottom">
-                             <div href="#"> <a href="#">{{childCategory.title}}</a> <span style="opacity:0.5;">&#x25CF;</span><a href="#">{{parentCategory.title}}</a></div>
+                            <div href="#"> <a href="#">{{childCategory.title}}</a> <span
+                                    style="opacity:0.5;">&#x25CF;</span><a href="#">{{parentCategory.title}}</a></div>
                             <p class="">{{ convertToVietnameseDateTime publishedAt }}</p>
                         </div>
                     </div>
@@ -197,31 +199,31 @@
             <div class="row_flex" id="container-2">
                 <div class="category-container big-container">
                     {{#each leftCategoryPosts}}
-                        <div class="category__article__container big__article__container">
-                            <div class="category__article__abstract big__article__abstract">
-                                <div class="category__article__abstract big__article__abstract-title">
-                                    <a href="/posts/1"
-                                        class="category__article__abstract-title_link big__article__abstract-title_link">
-                                        {{Post.title}}
-                                    </a>
-                                </div>
-                                <div class="category__article__abstract-content big__article__abstract-content">
-                                    <a href="/posts/1"
-                                        class="category__article__abstract-content_link big__article__abstract-content_link">
-                                        {{Post.summary}}
-                                    </a>
-                                </div>
-                                <div
-                                    class="category__article____abstract-category_time big__article____abstract-category_time">
-                                    <a href="#">{{title}}</a>
-                                    <p>{{ convertToVietnameseDateTime Post.publishedAt }}</p>
-                                </div>
+                    <div class="category__article__container big__article__container">
+                        <div class="category__article__abstract big__article__abstract">
+                            <div class="category__article__abstract big__article__abstract-title">
+                                <a href="/posts/1"
+                                    class="category__article__abstract-title_link big__article__abstract-title_link">
+                                    {{Post.title}}
+                                </a>
                             </div>
-                            <a href="/posts/1" class="category__article__img big__article__img">
-                                <img src="{{Post.thumbnailUrl}}" alt="{{Post.title}}">
-                            </a>
+                            <div class="category__article__abstract-content big__article__abstract-content">
+                                <a href="/posts/1"
+                                    class="category__article__abstract-content_link big__article__abstract-content_link">
+                                    {{Post.summary}}
+                                </a>
+                            </div>
+                            <div
+                                class="category__article____abstract-category_time big__article____abstract-category_time">
+                                <a href="#">{{title}}</a>
+                                <p>{{ convertToVietnameseDateTime Post.publishedAt }}</p>
+                            </div>
                         </div>
-                        <div class="horizontial__line"></div>
+                        <a href="/posts/1" class="category__article__img big__article__img">
+                            <img src="{{Post.thumbnailUrl}}" alt="{{Post.title}}">
+                        </a>
+                    </div>
+                    <div class="horizontial__line"></div>
                     {{/each}}
                 </div>
 
@@ -237,7 +239,7 @@
                             <a href="/posts/1" class="medium__article-abstract-title">
                                 {{Post.title}}
                             </a>
-                            <a href="/posts/1" class = "medium__article-abstract-summary">
+                            <a href="/posts/1" class="medium__article-abstract-summary">
                                 {{Post.summary}}
                             </a>
                             <div class="medium__article-category_time">
