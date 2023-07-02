@@ -12,20 +12,20 @@
                 <h2 class="blog-post-title">
                     {{title}}
                 </h2>
-
+                <br>
                 <img src="{{thumbnailUrl}}" class="img-fluid m-2" alt="Post thumbnail" />
-
+                <br>
+                <br>
                 <div class="blog-post-meta d-flex align-items-center justify-content-between mb-3">
                     <a class="author" target="_blank" href="profile.html">
                         <i class="bi bi-person fs-2"></i>
                         <span> Author id: {{authorId}} </span>
                     </a>
-
+                    
                     <span class="">{{ convertToVietnameseDateTime publishedAt}}</span>
                 </div>
 
-                <h3>Post:content here</h3>
-
+                
                 <div id="post-content">
                     {{{ content }}}
                 </div>

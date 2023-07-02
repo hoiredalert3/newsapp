@@ -2,199 +2,528 @@
 const { contextsKey } = require("express-validator/src/base");
 const models = require("../models");
 const { create } = require("express-handlebars");
-const Op = require('sequelize').Op;
+const Op = require("sequelize").Op;
 const controller = {};
+const url = require("url");
+
+function age(birthdate) {
+  const today = new Date();
+  const age =
+    today.getFullYear() -
+    birthdate.getFullYear() -
+    (today.getMonth() < birthdate.getMonth() ||
+      (today.getMonth() === birthdate.getMonth() &&
+        today.getDate() < birthdate.getDate()));
+  return age;
+}
 
 controller.showProfile = async (req, res) => {
-    const user = req.user;
-    const typeId = user.dataValues.typeId;
-    if (typeId == 2) {
-        user.writer = true;
-    } else if (typeId == 3) {
-        user.editor = true;
-        // Lay chuyen muc quan ly
-        try {
-            const category = await models.Category.findOne({
-                where: { id: user.dataValues.categoryManagement },
-            });
-            console.log(category);
-            if (category != null) {
-                user.categoryName = category.dataValues.title;
-            }
-        } catch (error) {
-            console.log(error);
-        }
+  const user = req.user;
+  const typeId = user.dataValues.typeId;
+  if (typeId == 2) {
+    user.writer = true;
+  } else if (typeId == 3) {
+    user.editor = true;
+    // Lay chuyen muc quan ly
+    try {
+      const category = await models.Category.findOne({
+        where: { id: user.dataValues.managementCategory },
+      });
+
+      if (category) {
+        user.categoryName = category.dataValues.title;
+      }
+    } catch (error) {
+      console.log(error);
     }
+  }
 
-    if (user.writer) {
-        try {
-
-        } catch (error) {
-            console.log(error);
-        }
-    } else if (user.editor) {
-        try {
-            // Lấy những bài post thuộc chuyên mục mình quản lý mà chưa duyệt
-            const yetUnapprovedPosts = await models.Post.findAll({
-                attributes: ["id", "title", "summary", "thumbnailUrl", "publishedAt", "authorId", "statusId"],
-                include: [{
-                    model: models.Category,
-                    attributes: ["id", "title"],
-                    where: {
-                        parentId: null
-                    }
-                }
-                ],
-                where: {
-                    authorId: user.dataValues.id,
-                    statusId: 2
-                },
-                order: [["publishedAt", "DESC"]]
-            });
-            res.locals.yetUnapprovedPosts = yetUnapprovedPosts;
-
-            // const approvedPosts = await models.ApprovedPost.findAll({
-            //   attributes: ["id", "approvedAt", "approverId"],
-            //   include: [
-            //     {
-            //       model: models.Post,
-            //       attributes: ["id"]
-            //     }
-            // ],
-            //   where: {
-            //     approverId: user.dataValues.id
-            //   },
-            //   order: [["approvedAt", "DESC"]]
-            // });
-            // res.locals.approvedPosts = approvedPosts;
-
-        } catch (error) {
-            console.log(error);
-        }
+  if (user.writer) {
+    try {
+    } catch (error) {
+      console.log(error);
     }
+  } else if (user.editor) {
+    try {
+      // Lấy những bài post thuộc chuyên mục mình quản lý mà chưa duyệt
+      const cat_man = user.dataValues.managementCategory;
+      const cat1 = await models.Category.findOne({
+        attributes: ["id", "parentId"],
+        where: {
+          id: cat_man,
+        },
+      });
+      //
+      let yetUnapprovedPosts = null;
+      let deniedPosts = null;
+      let approvedPosts = null;
 
-    res.locals.user = user;
-    res.render("profile");
+      // Options cua
+      let options = {
+        attributes: [
+          "id",
+          "title",
+          "summary",
+          "thumbnailUrl",
+          "createdAt",
+          "updatedAt",
+          "authorId",
+          "statusId",
+        ],
+        where: { statusId: 2 },
+        include: [],
+        order: [["updatedAt", "DESC"]],
+      };
+
+      if (cat1.dataValues.parentId != null) {
+        options.include.push({
+          model: models.Category,
+          where: {
+            id: cat_man,
+          },
+        });
+      } else {
+        options.include.push({
+          model: models.Category,
+          where: {
+            parentId: cat_man,
+          },
+        });
+      }
+      options.include.push({
+        model: models.Tag,
+      });
+
+      options.where.statusId = 2;
+      yetUnapprovedPosts = await models.Post.findAll(options);
+      yetUnapprovedPosts.forEach((post) => {
+        post.tags = post.dataValues.Tags;
+      });
+      // Lấy các bài viết đã duyệt
+      options.where.statusId = 4;
+      approvedPosts = await models.Post.findAll(options);
+      approvedPosts.forEach((post) => {
+        post.tags = post.dataValues.Tags;
+      });
+
+      // Lấy các bài viết mình từ chối
+      options.where.statusId = 3;
+      deniedPosts = await models.Post.findAll(options);
+      deniedPosts.forEach((post) => {
+        post.tags = post.dataValues.Tags;
+      });
+
+      res.locals.yetUnapprovedPosts = yetUnapprovedPosts;
+      res.locals.approvedPosts = approvedPosts;
+      res.locals.deniedPosts = deniedPosts;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  res.locals.user = user;
+  res.locals.successMessage = req.query.successMessage;
+  res.locals.failedMessage = req.query.failedMessage;
+  res.locals.rejectPost = req.query.rejectPost;
+
+  return res.render("profile");
 };
 
 controller.updateInfomations = async (req, res) => {
-    const user = req.user;
-    const typeId = user.dataValues.typeId;
-}
-
-controller.showEditor = async (req, res, next) => {
-    res.locals.userId = req.user.id;
-
-    // get categories
-    let categories_raw = await models.Category.findAll({
-        attributes: ['id', 'parentId', 'title'],
-        where: {
-            removedAt: {
-                [Op.is]: null
-            }
+  const user = req.user;
+  const email = req.body.email;
+  const user_email = await models.User.findOne({
+    attributes: ["id", "email"],
+    where: { email },
+  });
+  const user_type = user.dataValues.typeId;
+  if (user_email) {
+    if (user_email.dataValues.id != user.dataValues.id) {
+      return res.redirect(
+        url.format({
+          pathname: "/users/profile",
+          query: {
+            failedMessage: "Email đã có người sử dụng!",
+          },
+        })
+      );
+    }
+  }
+  let pseudonym = null;
+  let password = req.body.password;
+  let dob = req.body.dob;
+  if (user_type == 2) {
+    pseudonym = req.body.pseudonym;
+  }
+  if (password == "") {
+    password = user.dataValues.password;
+  } else {
+    let bcrypt = require("bcrypt");
+    password = bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(8));
+  }
+  if (age(new Date(dob)) < 13) {
+    return res.redirect(
+      url.format({
+        pathname: "/users/profile",
+        query: {
+          failedMessage: "Người dùng phải trên 13 tuổi",
         },
-        raw: true
-    });
-    let categories = [];
-    categories_raw.forEach(category => {
-        if (category.parentId == null)
-            categories.push({
-                category: {
-                    id: category.id,
-                    title: category.title
-                },
-                sub_categories: []
-            })
-    })
-    categories_raw.forEach(category => {
-        if (category.parentId != null) {
-            let idx = categories.findIndex(({ category: { id } }) => id == category.parentId);
-            if (idx >= 0)
-                categories[idx].sub_categories.push({
-                    sub_id: category.id,
-                    sub_title: category.title
-                })
-        }
-    })
-    res.locals.editorCategories = categories;
+      })
+    );
+  }
 
-    res.render('editor', { layout: false });
+  await models.User.update(
+    {
+      name: req.body.fullname,
+      email,
+      dob,
+      pseudonym,
+      password,
+    },
+    { where: { id: user.dataValues.id } }
+  );
+
+  return res.redirect(
+    url.format({
+      pathname: "/users/profile",
+      query: {
+        successMessage: "Cập nhật thành công!",
+      },
+    })
+  );
+};
+
+async function getCategories() {
+  // get categories
+  let categories_raw = await models.Category.findAll({
+    attributes: ["id", "parentId", "title"],
+    where: {
+      removedAt: {
+        [Op.is]: null,
+      },
+    },
+    raw: true,
+  });
+  let categories = [];
+  categories_raw.forEach((category) => {
+    if (category.parentId == null)
+      categories.push({
+        category: {
+          id: category.id,
+          title: category.title,
+        },
+        sub_categories: [],
+      });
+  });
+  categories_raw.forEach(async (category) => {
+    if (category.parentId != null) {
+      let idx = await categories.findIndex(
+        ({ category: { id } }) => id == category.parentId
+      );
+      if (idx >= 0)
+        categories[idx].sub_categories.push({
+          sub_id: category.id,
+          sub_title: category.title,
+        });
+    }
+  });
+  return categories;
 }
+controller.showEditor = async (req, res, next) => {
+  res.locals.userId = req.user.id;
+  res.locals.editorCategories = await getCategories();
+  res.render("editor", { layout: false });
+};
 
 controller.handleUpload = (req, res, next) => {
-    // console.log('upload called');
-    // console.log(req.file);
+  // console.log('upload called');
+  // console.log(req.file);
 
-    if (req.file)
-        return res.json({ location: req.file.path });
+  if (req.file) return res.json({ location: req.file.path });
 
-    res.json({ location: 'https://nextdoorsec.com/wp-content/uploads/2022/12/Sorry-Something-Went-Wrong.png' })
-}
+  res.json({
+    location:
+      "https://nextdoorsec.com/wp-content/uploads/2022/12/Sorry-Something-Went-Wrong.png",
+  });
+};
 
 async function registerTag(tag) {
-    let [row, created] = await models.Tag.findOrCreate({
-        where: {
-            title: {
-                [Op.like]: tag
-            }
-        },
-        defaults: {
-            title: tag
-        }
-    })
+  let [row, created] = await models.Tag.findOrCreate({
+    where: {
+      title: {
+        [Op.like]: tag,
+      },
+    },
+    defaults: {
+      title: tag,
+    },
+  });
 
-    //console.log(`Register Tag returning: ${row.id}`);
-    return row.id;
+  //console.log(`Register Tag returning: ${row.id}`);
+  return row.id;
 }
 
 async function registerTags(tags) {
-    let promises = tags.map((tag) => registerTag(tag));
-    let result = await Promise.all(promises);
-    return result;
+  let promises = tags.map((tag) => registerTag(tag));
+  let result = await Promise.all(promises);
+  return result;
 }
 
 controller.handleSubmission = async (req, res, next) => {
-    const authorId = req.body.authorId;
-    if (req.user.id != authorId || req.user.typeId != 2)
-        return { ok: false, message: 'Unauthorized' };
+  const authorId = req.body.authorId;
+  if (req.user.id != authorId || req.user.typeId != 2)
+    return { ok: false, message: "Unauthorized" };
 
-    const tags = req.body.tags.map(value => value.trim().toUpperCase());
-    //console.log(`tags: ${tags}`);
+  const tags = req.body.tags.map((value) => value.trim().toUpperCase());
+  //console.log(`tags: ${tags}`);
 
-    // register tags
-    let tag_idxs = await registerTags(tags);
-    //console.log(`Registered tags ${tag_idxs}`)
+  // register tags
+  let tag_idxs = await registerTags(tags);
+  //console.log(`Registered tags ${tag_idxs}`)
 
-    // register post
-    let post = await models.Post.create({
-        authorId: authorId,
-        title: req.body.title,
-        summary: req.body.summary,
-        statusId: 2,
-        publishedAt: null,
-        removedAt: null,
-        thumbnailUrl: req.body.thumbnailUrl,
-        content: req.body.content,
-        isPremium: false
+  // register post
+  let post = await models.Post.create({
+    authorId: authorId,
+    title: req.body.title,
+    summary: req.body.summary,
+    statusId: 2,
+    publishedAt: null,
+    removedAt: null,
+    thumbnailUrl: req.body.thumbnailUrl,
+    content: req.body.content,
+    isPremium: false,
+  });
+  //console.log(`Registered post ${post}`)
+
+  // register post's tags
+  let tagInsertPromises = tag_idxs.map((tag) =>
+    models.PostTag.create({
+      postId: post.id,
+      tagId: tag,
     })
-    //console.log(`Registered post ${post}`)
+  );
 
-    // register post's tags
-    let tagInsertPromises = tag_idxs.map(tag => models.PostTag.create({
-        postId: post.id,
-        tagId: tag
-    }));
+  // register post's categories
+  let categories = req.body.categories;
+  let catInsertPromises = categories.map((cat) =>
+    models.PostCategory.create({
+      postId: post.id,
+      categoryId: cat,
+    })
+  );
 
-    // register post's categories
-    let categories = req.body.categories;
-    let catInsertPromises = categories.map(cat => models.PostCategory.create({
-        postId: post.id,
-        categoryId: cat
-    }));
+  await Promise.all(tagInsertPromises, catInsertPromises);
+  res.json({ completed: true });
+  //res.json(tags_idx);
+};
 
-    await Promise.all(tagInsertPromises, catInsertPromises);
-    res.json({ completed: true });
-    //res.json(tags_idx);
+controller.showReview = async (req, res) => {
+  const post = await models.Post.findOne({
+    include: [
+      {
+        model: models.Category,
+        attributes: ["id", "title"],
+        where: { parentId: { [Op.not]: null } },
+      },
+      {
+        model: models.Tag,
+        attributes: ["id", "title"],
+      },
+    ],
+    where: { id: req.query.id },
+  });
+  post.category = post.dataValues.Categories[0];
+  post.tags = post.dataValues.Tags;
+  return res.render("article-review", { post });
+};
+
+function getComment(cmt) {
+  return cmt.trim() == "" || cmt === null || cmt === undefined
+    ? "Ok."
+    : cmt.trim();
 }
+controller.denyPost = async (req, res) => {
+  await models.Post.update({ statusId: 3 }, { where: { id: req.body.postId } });
+  await models.ApprovedPost.destroy({ where: { postId: req.body.postId } });
 
+  const denPost = await models.RejectedPost.create({
+    postId: req.body.postId,
+    reviewerId: req.user.dataValues.id,
+    reviewedAt: new Date(),
+    categoryComment: getComment(req.body.categoryComment),
+    tagComment: getComment(req.body.tagComment),
+    titleComment: getComment(req.body.titleComment),
+    abstractComment: getComment(req.body.summaryComment),
+    contentComment: getComment(req.body.contentComment),
+  });
+
+  console.log(denPost);
+  return res.redirect(
+    url.format({
+      pathname: "/users/profile",
+      query: {
+        rejectPost: `Bạn đã từ chối bài viết ${req.body.postId}.`,
+      },
+    })
+  );
+};
+
+controller.acceptPost = async (req, res) => {
+  // Update post
+  await models.Post.update({ statusId: 4 }, { where: { id: req.body.postId } });
+
+  // Create approved post
+  let now = new Date();
+  let now1hour = new Date();
+  now1hour.setTime(now1hour.getTime() + 1 * 60 * 60 * 1000);
+  console.log(req.user.dataValues.id);
+  let [appPost, created] = await models.ApprovedPost.findOrCreate({
+    where: {
+      postId: req.body.postId,
+    },
+    defaults: {
+      approverId: req.user.dataValues.id,
+      approvedAt: now,
+      publishAt: now1hour, // 1 gio sau
+    },
+  });
+
+  // console.log(appPost);
+
+  return res.redirect(
+    url.format({
+      pathname: "/users/editor/review/publish",
+      query: {
+        id: req.query.id,
+        appPostId: appPost.dataValues.id,
+      },
+    })
+  );
+};
+
+controller.showPublish = async (req, res) => {
+  let appPost;
+  try {
+    appPost = await models.ApprovedPost.findOne({
+      where: { id: req.query.appPostId, postId: req.query.id },
+    });
+    console.log(appPost);
+    if (appPost) {
+
+      const post = await models.Post.findOne({
+        include: [
+          {
+            model: models.Category,
+            attributes: ["id", "title"],
+            where: { parentId: { [Op.not]: null } },
+          },
+          {
+            model: models.Tag,
+            attributes: ["id", "title"],
+          },
+        ],
+        where: { id: req.query.id },
+      });
+
+      res.locals.category = post.dataValues.Categories[0];
+      res.locals.tags = post.dataValues.Tags;
+
+      res.locals.id = req.query.id;
+      res.locals.appPostId = req.query.appPostId;
+      
+      return res.render("publish-article", { error: req.query.error });
+    } else {
+      return res.render("error", { message: "File not Found!" });
+    }
+  } catch (e) {
+    console.log(e);
+    return res.render("error", { message: "File not Found!" });
+  }
+};
+
+controller.publishPost = async (req, res) => {
+  let publishDate = new Date(req.body.publishDay + " " + req.body.publishTime);
+  let now = new Date();
+  if ((now - publishDate) / 1000 > 60) {
+    return res.redirect(
+      url.format({
+        pathname: "/users/editor/review/publish",
+        query: {
+          error: "Thời điểm xuất bản không hợp lệ",
+          id: req.body.id,
+          appPostId: req.body.appPostId,
+        },
+      })
+    );
+  }
+
+  await models.ApprovedPost.update(
+    { publishAt: publishDate },
+    { where: { id: req.body.appPostId } }
+  );
+
+  return res.redirect(
+    url.format({
+      pathname: "/",
+      query: {
+        publishMessage: "Xuất bản bài viết thành công",
+      },
+    })
+  );
+};
+
+controller.viewDeniedPost = async (req, res) => {
+  const post = await models.Post.findOne({
+    where: {
+      id: req.query.id,
+      statusId: 3,
+    },
+    include: [
+      {
+        model: models.RejectedPost,
+      },
+      {
+        model: models.Category,
+        where: {parentId: { [Op.not]: null } }
+      },
+      {
+        model: models.Tag
+      }
+    ],
+  });
+  console.log(post)
+  post.rejectedInfo = post.dataValues.RejectedPosts[0];
+  post.tags = post.dataValues.Tags;
+  post.category = post.dataValues.Categories[0];
+  res.locals.post = post;
+  return res.render("denied-post-editor");
+};
+
+controller.viewApprovedPost = async (req, res) => {
+  const post = await models.Post.findOne({
+    where: {
+      id: req.query.id,
+      statusId: 4,
+    },
+    include: [
+      {
+        model: models.ApprovedPost,
+      },
+      {
+        model: models.Category,
+        where: {parentId: { [Op.not]: null } }
+      },
+      {
+        model: models.Tag
+      }
+    ],
+  });
+  console.log(post)
+  post.approvedInfo = post.dataValues.ApprovedPost;
+  post.tags = post.dataValues.Tags;
+  post.category = post.dataValues.Categories[0];
+  res.locals.post = post;
+ 
+  return res.render("approved-post-editor");
+};
 module.exports = controller;

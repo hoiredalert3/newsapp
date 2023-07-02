@@ -12,7 +12,7 @@ controller.showPosts = async (req, res) => {
   let options = {
     where: {},
     include: [],
-    order: [],
+    order: [["createdAt", "DESC"]],
     raw: true,
   };
 

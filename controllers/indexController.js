@@ -15,9 +15,8 @@ async function getCategories(posts) {
         where: { id: childCategory.dataValues.parentId },
       });
     });
-  }
-  catch (error) {
-    console.log(error)
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -184,7 +183,10 @@ controller.showHomePage = async (req, res) => {
   } catch (error) {
     console.log(`Index controller error: ${error}`);
   }
-  res.render("index");
+
+  res.render("index", {
+    publishMessage: req.query.publishMessage,
+  });
 };
 
 controller.showPage = (req, res, next) => {

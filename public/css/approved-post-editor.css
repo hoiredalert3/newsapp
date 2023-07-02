@@ -19,7 +19,15 @@ main > form > *{
     font-size: 32px;
     font-weight:600;
 }
-
+.info{
+    display: flex;
+    flex-direction: column;
+}
+.info > *{
+    font-size: 25px;
+    font-weight:600;
+    margin-bottom: 15px;
+}
 .small-title{
     font-size: 25px;
     font-weight: 500;
@@ -122,6 +130,7 @@ main > form > *{
 
 .comment{
     resize: none;
+    display: flex;
     padding: 10px 15px;
     margin-top: 15px;
     border-radius: 5px;
@@ -131,7 +140,7 @@ main > form > *{
     margin-top: 15px;
     font-size: 18px;
     font-weight: 400;
-    display: none;
+    display: block;
 }
 
 .big-review--container{
@@ -181,7 +190,18 @@ main > form > *{
     cursor: pointer;
     border: none;
     color: white;
+    background-color: chocolate;
     border-radius: 10px;
+    opacity: 1;
+}
+
+.submit-btn:hover{
+    opacity: 0.8;
+}
+
+
+.submit-btn:active{
+    opacity: 0.6;
 }
 
 #denied-article-btn{
