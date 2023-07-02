@@ -26,7 +26,12 @@ const { createClient } = require("redis");
 const redisClient = createClient({
   url: process.env.REDIS_URL,
 });
-redisClient.connect().catch(console.error);
+redisClient
+  .connect()
+  .then(() => {
+    // other tasks
+  })
+  .catch(console.error);
 
 // Helpers
 const { upload, getTempLink } = require("./controllers/dropboxHelper");
