@@ -17,9 +17,9 @@ controller.showLogin = (req, res) => {
 
 controller.showDashboard = async (req, res) => {
   try {
-    const categoryCount = await models.User.count({});
-    const tagCount = await models.User.count({});
-    const postCount = await models.User.count({});
+    const categoryCount = await models.Category.count({});
+    const tagCount = await models.Tag.count({});
+    const postCount = await models.Post.count({});
     const userCount = await models.User.count({});
 
     console.log(res.locals);
@@ -29,6 +29,14 @@ controller.showDashboard = async (req, res) => {
   }
 
   return res.render("admin-dashboard");
+};
+
+controller.showCategories = async (req, res) => {
+  try {
+    return res.render("admin-categories");
+  } catch (error) {
+    console.error("Error in /admin/categories controller: ", error);
+  }
 };
 
 module.exports = controller;
