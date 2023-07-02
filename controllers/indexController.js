@@ -15,9 +15,8 @@ async function getCategories(posts) {
         where: { id: childCategory.dataValues.parentId },
       });
     });
-  }
-  catch (error) {
-    console.log(error)
+  } catch (error) {
+    console.log(error);
   }
 }
 
@@ -190,14 +189,13 @@ controller.showHomePage = async (req, res) => {
 controller.showPage = (req, res, next) => {
   const pages = [
     "post-list-category",
-    "admin-categories",
     "post-list-tag",
     "profile",
-    "admin",
-    "admin-categories",
-    "admin-posts",
-    "admin-tags",
-    "admin-users",
+    // "admin",
+    // "admin-categories",
+    // "admin-posts",
+    // "admin-tags",
+    // "admin-users",
     //"signin",
     // "signup",
     "writer-create",
