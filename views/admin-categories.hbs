@@ -24,11 +24,41 @@
           </div>
         </div>
 
+        <div class="col-lg-12 mt-4">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="posts-search form-outline">
+                <form class="d-flex" action="/admin/categories" method="GET">
+                  <input class="form-control outline-primary" type="search" name="keyword" id="keywordInput"
+                    placeholder="Search" required>
+                  <button class="btn btn-outline-primary"><i class="fa fa-search"></i></button>
+                </form>
+
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="btn-group">
+                <button type="button" class="btn btn-outline-info dropdown-toggle text-primary"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  Category level: {{categoryLevel}}
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="{{originalUrl}}&level=parent">Parent</a></li>
+                  <li><a class="dropdown-item" href="{{originalUrl}}&level=child">Child</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div class="row g-4 my-2">
           <div class="col">
+            {{#each categories }}
             <div class="card border-primary mb-3">
               <div class="card-body">
-                <span class="card-text fw-bold">Kinh doanh > Hải sản</span>
+                <span class="card-text fw-bold">{{#if parentCategory}}
+                  {{parentCategory.title}} >
+                  {{/if}} {{title}}</span>
 
                 <button class="bg-transparent remove-category text-danger float-end mx-2">
                   <i class="bi bi-trash-fill"></i>
@@ -42,22 +72,15 @@
                 <a href="#" class="text-primary float-end mx-2">Xem chi tiết</a>
               </div>
             </div>
+            {{/each}}
 
-            <div class="card border-primary mb-3">
-              <div class="card-body">
-                <span class="card-text fw-bold">Kinh doanh > Nông sản</span>
+          </div>
 
-                <button class="bg-transparent remove-category text-danger float-end mx-2">
-                  <i class="bi bi-trash-fill"></i>
-                  Xóa
-                </button>
-                <button class="bg-transparent text-info float-end mx-2">
-                  <i class="fa-solid fa-pen"></i>
-                  Sửa
-                </button>
-                <a href="#" class="text-primary float-end mx-2">Xem chi tiết</a>
-              </div>
-            </div>
+          <div class="col-lg-12">
+            <nav aria-label="Page navigation example" id="pagination">
+              {{{createPagination pagination paginationClass='pagination justify-content-center' leftText='Previous'
+              rightText='Next'}}}
+            </nav>
           </div>
         </div>
 
@@ -163,4 +186,11 @@
       }
     })
   );
+
+  document.querySelectorAll('#pagination li').forEach((li) => {
+    li.classList.add('page-item')
+  })
+  document.querySelectorAll('#pagination a').forEach((a) => {
+    a.classList.add('page-link')
+  })
 </script>

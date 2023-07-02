@@ -9,4 +9,6 @@ router.use(authController.isLoggedIn, authController.isAdmin);
 
 router.get("/dashboard", controller.showDashboard);
 
+router.get("/categories", controller.showCategories);
+
 module.exports = router;
