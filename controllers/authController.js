@@ -22,6 +22,21 @@ controller.isLoggedIn = (req, res, next) => {
   res.redirect(`/users/login?reqUrl=${req.originalUrl}`);
 };
 
+controller.isAdmin = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    //Id = 4, user is admin
+    if (req.user.dataValues.id === 4) {
+      return next();
+    }
+  }
+
+  console.log("In isAdmin");
+
+  res
+    .status(403)
+    .render("error", { message: "You must be an admin to access admin page!" });
+};
+
 controller.login = (req, res, next) => {
   let reqUrl = req.body.reqUrl ? req.body.reqUrl : "/";
   // console.log(keepSignedIn);
@@ -111,8 +126,7 @@ controller.forgotPassword1 = async (req, res) => {
       attributes: ["email"],
       where: { username },
     });
-    if(user)
-      email = user.dataValues.email;
+    if (user) email = user.dataValues.email;
   }
 
   if (user) {

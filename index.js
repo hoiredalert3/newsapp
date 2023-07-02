@@ -218,6 +218,7 @@ app.use("/", require("./routes/indexRouter"));
 app.use("/posts", require("./routes/postsRouter"));
 app.use("/users", require("./routes/authRouter"));
 app.use("/users", require("./routes/usersRouter"));
+app.use("/admin", require("./routes/adminRouter"));
 
 app.use((req, res, next) => {
   res.status(404).render("error", { message: "File not Found!" });
