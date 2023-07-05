@@ -319,7 +319,7 @@ main>div:first-child>div:last-child {
 }
 
 #container-1 {
-    height: 2900px;
+    height: 4000px;
 }
 
 .horizontial__line {
@@ -376,7 +376,13 @@ main>div:first-child>div:last-child {
 
 .big__article__container {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between;  
+    transition: box-shadow .3s;
+    padding: 7.5px 10px;
+    border-radius: 15px;
+}
+.big__article__container:hover{
+    box-shadow: 0 0 11px rgba(33,33,33,.2); 
 }
 
 .big__article__abstract {
@@ -392,6 +398,7 @@ main>div:first-child>div:last-child {
     width: 100%;
     height: auto;
     object-fit: cover;
+    border-radius: 15px;
 }
 
 .big__article__abstract-title {
@@ -436,9 +443,15 @@ main>div:first-child>div:last-child {
 }
 
 .mini__article__container {
+    transition: box-shadow .3s;
     display: flex;
-
+    padding: 5px 10px;
+    border-radius: 5px;   
 }
+
+.mini__article__container:hover {
+    box-shadow: 0 0 11px rgba(33,33,33,.2); 
+  }
 
 .mini__article__abstract {
     flex: .6;
@@ -547,6 +560,13 @@ main>div:first-child>div:last-child {
     height: 250px;
     display: flex;
     flex-direction: column;
+    transition: box-shadow .3s;
+    padding: 5px 7.5px;
+    border-radius: 5px;
+}
+
+.medium__article-container:hover{
+    box-shadow: 0 0 11px rgba(33,33,33,.2); 
 }
 
 .medium__article-container img {
@@ -554,14 +574,18 @@ main>div:first-child>div:last-child {
     max-height: 150px;
     object-fit: cover;
     object-position: top;
+    border-radius: 5px;
 }
 
 .medium__article-container a {
     cursor: pointer;
     line-height: normal;
 }
-
+.medium__article-abstract{
+    margin-top: 5px;
+}
 .medium__article-abstract-title {
+    
     font-size: 16px;
     font-weight: 500;
     display: -webkit-box;
@@ -693,6 +717,7 @@ main>div:first-child>div:last-child {
   
 .alert.success {background-color: #04AA6D;}
 
+
 @keyframes category-time-mini-article-display {
     from {
         height: 0;
@@ -739,7 +764,7 @@ main>div:first-child>div:last-child {
     }
 
     #container-1 {
-        height: 3700px;
+        height: 3800px;
     }
 
     #container-2 {
@@ -758,7 +783,7 @@ main>div:first-child>div:last-child {
     }
 
     #container-1 {
-        height: 3200px;
+        height: 3300px;
     }
 
 }

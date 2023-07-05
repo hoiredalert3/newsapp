@@ -193,6 +193,20 @@ controller.updateInfomations = async (req, res) => {
   );
 };
 
+controller.buyPremium = async (req, res) =>{
+  const premium_detail = await models.PremiumDetails.create({
+    userId: req.user.dataValues.id,
+    grantedSince: new Date(),
+    status: true
+  });
+  console.log(`Buy premium successfully ${premium_detail}`);
+  return res.redirect(url.format({
+    pathname: "/users/profile",
+    query: {
+      successMessage: "Bạn đã mua Premium thành công",
+    },
+  }))
+}
 async function getCategories() {
   // get categories
   let categories_raw = await models.Category.findAll({
@@ -526,4 +540,6 @@ controller.viewApprovedPost = async (req, res) => {
  
   return res.render("approved-post-editor");
 };
+
+
 module.exports = controller;

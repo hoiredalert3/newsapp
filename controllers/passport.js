@@ -49,8 +49,8 @@ passport.use(
       passReqToCallback: true, // truyen req vao callback de kiem tra user da dang nhap
     },
     async (req, account, password, done) => {
-      console.log(account);
-      console.log(password);
+      // console.log(account);
+      // console.log(password);
       let isEmail = false;
       if (validateEmail(account)) {
         account = account.toLowerCase();
@@ -105,6 +105,16 @@ passport.use(
     }
   )
 );
+function age(birthdate) {
+  const today = new Date();
+  const age =
+    today.getFullYear() -
+    birthdate.getFullYear() -
+    (today.getMonth() < birthdate.getMonth() ||
+      (today.getMonth() === birthdate.getMonth() &&
+        today.getDate() < birthdate.getDate()));
+  return age;
+}
 
 // Dang ki tai khoan
 passport.use(
@@ -140,6 +150,14 @@ passport.use(
             null,
             false,
             req.flash("registerMessage", "Email đã bị sử dụng")
+          );
+        }
+
+        if(age(new Date(req.body.dob)) < 13){
+          return done(
+            null,
+            false,
+            req.flash("registerMessage", "Người dùng phải trên 13 tuổi!")
           );
         }
 

@@ -11,6 +11,8 @@ router.use(authController.isLoggedIn);
 
 router.get("/profile", controller.showProfile);
 router.post("/profile", controller.updateInfomations);
+router.post("/premium", controller.buyPremium);
+
 router.get("/editor/review", controller.showReview);
 // Deny post
 router.post("/editor/review/deny", controller.denyPost);
