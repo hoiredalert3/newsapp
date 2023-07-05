@@ -91,7 +91,7 @@ controller.showCategories = async (req, res) => {
       });
     }
 
-    res.locals.categories = rows;
+    res.locals.manageCategories = rows;
 
     // console.log(rows);
 
