@@ -2,6 +2,7 @@
 
 const models = require("../models");
 const Op = require("sequelize").Op;
+const url = require("url");
 
 // Declare controller
 const controller = {};
@@ -13,7 +14,7 @@ controller.showPosts = async (req, res) => {
   let options = {
     where: {},
     include: [],
-    order: [["createdAt", "DESC"]],
+    order: [["publishedAt", "DESC"]],
     raw: true,
   };
 
@@ -46,10 +47,10 @@ controller.showPosts = async (req, res) => {
         child.id == category.id ? (child.active = true) : false;
       });
     }
-    console.log("Parent category:");
-    console.log(parentCategory);
-    console.log("Child categories:");
-    console.log(childCategories);
+    // console.log("Parent category:");
+    // console.log(parentCategory);
+    // console.log("Child categories:");
+    // console.log(childCategories);
 
     options.include.push({ model: models.Category, where: { id: categoryId } });
   }
@@ -62,15 +63,18 @@ controller.showPosts = async (req, res) => {
     : "newest";
   switch (sort) {
     case "newest":
-      options.order.push(["createdAt", "DESC"]);
+      options.order.push(["publishedAt", "DESC"]);
       break;
     case "popular":
-      options.order.push(["createdAt", "DESC"]);
+      options.order.push(["publishedAt", "DESC"]);
       break;
     default:
-      options.order.push(["createdAt", "DESC"]);
+      options.order.push(["publishedAt", "DESC"]);
       break;
   }
+
+  options.order.push(["isPremium", "DESC"]);
+
   res.locals.originalUrl = removeParam("sort", req.originalUrl);
   if (Object.keys(req.query).length == 0) {
     res.locals.originalUrl += "?";
@@ -112,16 +116,18 @@ controller.showPosts = async (req, res) => {
     queryParams: req.query,
   };
 
-  const posts = await models.Post.findAll(options);
+  // const posts = await models.Post.findAll(options);
   res.locals.posts = rows;
 
   // console.log(rows);
 
-  res.render("post-list-category");
+  res.render("post-list-category", {
+    premiumMessage: req.query.premiumMessage,
+  });
 };
 
 // Show post
-controller.showPost = async (req, res) => {
+controller.showPost = async (req, res, next) => {
   const id = isNaN(req.params.id) ? 0 : parseInt(req.params.id);
 
   console.log(`Post id: ${id}`);
@@ -131,6 +137,40 @@ controller.showPost = async (req, res) => {
     include: [],
   });
   if (post) {
+    if (post.dataValues.isPremium) {
+      const { checkLoggedIn } = require("../controllers/authController");
+      // Kiem tra dang nhap hay chua
+      if (checkLoggedIn(req, res)) {
+        // Kiem tra premium
+        const userId = req.user.dataValues.id;
+        const premium = await models.PremiumDetails.findOne({
+          where: { userId, status: true },
+        });
+        if (!premium) {
+          const category = await models.Category.findOne({
+            include: [
+              {
+                model: models.Post,
+                where: { id },
+              },
+            ],
+            where: {
+              parentId: { [Op.not]: null },
+            },
+          });
+          return res.redirect(
+            url.format({
+              pathname: "/posts",
+              query: {
+                category: category.dataValues.id,
+                premiumMessage: "Bạn cần mua Premium để đọc bài báo này!",
+              },
+            })
+          );
+        }
+      }
+    }
+
     console.log(post.dataValues);
     res.locals.post = post;
 

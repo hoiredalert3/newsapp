@@ -204,24 +204,24 @@
                     <div class="category__article__container big__article__container">
                         <div class="category__article__abstract big__article__abstract">
                             <div class="category__article__abstract big__article__abstract-title">
-                                <a href="/posts/1"
+                                <a href="/posts/{{Post.id}}"
                                     class="category__article__abstract-title_link big__article__abstract-title_link">
                                     {{Post.title}}
                                 </a>
                             </div>
                             <div class="category__article__abstract-content big__article__abstract-content">
-                                <a href="/posts/1"
+                                <a href="/posts/{{Post.id}}"
                                     class="category__article__abstract-content_link big__article__abstract-content_link">
                                     {{Post.summary}}
                                 </a>
                             </div>
                             <div
                                 class="category__article____abstract-category_time big__article____abstract-category_time">
-                                <a href="#">{{title}}</a>
+                                <a href="/posts?category={{id}}">{{title}}</a>
                                 <p>{{ convertToVietnameseDateTime Post.publishedAt }}</p>
                             </div>
                         </div>
-                        <a href="/posts/1" class="category__article__img big__article__img">
+                        <a href="/posts/{{Post.id}}" class="category__article__img big__article__img">
                             <img src="{{Post.thumbnailUrl}}" alt="{{Post.title}}">
                         </a>
                     </div>

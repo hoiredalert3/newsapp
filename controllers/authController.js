@@ -22,11 +22,36 @@ controller.isLoggedIn = (req, res, next) => {
   }
   res.redirect(`/users/login?reqUrl=${req.originalUrl}`);
 };
+controller.checkLoggedIn = (req, res) => {
+  if (req.isAuthenticated()) {
+    return true;
+  }
+  res.redirect(`/users/login?reqUrl=${req.originalUrl}`);
+}
+// controller.isPremium = async (req, res, next) => {
+//   if (req.isAuthenticated()) {
+//     //Id = 4, user is admin
+//     if (req.user.dataValues.typeId === 1) {
+//       const premium = await models.PremiumDetails.findOne({
+//         where: {userId: req.user.dataValues.id, status: true};
+//       })
+//       if(premium){
+//         return next();
+//       }
+//     }
+//     else{
+
+//     }
+//   }
+//   res
+//   .status(403)
+//   .render("error", { message: "Bạn cần mua Premium để thực hiện thao tác này" });
+// }
 
 controller.isAdmin = (req, res, next) => {
   if (req.isAuthenticated()) {
     //Id = 4, user is admin
-    if (req.user.dataValues.id === 4) {
+    if (req.user.dataValues.typeId === 4) {
       return next();
     }
   }

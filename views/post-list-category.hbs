@@ -9,28 +9,9 @@
   integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
 
 
-<link rel="stylesheet" href="css/general.css" />
-<style>
-  .post{
-    transition: box-shadow .3s;
-    border-radius: 10px;
-  }
-  .post:hover{
-    box-shadow: 0 0 11px rgba(33,33,33,.2); 
-  }
-  .post img{
-    border-radius: 10px;
-  }
-  .title{
-    font-size: 20px;
-    font-weight: 500;
-    margin-top: 10px;
-  }
-  .abstract{
-    font-size: 18px;
-    font-weight: 500;
-  }
-</style>
+<link rel="stylesheet" href="/css/general.css" />
+<link rel="stylesheet" href="/css/post-list.css" />
+
 <main class="container my-5">
   <div class="row g-5">
     <div class="col-md-12 col">
@@ -99,7 +80,7 @@
           <img src="{{thumbnailUrl}}" class="img-fluid mt-3" alt="Post thumbnail" />
         </a>
       </div>
-      <div class="col-md-8 col my-3">
+      <div class="col-md-8 col my-3 d-flex flex-column">
         <div class="post-meta-data d-flex justify-content-between">
           <a href="/posts?category={{CategoryId}}">{{CategoryTitle}}</a>
           <span>{{ convertToVietnameseDateTime publishedAt}}</span>
@@ -112,7 +93,11 @@
           {{summary}}
         </p>
         </a>
-       
+        {{#if isPremium}}
+        <div class = "subscriber">
+          <img src="/img/icons/subscriber.png" alt="" class = "icon-subscriber">
+        </div>
+        {{/if}}
       </div>
     </div>
     {{/each}}
@@ -146,8 +131,27 @@
     </nav>
 
   </div>
+
+    {{#if premiumMessage}}
+  <div class="alert warning">
+    <span class="closebtn">&times;</span>
+    {{{premiumMessage}}}
+  </div>
+  {{/if}}
 </main>
 <hr />
+
+<script>
+  var close = document.getElementsByClassName("closebtn"); var i; for (i = 0; i
+    < close.length; i++) {
+    close[i].onclick = function () {
+      var div =
+        this.parentElement; div.style.opacity = "0"; setTimeout(function () {
+          div.style.display = "none";
+        }, 600);
+    }
+  }
+</script>
 
 <script>
   document.querySelectorAll('#pagination li').forEach((li) => {
