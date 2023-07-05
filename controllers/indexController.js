@@ -145,7 +145,8 @@ controller.showHomePage = async (req, res) => {
     });
     categoryPosts.forEach((item) => {
       if (item.dataValues.Posts.length > 0) {
-        item.Post = item.dataValues.Posts[0];
+        item.Post = item.dataValues.Posts[item.dataValues.Posts.length - 1];
+        console.log(item.Post.dataValues.publishedAt);
       }
     });
     // console.log(categoryPosts);

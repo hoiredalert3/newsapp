@@ -3,6 +3,7 @@
 const controller = {};
 const passport = require("./passport");
 const models = require("../models");
+const url = require("url");
 
 controller.showLogin = (req, res) => {
   console.log(req.isAuthenticated());
@@ -111,8 +112,7 @@ controller.forgotPassword1 = async (req, res) => {
       attributes: ["email"],
       where: { username },
     });
-    if(user)
-      email = user.dataValues.email;
+    if (user) email = user.dataValues.email;
   }
 
   if (user) {
@@ -125,11 +125,6 @@ controller.forgotPassword1 = async (req, res) => {
     const signedOTP = sign(otp);
     const encryptedOTP = bcrypt.hashSync(otp, bcrypt.genSaltSync(8));
     const otpLink = `/users/otp?email=${email}`;
-
-    // Print
-    // console.log(signOTP);
-    // console.log(otpLink);
-
     // Gui mail
     const { sendForgotPasswordMail } = require("../services/mailjet");
     sendForgotPasswordMail(user, otp)
@@ -181,25 +176,37 @@ controller.showOTPVerify = async (req, res) => {
       where: { email },
       order: [["createdAt", "DESC"]],
     });
+    if (!OTP) {
+      return res.render("forgot-password-0", {
+        message:
+          "Liên kết này đã hết hạn hoặc không tồn tại! \nHãy thử lại lần khác",
+      });
+    }
     console.log(OTP);
     const hiddenEmail = email.replace(
       email.substring(0, Math.min(email.indexOf("@"), 5)),
       "***"
     );
+
     let signedOTP = OTP.dataValues.signedOTP;
-    console.log(signedOTP);
-    console.log(hiddenEmail);
     let { verify } = require("../services/jwt");
-    if (!OTP || !signedOTP || !verify(signedOTP)) {
+    if (!signedOTP || !verify(signedOTP)) {
       return res.render("forgot-password-0", {
         message:
           "Liên kết này đã hết hạn hoặc không tồn tại! \nHãy thử lại lần khác",
       });
     } else {
-      return res.render("forgot-password-1", {
-        sendEmail: `Chúng tôi đã gửi một mã gồm 6 chữ cái đến ${hiddenEmail} của bạn.`,
-        email,
-      });
+      if (req.query.message) {
+        return res.render("forgot-password-1", {
+          message: req.query.message,
+          email
+        });
+      } else {
+        return res.render("forgot-password-1", {
+          sendEmail: `Chúng tôi đã gửi một mã gồm 6 chữ cái đến ${hiddenEmail} của bạn.`,
+          email,
+        });
+      }
     }
   } catch (error) {
     console.log(error);
@@ -218,32 +225,55 @@ controller.OTPVerify = async (req, res) => {
     req.body.otp4 +
     req.body.otp5 +
     req.body.otp6;
-  const email = req.body.email;
+  let email = req.body.email;
   try {
+    console.log(email);
     let OTP = await models.OTP.findOne({
       attributes: ["email", "signedOTP", "encryptedOTP", "createdAt"],
       where: { email },
       order: [["createdAt", "DESC"]],
     });
-    console.log(OTP);
-    console.log(`OTP: ${otp}, email: ${email}`);
-
+    console.log(OTP)
+    if (!OTP) {
+      console.log(0)
+      return res.redirect(
+        url.format({
+          pathname: "/users/forgot",
+          query: {
+            message: "Liên kết này đã hết hạn hoặc không tồn tại! \nHãy thử lại lần khác",
+          },
+        })
+      );
+    }
     const bcrypt = require("bcrypt");
     let { verify } = require("../services/jwt");
 
     let signedOTP = OTP.dataValues.signedOTP;
     let encryptedOTP = OTP.dataValues.encryptedOTP;
-    if (!OTP || !signedOTP || !verify(signedOTP)) {
-      return res.render("forgot-password-0", {
-        message:
-          "Liên kết này đã hết hạn hoặc không tồn tại! \nHãy thử lại lần khác",
-      });
+    if (!signedOTP || !verify(signedOTP)) {
+      console.log(1);
+      return res.redirect(
+        url.format({
+          pathname: "/users/forgot",
+          query: {
+            message: "Liên kết này đã hết hạn hoặc không tồn tại! \nHãy thử lại lần khác",
+          },
+        })
+      );
     } else {
       if (!bcrypt.compareSync(otp, encryptedOTP)) {
-        return res.render("forgot-password-1", {
-          message: "Mã OTP của bạn không đúng!",
-        });
+        console.log(2);
+        return res.redirect(
+          url.format({
+            pathname: "/users/otp",
+            query: {
+              email,
+              message: "Mã OTP của bạn không đúng!",
+            },
+          })
+        );
       } else {
+        console.log(3);
         const link = `/users/reset/?email=${email}`;
         return res.redirect(link);
       }

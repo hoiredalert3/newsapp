@@ -65,7 +65,7 @@ router.get("/logout", controller.logout);
 
 // Forgot password
 router.get("/forgot", (req, res) => {
-  res.render("forgot-password-0");
+  res.render("forgot-password-0", {message: req.query.message});
 });
 router.get("/otp", controller.showOTPVerify);
 router.get("/reset", controller.showResetPassword);

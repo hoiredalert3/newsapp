@@ -92,21 +92,21 @@ app.use(
 
 // middleware
 const models = require("./models");
+// const { where } = require("sequelize");
+// const { setInterval } = require("timers/promises");
 
-const minute = 60 * 1000;
-setInterval(updatePremium, minute);
 
 async function updatePremium() {
   try {
     const premiums = await models.PremiumDetails.findAll({
-      attributes: ["id", "userId","grantedSince", "status"],
+      attributes: ["id", "userId", "grantedSince", "status"],
       where: {
         status: true,
       },
     });
-    console.log(`Has found ${premiums.length} users premium.`);
+    console.log(`${premiums.length} users premium.`);
     premiums.forEach(async (premium) => {
-      console.log(`UserID: ${premium.dataValues.userId}`)
+      console.log(`UserID: ${premium.dataValues.userId}`);
       const grantdSince = new Date(premium.dataValues.grantedSince);
       const currentDate = new Date();
       const expiredDate = new Date(
@@ -115,21 +115,53 @@ async function updatePremium() {
         grantdSince.getDate() + 7
       );
 
-      if (expiredDate <= currentDate){
-      console.log(`UserID: ${premium.dataValues.userId}: expired.`);
+      if (expiredDate <= currentDate) {
+        console.log(`UserID: ${premium.dataValues.userId}: expired.`);
         await models.PremiumDetails.update(
           { statusId: false },
           { where: { id: premium.dataValues.id } }
         );
-      }
-      else{
-      console.log(`UserID: ${premium.dataValues.userId}: due.`);
+      } else {
+        console.log(`UserID: ${premium.dataValues.userId}: due.`);
       }
     });
   } catch (error) {
     console.log(error);
   }
 }
+
+async function publishPost() {
+  try {
+    console.log("Check if is there any post to publish...");
+    const approvedPosts = await models.ApprovedPost.findAll({
+      attributes: ["id", "postId", "publishAt"],
+    });
+    approvedPosts.forEach(async (post) => {
+      if (new Date(post.dataValues.publishAt) < new Date()) {
+        console.log(
+          `Publish post ${post.dataValues.postId} with publish time: ${post.dataValues.publishAt}`
+        );
+        await models.Post.update(
+          {
+            statusId: 5,
+            publishedAt: new Date(post.dataValues.publishAt),
+          },
+          {
+            where: {
+              id: post.dataValues.postId,
+            },
+          }
+        );
+      }
+    });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+const minute = 60 * 1000;
+setInterval(updatePremium, minute);
+setInterval(publishPost, 1000); // 1s
 
 app.use(async (req, res, next) => {
   // Load categories cho header

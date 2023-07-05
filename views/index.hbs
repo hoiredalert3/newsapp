@@ -128,8 +128,10 @@
                             </a>
                         </div>
                         <div class="new__article____abstract-category_time big__article____abstract-category_time">
-                            <div> <a href="/posts?category={{childCategory.id}}">{{childCategory.title}}</a> <span
-                                    style="opacity:0.5;">&#x25CF;</span><a href="/posts?category={{parentCategory.id}}">{{parentCategory.title}}</a></div>
+                            <div> <a href="/posts?category={{parentCategory.id}}">{{parentCategory.title}}</a><span
+                                    style="opacity:0.5;">&#x25CF;</span>
+                                <a href="/posts?category={{childCategory.id}}">{{childCategory.title}}</a>
+                            </div>
                             <p>{{ convertToVietnameseDateTime publishedAt }}</p>
                         </div>
                     </div>
@@ -168,7 +170,8 @@
 
                         <div class="mini__article__bottom">
                             <div> <a href="/posts?category={{childCategory.id}}">{{childCategory.title}}</a> <span
-                                    style="opacity:0.5;">&#x25CF;</span><a href="/posts?category={{parentCategory.id}}">{{parentCategory.title}}</a></div>
+                                    style="opacity:0.5;">&#x25CF;</span><a
+                                    href="/posts?category={{parentCategory.id}}">{{parentCategory.title}}</a></div>
                             <p class="">{{ convertToVietnameseDateTime publishedAt }}</p>
                         </div>
                     </div>
