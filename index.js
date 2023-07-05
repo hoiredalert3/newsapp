@@ -99,12 +99,14 @@ setInterval(updatePremium, minute);
 async function updatePremium() {
   try {
     const premiums = await models.PremiumDetails.findAll({
-      attributes: ["id", "grantedSince", "status"],
+      attributes: ["id", "userId","grantedSince", "status"],
       where: {
         status: true,
       },
     });
+    console.log(`Has found ${premiums.length} users premium.`);
     premiums.forEach(async (premium) => {
+      console.log(`UserID: ${premium.dataValues.userId}`)
       const grantdSince = new Date(premium.dataValues.grantedSince);
       const currentDate = new Date();
       const expiredDate = new Date(
@@ -113,11 +115,16 @@ async function updatePremium() {
         grantdSince.getDate() + 7
       );
 
-      if (expiredDate <= currentDate)
+      if (expiredDate <= currentDate){
+      console.log(`UserID: ${premium.dataValues.userId}: expired.`);
         await models.PremiumDetails.update(
           { statusId: false },
           { where: { id: premium.dataValues.id } }
         );
+      }
+      else{
+      console.log(`UserID: ${premium.dataValues.userId}: due.`);
+      }
     });
   } catch (error) {
     console.log(error);

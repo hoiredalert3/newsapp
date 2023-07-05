@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       postId: DataTypes.INTEGER,
       reviewerId: DataTypes.INTEGER,
       reviewedAt: DataTypes.DATE,
-      categeoryComment: DataTypes.TEXT,
+      categoryComment: DataTypes.TEXT,
       tagComment: DataTypes.TEXT,
       titleComment: DataTypes.TEXT,
       abstractComment: DataTypes.TEXT,

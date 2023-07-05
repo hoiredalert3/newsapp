@@ -10,7 +10,27 @@
 
 
 <link rel="stylesheet" href="css/general.css" />
-
+<style>
+  .post{
+    transition: box-shadow .3s;
+    border-radius: 10px;
+  }
+  .post:hover{
+    box-shadow: 0 0 11px rgba(33,33,33,.2); 
+  }
+  .post img{
+    border-radius: 10px;
+  }
+  .title{
+    font-size: 20px;
+    font-weight: 500;
+    margin-top: 10px;
+  }
+  .abstract{
+    font-size: 18px;
+    font-weight: 500;
+  }
+</style>
 <main class="container my-5">
   <div class="row g-5">
     <div class="col-md-12 col">
@@ -73,7 +93,7 @@
 
   <div class="post-list row my-3">
     {{#each posts }}
-    <div class="row row-cols-1">
+    <div class="row row-cols-1 post">
       <div class="col-md-4 col mb-3">
         <a href="/posts/{{id}}">
           <img src="{{thumbnailUrl}}" class="img-fluid mt-3" alt="Post thumbnail" />
@@ -85,11 +105,14 @@
           <span>{{ convertToVietnameseDateTime publishedAt}}</span>
         </div>
         <a href="/posts/{{id}}">
-          <h6 class="fw-bold">{{title}}</h6>
+          <p class="fw-bold title">{{title}}</p>
         </a>
-        <p class="text-secondary">
+        <a href="/posts/{{id}}">
+         <p class="text-secondary abstract">
           {{summary}}
         </p>
+        </a>
+       
       </div>
     </div>
     {{/each}}

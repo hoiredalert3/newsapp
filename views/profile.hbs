@@ -1,548 +1,644 @@
-<!-- CSS -->
-<link rel="stylesheet" href="/css/profile.css">
-
+<link rel="stylesheet" href="/css/profile.css" />
+<link rel="stylesheet" href="/css/general.css" />
 <div id="container-0">
-    <div id="subscribe-container">
-        <div>
-            <img src="/img/icons/exit.png" alt="" id="exit--subscribe-container" onclick="exitSubscribe()">
-            <img src="/img/icons/subscriber.png" alt="" id="subscribe-icon">
-            <h3>
-                Đăng ký Premium
-            </h3>
-            <p>
-                Khi đăng ký Premium, quý đọc giả sẽ có những quyền lợi sau (7 ngày):
-            </p>
-            <ul>
-                <li>
-                    Được phép xem & download ấn bản (.pdf) một số bài viết premium.
-                </li>
-                <li>
-                    Các bài viết premium được ưu tiên hiển thị trước trong kết quả khi xem danh sách hoặc tìm kiếm
-                    bài viết.
-                </li>
-            </ul>
-            <button id="buy-premium--btn" onclick="buyPremium()">
-                Mua ngay
-            </button>
-        </div>
+  <div id="subscribe-container">
+    <div>
+      <img src="/img/icons/exit.png" alt="" id="exit--subscribe-container" onclick="exitSubscribe()" />
+      <img src="/img/icons/subscriber.png" alt="" id="subscribe-icon" />
+      <h3>
+        Đăng ký Premium
+      </h3>
+      <p>
+        Khi đăng ký Premium, quý đọc giả sẽ có những quyền lợi sau (7 ngày):
+      </p>
+      <ul>
+        <li>
+          Được phép xem & download ấn bản (.pdf) một số bài viết premium.
+        </li>
+        <li>
+          Các bài viết premium được ưu tiên hiển thị trước trong kết quả khi xem
+          danh sách hoặc tìm kiếm bài viết.
+        </li>
+      </ul>
+      <form action="/users/premium" method="post">
+        <button id="buy-premium--btn" onclick="buyPremium()">
+          Mua ngay
+        </button>
+      </form>
+
     </div>
+  </div>
 </div>
 
 <main>
-    <div class="container-1">
-        <div>
-            <form action="#" method="get">
-                <label for="profile-pic">
-                    <img src="/img/icons/user.png" alt="" class="img-avatar img-avatar--profile">
-                </label>
-                <input id="profile-pic" type="file" name="profile-pic" accept="image/*" style="display:none;"
-                    onchange="uploadImgUser()">
-            </form>
-            <button id="logout-btn" onclick="">
-                Đăng xuất <span></span>
-            </button>
-        </div>
-
-        <div>
-            {{#with user}}
-            <div class="username--profile username">
-                {{username}}
-            </div>
-            {{/with}}
-            <div id="roles">
-                {{#if writer}}
-                Phóng viên
-                {{else}}
-                {{#if editor}}
-                Biên tập viên
-                {{else}}
-                {{#if admin}}
-                Quản trị viên
-                {{else}}
-                Người đọc
-                {{/if}}
-                {{/if}}
-                {{/if}}
-            </div>
-
-            {{#if unpremium}}
-            <button id="subscribe-btn" onclick="displaySubscribe()">
-                Đăng ký
-            </button>
-            {{/if}}
-
-            {{#with premium}}
-            <div id="premium-display">
-                <div>
-                    <img src="/img/icons/subscriber.png" alt="">
-                    <p>
-                        Premium
-                    </p>
-                </div>
-                <div>
-                    HSD <span class="premium-exp">{{rest}}</span> ngày
-                </div>
-            </div>
-            {{/with}}
-        </div>
+  <div class="container-1">
+    <div>
+      <form action="#" method="get">
+        <label for="profile-pic">
+          <img src="/img/icons/user.png" alt="" class="img-avatar img-avatar--profile" />
+        </label>
+        <input id="profile-pic" type="file" name="profile-pic" accept="image/*" style="display:none;"
+          onchange="uploadImgUser()" />
+      </form>
+      <button id="logout-btn" onclick="">
+        Đăng xuất
+        <span></span>
+      </button>
     </div>
 
-
-    <div class="container-2">
-        <div class="current-section profile-section" onclick="changeSection(0)">
-            <p>
-                Thông tin cá nhân
-            </p>
-            <div class="vertical-line-animate">
-
-            </div>
-        </div>
+    <div>
+      {{#with user}}
+      <div class="username--profile username">
+        {{username}}
+      </div>
+      {{/with}}
+      <div id="roles">
         {{#if writer}}
-        <div class="profile-section" onclick="changeSection(1)">
-            <p>
-                Bài viết của tôi
-            </p>
-            <div class="vertical-line-animate">
-
-            </div>
-        </div>
+        Phóng viên
         {{else}}
         {{#if editor}}
-        <div class="profile-section" onclick="changeSection(1)">
+        Biên tập viên
+        {{else}}
+        {{#if admin}}
+        Quản trị viên
+        {{else}}
+        Người đọc
+        {{/if}}
+        {{/if}}
+        {{/if}}
+      </div>
+
+      {{#if unpremium}}
+      <button id="subscribe-btn" onclick="displaySubscribe()">
+        Đăng ký
+      </button>
+      {{/if}}
+
+      {{#with premium}}
+      <div id="premium-display">
+        <div>
+          <img src="/img/icons/subscriber.png" alt="" />
+          <p>
+            Premium
+          </p>
+        </div>
+        <div>
+          HSD
+          <span class="premium-exp">{{rest}}</span>
+          ngày
+        </div>
+      </div>
+      {{/with}}
+    </div>
+  </div>
+
+  <div class="container-2">
+    <div class="current-section profile-section" onclick="changeSection(0)">
+      <p>
+        Thông tin cá nhân
+      </p>
+      <div class="vertical-line-animate">
+
+      </div>
+    </div>
+    {{#if writer}}
+    <div class="profile-section" onclick="changeSection(1)">
+      <p>
+        Bài viết của tôi
+      </p>
+      <div class="vertical-line-animate">
+
+      </div>
+    </div>
+    {{else}}
+    {{#if editor}}
+    <div class="profile-section" onclick="changeSection(1)">
+      <p>
+        Danh sách duyệt
+      </p>
+      <div class="vertical-line-animate">
+
+      </div>
+    </div>
+    {{/if}}
+    {{/if}}
+  </div>
+
+  <div class="container-3">
+
+    <div class="current-section-content section-content">
+      {{#with user}}
+
+      <form action="/users/profile" method="post" id="general-infomation-form--section" onclick="updateInfos(event)">
+
+        <div class="grid-info">
+          <div class="input-container">
+            <input type="text" id="username-input" name="fullname" value="{{name}}" required />
+            <div>
+            </div>
             <p>
-                Danh sách duyệt
+              Họ và tên
             </p>
-            <div class="vertical-line-animate">
+          </div>
 
+          <div class="input-container">
+
+            <input type="date" id="dob-input" name="dob" value="{{dob}}" required />
+            <div>
             </div>
+            <p>
+              Ngày sinh
+            </p>
+          </div>
+
+          <div class="input-container">
+
+            <input type="email" id="email-input" name="email" value="{{email}}"
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Email không hợp lệ!" required />
+            <div>
+            </div>
+            <p>
+              Email
+            </p>
+
+          </div>
+
+          <div class="input-container">
+            <input type="password" id="password-input" name="password" value="" placeholder="Nhập mật khẩu mới..."
+              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+              title="Mật khẩu phải gồm ít nhất 1 chữ cái thường, 1 in hoa, 1 chữ số, 1 kí tự đặc biệc và 8 kí tự." />
+            <div>
+            </div>
+            <p>
+              Mật khẩu mới
+            </p>
+          </div>
+          {{#if writer}}
+          <div class="input-container special-input-container">
+            <input type="text" id="pseudonym-input" name="pseudonym" placeholder="Bút danh" value="{{pseudonym}}" />
+            <div>
+            </div>
+            <p>
+              Bút danh
+            </p>
+          </div>
+          {{/if}}
+          {{#if editor}}
+          <div class="input-container special-input-container">
+            <input type="text" id="category-management" name="managementCategory" value="{{categoryName}}" readonly />
+            <div>
+            </div>
+            <p>
+              Chuyên mục quản lý
+            </p>
+          </div>
+          {{/if}}
         </div>
-        {{/if}}
-        {{/if}}
+
+        <button type="submit" onclick="submitInfomations()">
+          Lưu thay đổi
+        </button>
+      </form>
+      {{/with}}
     </div>
 
-    <div class="container-3">
-
-        <div class="current-section-content section-content">
-            {{#with user}}
-            <form action="/users/profile/update-infos" 
-                method="post" 
-                id="general-infomation-form--section"
-                onclick="updateInfos(event)">
-                <div>
-                    <div class="input-container">
-                        <input type="text" id="username-input" name="username" value="{{name}}" required>
-                        <div>
-                        </div>
-                        <p>
-                            Họ và tên
-                        </p>
-                    </div>
-
-                    <div class="input-container">
-                        <input type="date" id="dob-input" name="dob" value="{{dob}}" required>
-                        <div>
-                        </div>
-                        <p>
-                            Ngày sinh
-                        </p>
-                    </div>
-
-                    <div class="input-container">
-                        <input type="email" id="email-input" name="email" value="{{email}}" placeholder=""
-                            required>
-                        <div>
-                        </div>
-                        <p>
-                            Email
-                        </p>
-                    </div>
-
-
-                    <div class="input-container">
-                        <input type="password" id="password-input" name="password" value=""
-                            placeholder="Nhập mật khẩu mới...">
-                        <div>
-                        </div>
-                        <p>
-                            Mật khẩu mới
-                        </p>
-                    </div>
-                    {{#if writer}}
-                    <div class="input-container special-input-container">
-                        <input type="text" id="pseudonym-input" name="pseudonym" placeholder="Bút danh"
-                            value="{{pseudonym}}" readonly>
-                        <div>
-                        </div>
-                        <p>
-                            Bút danh
-                        </p>
-                    </div>
-                    {{/if}}
-                    {{#if editor}}
-                    <div class="input-container special-input-container">
-                        <input type="text" id="category-management" name="category-management" placeholder="Văn hóa"
-                            value="{{categoryName}}" readonly>
-                        <div>
-                        </div>
-                        <p>
-                            Chuyên mục quản lý
-                        </p>
-                    </div>
-                    {{/if}}
-                </div>
-                {{#if updateMessage}}
-                <div class="col-md-12">
-                    <div class="p-3 mt-3 alert alert-warning">
-                        {{{updateMessage}}}
-                    </div>
-                </div>
-                {{/if}}
-                <button type="submit" onclick="submitInfomations()">
-                    Lưu thay đổi
-                </button>
-            </form>
-            {{/with}}
+    {{#if writer}}
+    <!-- Cac bai viet cua toi -->
+    <div class="section-content">
+      <div class="list-of-content">
+        <ul>
+          <li onclick="changeIndexOfContent(1, 0)">
+            <div>Bị từ chối</div>
+            <div>
+              <img src="/img/icons/info.png" alt="" class="info-img" />
+              <div class="note-item">
+                Danh sách bài viết đã bị từ chối
+              </div>
+            </div>
+          </li>
+          <li onclick="changeIndexOfContent(1, 1)">
+            <div>Chưa được duyệt</div>
+            <div>
+              <img src="/img/icons/info.png" alt="" class="info-img" />
+              <div class="note-item">
+                Danh sách bài viết chưa được kiểm duyệt
+              </div>
+            </div>
+          </li>
+          <li onclick="changeIndexOfContent(1, 2)">
+            <div>Đã được duyệt</div>
+            <div>
+              <img src="/img/icons/info.png" alt="" class="info-img" />
+              <div class="note-item">
+                Danh sách bài viết đã được kiểm duyệt
+              </div>
+            </div>
+          </li>
+          <li onclick="changeIndexOfContent(1, 3)">
+            <div>Đã xuất bản</div>
+            <div>
+              <img src="/img/icons/info.png" alt="" class="info-img" />
+              <div class="note-item">
+                Danh sách bài viết đã được xuất bản do mình viết
+              </div>
+            </div>
+          </li>
+        </ul>
+        <div style="background: none; text-align: center; padding-top: 3em;">
+          <a type="button" href="/users/editor" style="background: skyblue; padding: 1em 2em; border-radius: 5px;">Tạo
+            bài viết mới</a>
         </div>
 
-        {{#if writer}}
-        <!-- Cac bai viet cua toi -->
-        <div class="section-content">
-            <div class="list-of-content">
-                <ul>
-                    <li onclick="changeIndexOfContent(1, 0)">
-                        <div>Bị từ chối</div>
-                        <div>
-                            <img src="/img/icons/info.png" alt="" class="info-img">
-                            <div class="note-item">
-                                Danh sách bài viết đã bị từ chối
-                            </div>
-                        </div>
-                    </li>
-                    <li onclick="changeIndexOfContent(1, 1)">
-                        <div>Chưa được duyệt</div>
-                        <div>
-                            <img src="/img/icons/info.png" alt="" class="info-img">
-                            <div class="note-item">
-                                Danh sách bài viết chưa được kiểm duyệt
-                            </div>
-                        </div>
-                    </li>
-                    <li onclick="changeIndexOfContent(1, 2)">
-                        <div>Đã được duyệt</div>
-                        <div>
-                            <img src="/img/icons/info.png" alt="" class="info-img">
-                            <div class="note-item">
-                                Danh sách bài viết đã được kiểm duyệt
-                            </div>
-                        </div>
-                    </li>
-                    <li onclick="changeIndexOfContent(1, 3)">
-                        <div>Đã xuất bản</div>
-                        <div>
-                            <img src="/img/icons/info.png" alt="" class="info-img">
-                            <div class="note-item">
-                                Danh sách bài viết đã được xuất bản do mình viết
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-                <div style="background: none; text-align: center; padding-top: 3em;">
-                    <a type="button" href="/writer-create"
-                        style="background: skyblue; padding: 1em 2em; border-radius: 5px;">Tạo bài viết
-                        mới</a>
+      </div>
+      <div class="list-of-article">
+        <!-- Bi tu choi -->
+        <div class="list-of-article--container">
+          <div class="article-container">
+            <a href="/article-review">
+              <img src="/img/thumbnails/a0.jpg" alt="" />
+            </a>
+            <div class="article-content">
+              <div class="article-content--top">
+                <div class="article-content--tilte">
+                  <a href="/article-review">Giảm 33kg nhờ ăn 1000 quả trứng
+                    mỗi năm</a>
                 </div>
-
+                <div class="article-content--tag">
+                  <a href="/article-review">Sức khỏe</a>
+                </div>
+              </div>
+              <div class="article-content--abstract">
+                <a href="/article-review">Ross Macfarlane, 34 tuổi, tin rằng
+                  anh giảm được 32 kg và có vẻ ngoài trẻ hơn 10 tuổi nhờ tập
+                  thể dục và áp dụng chế độ ăn kiêng bằng trứng.</a>
+              </div>
             </div>
-            <div class="list-of-article">
-                <!-- Bi tu choi -->
-                <div class="list-of-article--container">
-                    <div class="article-container">
-                        <a href="/article-review">
-                            <img src="/img/thumbnails/a0.jpg" alt="">
-                        </a>
-                        <div class="article-content">
-                            <div class="article-content--top">
-                                <div class="article-content--tilte">
-                                    <a href="/article-review">Giảm 33kg nhờ ăn 1000 quả trứng mỗi năm</a>
-                                </div>
-                                <div class="article-content--tag">
-                                    <a href="/article-review">Sức khỏe</a>
-                                </div>
-                            </div>
-                            <div class="article-content--abstract">
-                                <a href="/article-review">Ross Macfarlane, 34 tuổi, tin rằng anh giảm được 32 kg và
-                                    có vẻ ngoài trẻ hơn 10
-                                    tuổi nhờ tập thể dục và áp dụng chế độ ăn kiêng bằng trứng.</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="article-container">
-                        <a href="/article-review">
-                            <img src="/img/thumbnails/a1.jpg" alt="">
-                        </a>
-                        <div class="article-content">
-                            <div class="article-content--top">
-                                <div class="article-content--tilte">
-                                    <a href="/article-review">Sợi chỉ công nghệ cao có thể sản xuất điện</a>
-                                </div>
-                                <div class="article-content--tag">
-                                    <a href="/article-review">Phát minh</a>
-                                </div>
-                            </div>
-                            <div class="article-content--abstract">
-                                <a href="/article-review">Các nhà nghiên cứu công nghệ nano ở Đại học Texas (UT) tại
-                                    Dallas tạo ra loại chỉ
-                                    mới từ ống nano carbon có thể biến đổi chuyển động cơ học thành điện
-                                    một cách hiệu quả.</a>
-                            </div>
-                        </div>
-                    </div>
+          </div>
+          <div class="article-container">
+            <a href="/article-review">
+              <img src="/img/thumbnails/a1.jpg" alt="" />
+            </a>
+            <div class="article-content">
+              <div class="article-content--top">
+                <div class="article-content--tilte">
+                  <a href="/article-review">Sợi chỉ công nghệ cao có thể sản
+                    xuất điện</a>
                 </div>
-                <!-- Chua duoc duyet -->
-                <div class="list-of-article--container">
-                    <div class="article-container">
-                        <a href="/article-review">
-                            <img src="/img/thumbnails/b0.jpg" alt="">
-                        </a>
-                        <div class="article-content">
-                            <div class="article-content--top">
-                                <div class="article-content--tilte">
-                                    <a href="/article-review">Thị trường bất động sản hưởng lợi từ phát triển hạ
-                                        tầng</a>
-                                </div>
-                                <div class="article-content--tag">
-                                    <a href="/article-review">Bất động sản</a>
-                                </div>
-                            </div>
-                            <div class="article-content--abstract">
-                                <a href="/article-review">Bất động sản hưởng lợi từ đầu tư công, phát triển hạ tầng
-                                    cùng sự xuất hiện của các
-                                    đại đô thị quy mô và hiện đại.</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="article-container">
-                        <a href="/article-review">
-                            <img src="/img/thumbnails/b1.jpg" alt="">
-                        </a>
-                        <div class="article-content">
-                            <div class="article-content--top">
-                                <div class="article-content--tilte">
-                                    <a href="/article-review">Chillies 'cháy' cùng hơn 6.000 khán giả Hà Nội</a>
-                                </div>
-                                <div class="article-content--tag">
-                                    <a href="/article-review">Âm nhạc</a>
-                                </div>
-                            </div>
-                            <div class="article-content--abstract">
-                                <a href="/article-review">Hơn 6.000 fan nhún nhảy, hát theo ban nhạc Chillies suốt
-                                    hai giờ ở concert riêng đầu
-                                    tiên "Trên những đám mây".</a>
-                            </div>
-                        </div>
-                    </div>
+                <div class="article-content--tag">
+                  <a href="/article-review">Phát minh</a>
                 </div>
-                <!-- Da duoc duyet -->
-                <div class="list-of-article--container">
-                    <div class="article-container">
-                        <a href="/article-review">
-                            <img src="/img/thumbnails/c0.jpg" alt="">
-                        </a>
-                        <div class="article-content">
-                            <div class="article-content--top">
-                                <div class="article-content--tilte">
-                                    <a href="/article-review">Việt Nam có nhà hàng vào top 50 ngon nhất châu Á</a>
-                                </div>
-                                <div class="article-content--tag">
-                                    <a href="/article-review">Ẩm thực</a>
-                                </div>
-                            </div>
-                            <div class="article-content--abstract">
-                                <a href="/article-review">Một nhà hàng tại trung tâm TP HCM là đại diện duy nhất của
-                                    Việt Nam được vinh danh
-                                    tại giải thưởng Asia's 50 Best Restaurants 2023.</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="article-container">
-                        <a href="/article-review">
-                            <img src="/img/thumbnails/c1.jpg" alt="">
-                        </a>
-                        <div class="article-content">
-                            <div class="article-content--top">
-                                <div class="article-content--tilte">
-                                    <a href="/article-review">'Creed 3': Nỗi ám ảnh của nhà vô địch</a>
-                                </div>
-                                <div class="article-content--tag">
-                                    <a href="/article-review">Điện ảnh</a>
-                                </div>
-                            </div>
-                            <div class="article-content--abstract">
-                                <a href="/article-review">Quá khứ ám ảnh của tay đấm lừng danh Adonis Creed được tái
-                                    hiện trong "Creed 3" -
-                                    phim do Michael B. Jordan đóng chính và đạo diễn.</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Da xuat ban -->
-                <div class="list-of-article--container">
-                    <div class="article-container">
-                        <a href="/post">
-                            <img src="/img/thumbnails/d0.jpg" alt="">
-                        </a>
-                        <div class="article-content">
-                            <div class="article-content--top">
-                                <div class="article-content--tilte">
-                                    <a href="/post">Chế độ ăn cho người mới chạy bộ</a>
-                                </div>
-                                <div class="article-content--tag">
-                                    <a href="/post">Dinh dưỡng</a>
-                                </div>
-                            </div>
-                            <div class="article-content--abstract">
-                                <a href="/post">Một chế độ ăn uống cân bằng cho người chạy bộ bao gồm tất
-                                    cả các chất cần thiết như
-                                    carbohydrate, protein, chất béo, vitamin và khoáng chất.</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="article-container">
-                        <a href="/post">
-                            <img src="/img/thumbnails/d1.jpg" alt="">
-                        </a>
-                        <div class="article-content">
-                            <div class="article-content--top">
-                                <div class="article-content--tilte">
-                                    <a href="/post">Đăng ký nguyện vọng xét tuyển đại học từ ngày 10/7</a>
-                                </div>
-                                <div class="article-content--tag">
-                                    <a href="/post">Tuyển sinh</a>
-                                </div>
-                            </div>
-                            <div class="article-content--abstract">
-                                <a href="/post">Từ ngày 10/7 đến 17h ngày 30/7, thí sinh đăng ký, điều
-                                    chỉnh và bổ sung nguyện vọng
-                                    xét tuyển đại học không giới hạn số lần.</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              </div>
+              <div class="article-content--abstract">
+                <a href="/article-review">Các nhà nghiên cứu công nghệ nano ở
+                  Đại học Texas (UT) tại Dallas tạo ra loại chỉ mới từ ống
+                  nano carbon có thể biến đổi chuyển động cơ học thành điện
+                  một cách hiệu quả.</a>
+              </div>
             </div>
+          </div>
         </div>
-        {{/if}}
-
-        {{#if editor}}
-        <!-- EDITOR - REVIEW -->
-        <div class="section-content" id="censorship-section">
-            <div class="list-of-content">
-                <ul>
-                    <li onclick="changeIndexOfContent(1, 0)">
-                        <div>
-                            Chưa kiểm duyệt
-                        </div>
-                        <div>
-                            <img src="/img/icons/info.png" alt="" class="info-img">
-                            <div class="note-item">
-                                Danh sách bài viết chưa kiểm duyệt
-                            </div>
-                        </div>
-                    </li>
-                    <li onclick="changeIndexOfContent(1, 1)">
-                        <div>
-                            Đã xuất bản
-                        </div>
-                        <div>
-                            <img src="/img/icons/info.png" alt="" class="info-img">
-                            <div class="note-item">
-                                Danh sách bài viết đã được xuất bản do mình kiểm duyệt
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            <div class="list-of-article">
-                <!-- Danh sach chua duyet -->
-                <div class="list-of-article--container">
-                    {{#each yetUnapprovedPosts}}
-                    <div class="article-container">
-                        <a href="/article-review">
-                            <img src="{{thumbnailUrl}}" alt="">
-                        </a>
-                        
-                        <div class="article-content">
-                            <div class="article-content--top">
-                                <div class="article-content--tilte">
-                                    <a href="/article-review">{{title}}</a>
-                                </div>
-                                {{#with Category}}
-                                <div class="article-content--tag">
-                                    <a href="/article-review">{{title}}</a>
-                                </div>
-                                {{/with}}
-                            </div>
-                            <div class="article-content--abstract">
-                                <a href="/article-review">{{summary}}</a>
-                            </div>
-                        </div>
-                    </div>
-                    {{/each}}
-            
+        <!-- Chua duoc duyet -->
+        <div class="list-of-article--container">
+          <div class="article-container">
+            <a href="/article-review">
+              <img src="/img/thumbnails/b0.jpg" alt="" />
+            </a>
+            <div class="article-content">
+              <div class="article-content--top">
+                <div class="article-content--tilte">
+                  <a href="/article-review">Thị trường bất động sản hưởng lợi
+                    từ phát triển hạ tầng</a>
                 </div>
-
-                <!-- Danh sach da duoc xuat ban -->
-                <div class="list-of-article--container">
-                    {{#each approvedPosts}}
-                    <div class="article-container">
-                        <a href="#">
-                            <img src="{{thumbnailUrl}}" alt="">
-                        </a>
-                        
-                        <div class="article-content">
-                            <div class="article-content--top">
-                                <div class="article-content--tilte">
-                                    <a href="#">{{title}}</a>
-                                </div>
-                                {{#with Category}}
-                                <div class="article-content--tag">
-                                    <a href="#">{{title}}</a>
-                                </div>
-                                {{/with}}
-                            </div>
-                            <div class="article-content--abstract">
-                                <a href="#">{{summary}}</a>
-                            </div>
-                        </div>
-                    </div>
-                    {{/each}}
-
+                <div class="article-content--tag">
+                  <a href="/article-review">Bất động sản</a>
                 </div>
+              </div>
+              <div class="article-content--abstract">
+                <a href="/article-review">Bất động sản hưởng lợi từ đầu tư
+                  công, phát triển hạ tầng cùng sự xuất hiện của các đại đô
+                  thị quy mô và hiện đại.</a>
+              </div>
             </div>
+          </div>
+          <div class="article-container">
+            <a href="/article-review">
+              <img src="/img/thumbnails/b1.jpg" alt="" />
+            </a>
+            <div class="article-content">
+              <div class="article-content--top">
+                <div class="article-content--tilte">
+                  <a href="/article-review">Chillies 'cháy' cùng hơn 6.000
+                    khán giả Hà Nội</a>
+                </div>
+                <div class="article-content--tag">
+                  <a href="/article-review">Âm nhạc</a>
+                </div>
+              </div>
+              <div class="article-content--abstract">
+                <a href="/article-review">Hơn 6.000 fan nhún nhảy, hát theo
+                  ban nhạc Chillies suốt hai giờ ở concert riêng đầu tiên
+                  "Trên những đám mây".</a>
+              </div>
+            </div>
+          </div>
         </div>
-        {{/if}}
+        <!-- Da duoc duyet -->
+        <div class="list-of-article--container">
+          <div class="article-container">
+            <a href="/article-review">
+              <img src="/img/thumbnails/c0.jpg" alt="" />
+            </a>
+            <div class="article-content">
+              <div class="article-content--top">
+                <div class="article-content--tilte">
+                  <a href="/article-review">Việt Nam có nhà hàng vào top 50
+                    ngon nhất châu Á</a>
+                </div>
+                <div class="article-content--tag">
+                  <a href="/article-review">Ẩm thực</a>
+                </div>
+              </div>
+              <div class="article-content--abstract">
+                <a href="/article-review">Một nhà hàng tại trung tâm TP HCM là
+                  đại diện duy nhất của Việt Nam được vinh danh tại giải
+                  thưởng Asia's 50 Best Restaurants 2023.</a>
+              </div>
+            </div>
+          </div>
+          <div class="article-container">
+            <a href="/article-review">
+              <img src="/img/thumbnails/c1.jpg" alt="" />
+            </a>
+            <div class="article-content">
+              <div class="article-content--top">
+                <div class="article-content--tilte">
+                  <a href="/article-review">'Creed 3': Nỗi ám ảnh của nhà vô
+                    địch</a>
+                </div>
+                <div class="article-content--tag">
+                  <a href="/article-review">Điện ảnh</a>
+                </div>
+              </div>
+              <div class="article-content--abstract">
+                <a href="/article-review">Quá khứ ám ảnh của tay đấm lừng danh
+                  Adonis Creed được tái hiện trong "Creed 3" - phim do Michael
+                  B. Jordan đóng chính và đạo diễn.</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Da xuat ban -->
+        <div class="list-of-article--container">
+          <div class="article-container">
+            <a href="/post">
+              <img src="/img/thumbnails/d0.jpg" alt="" />
+            </a>
+            <div class="article-content">
+              <div class="article-content--top">
+                <div class="article-content--tilte">
+                  <a href="/post">Chế độ ăn cho người mới chạy bộ</a>
+                </div>
+                <div class="article-content--tag">
+                  <a href="/post">Dinh dưỡng</a>
+                </div>
+              </div>
+              <div class="article-content--abstract">
+                <a href="/post">Một chế độ ăn uống cân bằng cho người chạy bộ
+                  bao gồm tất cả các chất cần thiết như carbohydrate, protein,
+                  chất béo, vitamin và khoáng chất.</a>
+              </div>
+            </div>
+          </div>
+          <div class="article-container">
+            <a href="/post">
+              <img src="/img/thumbnails/d1.jpg" alt="" />
+            </a>
+            <div class="article-content">
+              <div class="article-content--top">
+                <div class="article-content--tilte">
+                  <a href="/post">Đăng ký nguyện vọng xét tuyển đại học từ
+                    ngày 10/7</a>
+                </div>
+                <div class="article-content--tag">
+                  <a href="/post">Tuyển sinh</a>
+                </div>
+              </div>
+              <div class="article-content--abstract">
+                <a href="/post">Từ ngày 10/7 đến 17h ngày 30/7, thí sinh đăng
+                  ký, điều chỉnh và bổ sung nguyện vọng xét tuyển đại học
+                  không giới hạn số lần.</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    {{/if}}
 
-
-    <div style="padding: 50px;">
-    </div>
-
-    {{!-- <div class="div1">
-        <div class="div2" onclick="switchUser()">
-            Đổi role's user
-            <div class="div3">
-                Chỉ để đổi hiển thị khi chưa cài Backend
+    {{#if editor}}
+    <!-- EDITOR - REVIEW -->
+    <div class="section-content" id="censorship-section">
+      <div class="list-of-content">
+        <ul>
+          <li onclick="changeIndexOfContent(1, 0)">
+            <div>
+              Chưa kiểm duyệt
             </div>
-        </div>
-    </div>
-
-    <div class="div4">
-        <div class="div5" onclick="displayAdmin()">
-            Chuyển sang trang Admin
-            <div class="div6">
-                Chỉ để đổi hiển thị khi chưa cài Backend
+            <div>
+              <img src="/img/icons/info.png" alt="" class="info-img" />
+              <div class="note-item">
+                Danh sách bài viết chưa kiểm duyệt
+              </div>
             </div>
+          </li>
+          <li onclick="changeIndexOfContent(1, 1)">
+            <div>
+              Đã duyệt
+            </div>
+            <div>
+              <img src="/img/icons/info.png" alt="" class="info-img" />
+              <div class="note-item">
+                Danh sách bài viết đã mình kiểm duyệt thành công.
+              </div>
+            </div>
+          </li>
+
+          <li onclick="changeIndexOfContent(1, 2)">
+            <div>
+              Đã từ chối
+            </div>
+            <div>
+              <img src="/img/icons/info.png" alt="" class="info-img" />
+              <div class="note-item">
+                Danh sách bài viết mà mình đã từ chối
+              </div>
+            </div>
+          </li>
+
+          <li onclick="changeIndexOfContent(1, 3)">
+            <div>
+              Danh sách nháp
+            </div>
+            <div>
+              <img src="/img/icons/info.png" alt="" class="info-img" />
+              <div class="note-item">
+                Danh sách bài viết nháp nằm trong chuyên mục mình quản lý
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div class="list-of-article">
+        <!-- Danh sach chua duyet -->
+        <div class="list-of-article--container">
+          {{#each yetUnapprovedPosts}}
+          <div class="article-container">
+            <a href="/users/editor/review?id={{id}}">
+              <img src="{{thumbnailUrl}}" alt="" />
+            </a>
+
+            <div class="article-content">
+              <div class="article-content--top">
+                <div class="article-content--tilte">
+                  <a href="/users/editor/review?id={{id}}">{{title}}</a>
+                </div>
+              </div>
+
+              <div class="article-content--abstract">
+                <a href="/users/editor/review?id={{id}}">{{summary}}</a>
+              </div>
+              <div class="article-content--tag">
+                {{#each tags}}
+                <a href="/users/editor/review?id={{id}}">{{title}}</a>
+                {{/each}}
+              </div>
+            </div>
+          </div>
+          {{/each}}
+
         </div>
-    </div> --}}
+
+        <!-- Danh sach da duoc duyêt -->
+        <div class="list-of-article--container">
+          {{#each approvedPosts}}
+          <div class="article-container">
+            <a href="/users/editor/approved?id={{id}}">
+              <img src="{{thumbnailUrl}}" alt="" />
+            </a>
+
+            <div class="article-content">
+              <div class="article-content--top">
+                <div class="article-content--tilte">
+                  <a href="/users/editor/approved?id={{id}}">{{title}}</a>
+                </div>
+              </div>
+              <div class="article-content--abstract">
+                <a href="/users/editor/approved?id={{id}}">{{summary}}</a>
+              </div>
+              <div class="article-content--tag">
+                {{#each tags}}
+                <a href="#">{{title}}</a>
+                {{/each}}
+              </div>
+            </div>
+          </div>
+          {{/each}}
+
+        </div>
+
+        <!-- Danh sach tu choi -->
+        <div class="list-of-article--container">
+          {{#each deniedPosts}}
+          <div class="article-container">
+            <a href="/users/editor/denied?id={{id}}">
+              <img src="{{thumbnailUrl}}" alt="" />
+            </a>
+            <div class="article-content">
+              <div class="article-content--top">
+                <div class="article-content--tilte">
+                  <a href="/users/editor/denied?id={{id}}">{{title}}</a>
+                </div>
+              </div>
+              <div class="article-content--abstract">
+                <a href="/users/editor/denied?id={{id}}">{{summary}}</a>
+              </div>
+              <div class="article-content--tag">
+                {{#each tags}}
+                <a href="#">{{title}}</a>
+                {{/each}}
+              </div>
+            </div>
+          </div>
+          {{/each}}
+        </div>
+
+        <!-- Danh sach nhap -->
+        <div class="list-of-article--container">
+          {{#each approvedPosts}}
+          <div class="article-container">
+            <a href="#">
+              <img src="{{thumbnailUrl}}" alt="" />
+            </a>
+
+            <div class="article-content">
+              <div class="article-content--top">
+                <div class="article-content--tilte">
+                  <a href="#">{{title}}</a>
+                </div>
+              </div>
+              <div class="article-content--abstract">
+                <a href="#">{{summary}}</a>
+              </div>
+              <div class="article-content--tag">
+                {{#each tags}}
+                <a href="#">{{title}}</a>
+                {{/each}}
+              </div>
+            </div>
+          </div>
+          {{/each}}
+
+        </div>
+      </div>
+    </div>
+    {{/if}}
+  </div>
+
+  <div style="padding: 50px;">
+  </div>
+
+  {{#if rejectPost}}
+  <div class="alert success">
+    <span class="closebtn">&times;</span>
+    {{{rejectPost}}}
+  </div>
+  {{/if}}
+  {{#if failedMessage}}
+  <div class="alert warning">
+    <span class="closebtn">&times;</span>
+    {{{failedMessage}}}
+  </div>
+  {{/if}}
+
+  {{#if successMessage}}
+  <div class="alert success">
+    <span class="closebtn">&times;</span>
+    {{{successMessage}}}
+  </div>
+  {{/if}}
+</main>
+<script>
+  var close = document.getElementsByClassName("closebtn"); var i; for (i = 0; i
+    < close.length; i++) {
+    close[i].onclick = function () {
+      var div =
+        this.parentElement; div.style.opacity = "0"; setTimeout(function () {
+          div.style.display = "none";
+        }, 600);
+    }
+  }
+</script>
 
 </main>
 <script src="/js/profile.js"></script>

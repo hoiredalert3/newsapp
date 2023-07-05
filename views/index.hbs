@@ -53,7 +53,7 @@
             <ul class="carousel_track">
                 {{#each hotPosts}}
                 <li class="carousel_slide current-carousel_slide">
-                    <a href="/posts/1">
+                    <a href="/posts/{{id}}">
                         <img class="carousel_image" src="{{thumbnailUrl}}" alt="">
                         <div class="carousel_abstract">
                             <h3 class="carousel_abstract--title">
@@ -65,13 +65,13 @@
                             </p>
                             <p class="carousel_abstract--caterogy">
                                 <span class="carousel_abstract-level1">
-                                    <a href="#">
+                                    <a href="/posts?category={{parentCategory.id}}">
                                         {{parentCategory.title}}
                                     </a>
                                 </span>
                                 <span style="opacity:0.5;">&#x25CF;</span>
                                 <span class="carousel_abstract-level2">
-                                    <a href="#">
+                                    <a href="/posts?category={{childCategory.id}}">
                                         {{childCategory.title}}
                                     </a>
                                 </span>
@@ -116,13 +116,13 @@
                 <div class="new__article__container big__article__container">
                     <div class="new__article__abstract big__article__abstract">
                         <div class="new__article__abstract big__article__abstract-title">
-                            <a href="/posts/1"
+                            <a href="/posts/{{id}}"
                                 class="new__article__abstract-title_link big__article__abstract-title_link">
                                 {{title}}
                             </a>
                         </div>
                         <div class="new__article__abstract-content big__article__abstract-content">
-                            <a href="/posts/1"
+                            <a href="/posts/{{id}}"
                                 class="new__article__abstract-content_link big__article__abstract-content_link">
                                 {{summary}}
                             </a>
@@ -133,7 +133,7 @@
                             <p>{{ convertToVietnameseDateTime publishedAt }}</p>
                         </div>
                     </div>
-                    <a href="/posts/1" class="new__article__img big__article__img">
+                    <a href="/posts/{{id}}" class="new__article__img big__article__img">
                         <img src="{{thumbnailUrl}}" alt="{{title}}">
                     </a>
                 </div>
@@ -153,16 +153,15 @@
                 </div>
                 {{#each mostViewPosts}}
                 <div class="mini__article__container">
-
                     <div class="mini__article__abstract">
                         <div class="mini__article__title">
-                            <a href="/posts/1" class="mini__article-link">
+                            <a href="/posts/{{id}}" class="mini__article-link">
                                 {{title}}
                             </a>
 
                         </div>
                         <div class="mini__article__content">
-                            <a href="" class="mini__article-link">
+                            <a href="/posts/{{id}}" class="mini__article-link">
                                 {{summary}}
                             </a>
                         </div>
@@ -175,7 +174,7 @@
                     </div>
 
                     <div class="mini__article__img__container">
-                        <a href="/posts/1" class="mini__article-link">
+                        <a href="/posts/{{id}}" class="mini__article-link">
                             <img src="{{thumbnailUrl}}" alt="">
                         </a>
 
@@ -232,18 +231,18 @@
                 <div class="category-container2">
                     {{#each rightCategoryPosts}}
                     <div class="medium__article-container">
-                        <a href="/posts/1">
+                        <a href="/posts/{{Post.id}}">
                             <img src="{{Post.thumbnailUrl}}" alt="">
                         </a>
                         <div class="medium__article-abstract">
-                            <a href="/posts/1" class="medium__article-abstract-title">
+                            <a href="/posts/{{Post.id}}" class="medium__article-abstract-title">
                                 {{Post.title}}
                             </a>
                             <a href="/posts/1" class="medium__article-abstract-summary">
                                 {{Post.summary}}
                             </a>
                             <div class="medium__article-category_time">
-                                <a href="">
+                                <a href="/posts?category={{id}}">
                                     {{title}}
                                 </a>
                                 <p>
@@ -281,6 +280,25 @@
                 <li> <a href="#category">Chuyên mục</a> </li>
             </ul>
         </div>
+
+        {{#if publishMessage}}
+        <div class="alert success">
+            <span class="closebtn">&times;</span>
+            {{publishMessage}}
+        </div>
+        {{/if}}
 </main>
 {{> footer }}
+<script>
+    var close = document.getElementsByClassName("closebtn");
+    var i;
+
+    for (i = 0; i < close.length; i++) {
+        close[i].onclick = function () {
+            var div = this.parentElement;
+            div.style.opacity = "0";
+            setTimeout(function () { div.style.display = "none"; }, 600);
+        }
+    }
+</script>
 <script src="/js/index.js"></script>

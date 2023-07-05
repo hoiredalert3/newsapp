@@ -7,14 +7,9 @@
     "host": "127.0.0.1",
     "dialect": "postgres",
     "dialectOptions": {
-      "useUTC": false,
-      "ssl": {
-        "require": true,
-        "rejectUnauthorized": false
-      }
+      "useUTC": false
     },
-    "timezone": "+07:00",
-    "logging": false
+    "timezone": "+07:00"
   },
   "test": {
     "username": "postgres",
@@ -24,16 +19,15 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "username",
-    "password": "password",
+    "use_env_variable": "POSTGRESQL_URL",
+    "username": "postgres",
+    "password": "postgres",
     "database": "newsDB",
-    "host": "host",
+    "host": "127.0.0.1",
     "dialect": "postgres",
     "dialectOptions": {
-      "ssl": {
-        "require": true,
-        "rejectUnauthorized": false
-      }
-    }
+      "useUTC": false
+    },
+    "timezone": "+07:00"
   }
 }

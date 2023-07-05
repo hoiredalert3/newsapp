@@ -40,12 +40,6 @@ controller.showHomePage = async (req, res) => {
           order: [["hot", "DESC"]],
         },
         {
-          model: models.PostStatus,
-          where: {
-            id: 5, // Xuat ban
-          },
-        },
-        {
           model: models.Category,
           attributes: ["id", "title", "parentId"],
           where: { parentId: { [Op.not]: null } },
@@ -53,6 +47,7 @@ controller.showHomePage = async (req, res) => {
       ],
       where: {
         removedAt: null,
+        statusId: 5
       },
       limit: 5,
     });
@@ -73,12 +68,6 @@ controller.showHomePage = async (req, res) => {
       ],
       include: [
         {
-          model: models.PostStatus,
-          where: {
-            id: 5, // Xuat ban
-          },
-        },
-        {
           model: models.Category,
           attributes: ["id", "title", "parentId"],
           where: {
@@ -88,6 +77,7 @@ controller.showHomePage = async (req, res) => {
       ],
       where: {
         removedAt: null,
+        statusId: 5
       },
       order: [["publishedAt", "DESC"]],
       limit: 10,
@@ -113,12 +103,6 @@ controller.showHomePage = async (req, res) => {
           order: [["views", "DESC"]],
         },
         {
-          model: models.PostStatus,
-          where: {
-            id: 5, // Xuat ban
-          },
-        },
-        {
           model: models.Category,
           attributes: ["id", "title", "parentId"],
           where: {
@@ -128,6 +112,7 @@ controller.showHomePage = async (req, res) => {
       ],
       where: {
         removedAt: null,
+        statusId: 5
       },
       limit: 10,
     });
@@ -150,22 +135,14 @@ controller.showHomePage = async (req, res) => {
             "summary",
             "isPremium",
           ],
-          include: [
-            {
-              model: models.PostStatus,
-              where: {
-                id: 5,
-              },
-            },
-          ],
+          where: {statusId: 5},
           order: [["publishedAt", "DESC"]],
         },
       ],
       where: {
-        parentId: null,
+        parentId: null
       },
     });
-
     categoryPosts.forEach((item) => {
       if (item.dataValues.Posts.length > 0) {
         item.Post = item.dataValues.Posts[0];
@@ -183,7 +160,10 @@ controller.showHomePage = async (req, res) => {
   } catch (error) {
     console.log(`Index controller error: ${error}`);
   }
-  res.render("index");
+
+  res.render("index", {
+    publishMessage: req.query.publishMessage,
+  });
 };
 
 controller.showPage = (req, res, next) => {

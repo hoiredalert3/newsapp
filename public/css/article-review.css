@@ -161,7 +161,6 @@ main > form > *{
     width: 100%;
     height: auto;
     object-fit: cover;
-    
 }
 
 .big-content > h1{
@@ -183,9 +182,6 @@ main > form > *{
     border: none;
     color: white;
     border-radius: 10px;
-}
-.submit-btn:hover{
-    opacity: 0.8;
 }
 
 #denied-article-btn{
