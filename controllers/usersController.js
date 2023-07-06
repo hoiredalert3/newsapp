@@ -193,7 +193,7 @@ controller.updateInfomations = async (req, res) => {
   );
 };
 
-controller.buyPremium = async (req, res) =>{
+controller.buyPremium = async (req, res) => {
   const premium_detail = await models.PremiumDetails.create({
     userId: req.user.dataValues.id,
     grantedSince: new Date(),
@@ -288,19 +288,12 @@ controller.handleSubmission = async (req, res, next) => {
   if (req.user.id != authorId || req.user.typeId != 2)
     return { ok: false, message: "Unauthorized" };
 
-  const tags = req.body.tags.map((value) => value.trim().toUpperCase());
-  //console.log(`tags: ${tags}`);
-
-  // register tags
-  let tag_idxs = await registerTags(tags);
-  //console.log(`Registered tags ${tag_idxs}`)
-
   // register post
   let post = await models.Post.create({
     authorId: authorId,
     title: req.body.title,
     summary: req.body.summary,
-    statusId: 2,
+    statusId: req.body.statusId,
     publishedAt: null,
     removedAt: null,
     thumbnailUrl: req.body.thumbnailUrl,
@@ -309,13 +302,20 @@ controller.handleSubmission = async (req, res, next) => {
   });
   //console.log(`Registered post ${post}`)
 
-  // register post's tags
-  let tagInsertPromises = tag_idxs.map((tag) =>
-    models.PostTag.create({
-      postId: post.id,
-      tagId: tag,
-    })
-  );
+  let tagInsertPromises = null;
+  if (req.body.tags.length > 0) {
+    const tags = req.body.tags.map((value) => value.trim().toUpperCase());
+    let tag_idxs = await registerTags(tags);
+    // register post's tags
+    tagInsertPromises = tag_idxs.map((tag) =>
+      models.PostTag.create({
+        postId: post.id,
+        tagId: tag,
+      })
+    );
+  }
+
+
 
   // register post's categories
   let categories = req.body.categories;
@@ -325,8 +325,11 @@ controller.handleSubmission = async (req, res, next) => {
       categoryId: cat,
     })
   );
-
-  await Promise.all(tagInsertPromises, catInsertPromises);
+  
+  if (tagInsertPromises != null)
+    await Promise.all(tagInsertPromises, catInsertPromises);
+  else
+    await catInsertPromises;
   res.json({ completed: true });
   //res.json(tags_idx);
 };
@@ -444,7 +447,7 @@ controller.showPublish = async (req, res) => {
 
       res.locals.id = req.query.id;
       res.locals.appPostId = req.query.appPostId;
-      
+
       return res.render("publish-article", { error: req.query.error });
     } else {
       return res.render("error", { message: "File not Found!" });
@@ -498,7 +501,7 @@ controller.viewDeniedPost = async (req, res) => {
       },
       {
         model: models.Category,
-        where: {parentId: { [Op.not]: null } }
+        where: { parentId: { [Op.not]: null } }
       },
       {
         model: models.Tag
@@ -525,7 +528,7 @@ controller.viewApprovedPost = async (req, res) => {
       },
       {
         model: models.Category,
-        where: {parentId: { [Op.not]: null } }
+        where: { parentId: { [Op.not]: null } }
       },
       {
         model: models.Tag
@@ -537,7 +540,7 @@ controller.viewApprovedPost = async (req, res) => {
   post.tags = post.dataValues.Tags;
   post.category = post.dataValues.Categories[0];
   res.locals.post = post;
- 
+
   return res.render("approved-post-editor");
 };
 

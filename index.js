@@ -103,7 +103,7 @@ async function updatePremium() {
         status: true,
       },
     });
-    console.log(`${premiums.length} users premium.`);
+    //console.log(`${premiums.length} users premium.`);
     premiums.forEach(async (premium) => {
       console.log(`UserID: ${premium.dataValues.userId}`);
       const grantdSince = new Date(premium.dataValues.grantedSince);
@@ -131,7 +131,7 @@ async function updatePremium() {
 
 async function publishPost() {
   try {
-    console.log("Check if is there any post to publish...");
+    //console.log("Check if is there any post to publish...");
     const approvedPosts = await models.ApprovedPost.findAll({
       attributes: ["id", "postId", "publishAt"],
     });
