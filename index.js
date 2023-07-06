@@ -95,7 +95,6 @@ const models = require("./models");
 // const { where } = require("sequelize");
 // const { setInterval } = require("timers/promises");
 
-
 async function updatePremium() {
   try {
     const premiums = await models.PremiumDetails.findAll({
@@ -152,16 +151,34 @@ async function publishPost() {
             },
           }
         );
+
+        // Create Post statistic
+        await models.PostStatistic.create({
+          postId: post.dataValues.postId,
+          views: 0,
+          lastUpdatedHot: new Date(),
+          hot: 0,
+        });
       }
     });
   } catch (e) {
     console.log(e);
   }
 }
+async function updatePostStatistic(){
+  const date = new Date()
+  if (date.getDay() == 1){ // Monday
+    models.PostStatistic.update({
+      lastUpdatedHot: new Date(),
+      hot: 0
+    });
+  }
+}
 
 const minute = 60 * 1000;
 setInterval(updatePremium, minute);
-setInterval(publishPost, 1000); // 1s
+setInterval(publishPost, 5000); // 5s
+setInterval(updatePostStatistic, minute * 5); // 5m
 
 app.use(async (req, res, next) => {
   // Load categories cho header

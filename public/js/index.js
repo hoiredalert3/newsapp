@@ -15,8 +15,11 @@ const time_options = {
   minute: 'numeric',
   second: 'numeric',
 }
-
+try{
 setInterval(updateDateAndTime, 1000);
+} catch (e){
+
+}
 
 function updateDateAndTime() {
   date = new Date();
@@ -42,14 +45,15 @@ function updateDateAndTime() {
 })(document, 'script', 'tomorrow-sdk');
 
 // Carousel
-let slideIndex = 0;
+var slideIndex = 0;
 const INTERVAL = 3000;
 const INDICATORS_CLASS = "carousel_indicator";
 const SLIDE_CLASS = "carousel_slide";
 const CURRENT_INDICATOR_CLASS = "current-indicator";
 const CURRENT_SLIDE_CLASS = "current-carousel_slide";
 
-var intervalID = setInterval(automaticSlides, INTERVAL);
+var intervalID = null;
+changeSlide(slideIndex);
 
 function changeSlide(index) {
   slideIndex = index;

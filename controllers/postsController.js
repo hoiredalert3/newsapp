@@ -170,8 +170,24 @@ controller.showPost = async (req, res, next) => {
         }
       }
     }
-
-    console.log(post.dataValues);
+    
+    // get statistic
+    const postStat = await models.PostStatistic.findOne({
+      where: {postId: id}
+    })
+    console.log(postStat);
+    console.log(parseInt(postStat.dataValues.views) + 1);
+    // Update Post statistic
+    await models.PostStatistic.update(
+      {
+        views: parseInt(postStat.dataValues.views) + 1,
+        hot: parseInt(postStat.dataValues.hot) + 1
+      },
+      {
+      where: {postId: id}
+    });
+    
+    //console.log(post.dataValues);
     res.locals.post = post;
 
     return res.render("post-detail");

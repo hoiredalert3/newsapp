@@ -3,13 +3,17 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
     async up(queryInterface, Sequelize) {
-        const items = [
-            {postId: 1, views: 10, hot: 3},
-            {postId: 2, views: 0, hot: 5},
-            {postId: 3, views: 1, hot: 3},
-            {postId: 4, views: 2, hot: 2},
-            {postId: 5, views: 3, hot: 3}
-        ];
+        const items = [];
+        const models = require("../models");
+        const posts = await models.Post.findAll({where: {statusId: 5}});
+        posts.forEach(post => {
+            items.push({
+                postId: post.dataValues.id,
+                views: 0,
+                lastUpdatedHot: Sequelize.literal('NOW()'),
+                hot: 0
+            })
+        })
         items.forEach(item => {
             
             item.createdAt = Sequelize.literal('NOW()');

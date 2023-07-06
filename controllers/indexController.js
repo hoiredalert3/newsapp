@@ -24,33 +24,31 @@ async function getCategories(posts) {
 controller.showHomePage = async (req, res) => {
   try {
     // Hots post
-    let hotPosts = await models.Post.findAll({
-      attributes: [
-        "id",
-        "title",
-        "publishedAt",
-        "thumbnailUrl",
-        "summary",
-        "isPremium",
-      ],
+    let hotPosts = [];
+    let statsPost = await models.PostStatistic.findAll({
       include: [
         {
-          model: models.PostStatistic,
-          attributes: ["id", "postId", "hot"],
-          order: [["hot", "DESC"]],
-        },
-        {
-          model: models.Category,
-          attributes: ["id", "title", "parentId"],
-          where: { parentId: { [Op.not]: null } },
+          model: models.Post,
+          where: {
+            removedAt: null,
+            statusId: 5,
+          },
+          include: [
+            {
+              model: models.Category,
+              attributes: ["id", "title", "parentId"],
+              where: { parentId: { [Op.not]: null } },
+            },
+          ],
         },
       ],
-      where: {
-        removedAt: null,
-        statusId: 5
-      },
+      order: [["hot", "DESC"]],
       limit: 5,
     });
+    statsPost.forEach((stat) => {
+      hotPosts.push(stat.Post);
+    });
+    // console.log(hotPosts);
     getCategories(hotPosts);
 
     //console.log(hotPosts);
@@ -77,7 +75,7 @@ controller.showHomePage = async (req, res) => {
       ],
       where: {
         removedAt: null,
-        statusId: 5
+        statusId: 5,
       },
       order: [["publishedAt", "DESC"]],
       limit: 10,
@@ -87,38 +85,34 @@ controller.showHomePage = async (req, res) => {
     res.locals.newPosts = newPosts;
 
     // Most view posts
-    let mostViewPosts = await models.Post.findAll({
-      attributes: [
-        "id",
-        "title",
-        "publishedAt",
-        "thumbnailUrl",
-        "summary",
-        "isPremium",
-      ],
+    let mostViewPosts = [];
+
+     statsPost = await models.PostStatistic.findAll({
       include: [
         {
-          model: models.PostStatistic,
-          attributes: ["id", "postId", "views"],
-          order: [["views", "DESC"]],
-        },
-        {
-          model: models.Category,
-          attributes: ["id", "title", "parentId"],
+          model: models.Post,
           where: {
-            parentId: { [Op.not]: null },
+            removedAt: null,
+            statusId: 5,
           },
+          include: [
+            {
+              model: models.Category,
+              attributes: ["id", "title", "parentId"],
+              where: { parentId: { [Op.not]: null } },
+            },
+          ],
         },
       ],
-      where: {
-        removedAt: null,
-        statusId: 5
-      },
+      order: [["views", "DESC"]],
       limit: 10,
     });
 
-    getCategories(mostViewPosts);
+    statsPost.forEach((stat) => {
+      mostViewPosts.push(stat.Post);
+    });
 
+    getCategories(mostViewPosts);
     res.locals.mostViewPosts = mostViewPosts;
 
     // category-posts
@@ -135,18 +129,18 @@ controller.showHomePage = async (req, res) => {
             "summary",
             "isPremium",
           ],
-          where: {statusId: 5},
+          where: { statusId: 5 },
           order: [["publishedAt", "DESC"]],
         },
       ],
       where: {
-        parentId: null
+        parentId: null,
       },
     });
     categoryPosts.forEach((item) => {
       if (item.dataValues.Posts.length > 0) {
         item.Post = item.dataValues.Posts[item.dataValues.Posts.length - 1];
-        console.log(item.Post.dataValues.publishedAt);
+        // console.log(item.Post.dataValues.publishedAt);
       }
     });
     // console.log(categoryPosts);

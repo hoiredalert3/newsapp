@@ -14,8 +14,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   PostStatistic.init(
     {
-      postId: DataTypes.INTEGER,
+      postId: {type: DataTypes.INTEGER, unique: 'compositeIndex'},
       views: DataTypes.INTEGER,
+      lastUpdatedHot: DataTypes.DATEONLY,
       hot: DataTypes.INTEGER,
     },
     {

@@ -53,33 +53,50 @@
             <ul class="carousel_track">
                 {{#each hotPosts}}
                 <li class="carousel_slide current-carousel_slide">
+
                     <a href="/posts/{{id}}">
+
                         <img class="carousel_image" src="{{thumbnailUrl}}" alt="">
                         <div class="carousel_abstract">
+
                             <h3 class="carousel_abstract--title">
                                 {{title}}
+
                             </h3>
-                            <p class="carousel_abstract-date-post">
-                                Ngày đăng: <span class="carousel_abstract-date"> {{ convertToVietnameseDateTime
-                                    publishedAt }} </span>
-                            </p>
-                            <p class="carousel_abstract--caterogy">
-                                <span class="carousel_abstract-level1">
-                                    <a href="/posts?category={{parentCategory.id}}">
-                                        {{parentCategory.title}}
-                                    </a>
-                                </span>
-                                <span style="opacity:0.5;">&#x25CF;</span>
-                                <span class="carousel_abstract-level2">
-                                    <a href="/posts?category={{childCategory.id}}">
-                                        {{childCategory.title}}
-                                    </a>
-                                </span>
-                            </p>
+                            <div class="carousel_abstract-small-container">
+                                <div>
+                                    <p class="carousel_abstract-date-post">
+                                        Ngày đăng: <span class="carousel_abstract-date"> {{ convertToVietnameseDateTime
+                                            publishedAt }} </span>
+                                    </p>
+                                    <p class="carousel_abstract--category">
+                                        <span class="carousel_abstract-level1">
+                                            <a href="/posts?category={{parentCategory.id}}">
+                                                {{parentCategory.title}}
+                                            </a>
+                                        </span>
+                                        <span style="opacity:0.5;">&#x25CF;</span>
+                                        <span class="carousel_abstract-level2">
+                                            <a href="/posts?category={{childCategory.id}}">
+                                                {{childCategory.title}}
+                                            </a>
+                                        </span>
+                                    </p>
+                                </div>
+                                {{#if isPremium}}
+                                <div class="subscriber">
+                                    <img src="/img/icons/subscriber.png" alt="" class="icon-subscriber">
+                                </div>
+                                {{else}}
+                                <div></div>
+                                {{/if}}
+                            </div>
+
 
                             <p class="carousel_abstract--abstract">
                                 {{summary}}
                             </p>
+
                         </div>
                     </a>
 
@@ -134,6 +151,13 @@
                             </div>
                             <p>{{ convertToVietnameseDateTime publishedAt }}</p>
                         </div>
+                         {{#if isPremium}}
+                                <div class="subscriber">
+                                    <img src="/img/icons/subscriber.png" alt="" class="icon-subscriber">
+                                </div>
+                                {{else}}
+                                <div></div>
+                                {{/if}}
                     </div>
                     <a href="/posts/{{id}}" class="new__article__img big__article__img">
                         <img src="{{thumbnailUrl}}" alt="{{title}}">
@@ -180,7 +204,11 @@
                         <a href="/posts/{{id}}" class="mini__article-link">
                             <img src="{{thumbnailUrl}}" alt="">
                         </a>
-
+                        {{#if isPremium}}
+                        <div class="subscriber">
+                            <img src="/img/icons/subscriber.png" alt="" class="icon-subscriber">
+                        </div>
+                        {{/if}}
                     </div>
                 </div>
                 <div class="horizontial__line"></div>
@@ -220,6 +248,13 @@
                                 <a href="/posts?category={{id}}">{{title}}</a>
                                 <p>{{ convertToVietnameseDateTime Post.publishedAt }}</p>
                             </div>
+                            {{#if isPremium}}
+                                <div class="subscriber">
+                                    <img src="/img/icons/subscriber.png" alt="" class="icon-subscriber">
+                                </div>
+                                {{else}}
+                                <div></div>
+                            {{/if}}
                         </div>
                         <a href="/posts/{{Post.id}}" class="category__article__img big__article__img">
                             <img src="{{Post.thumbnailUrl}}" alt="{{Post.title}}">
@@ -235,6 +270,11 @@
                     {{#each rightCategoryPosts}}
                     <div class="medium__article-container">
                         <a href="/posts/{{Post.id}}">
+                                {{#if isPremium}}
+                                <div class="subscriber">
+                                    <img src="/img/icons/subscriber.png" alt="" class="icon-subscriber">
+                                </div>
+                                {{/if}}
                             <img src="{{Post.thumbnailUrl}}" alt="">
                         </a>
                         <div class="medium__article-abstract">
