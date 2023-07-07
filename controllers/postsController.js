@@ -3,6 +3,7 @@
 const models = require("../models");
 const Op = require("sequelize").Op;
 const fn = require("sequelize").fn;
+const sequelize = require("sequelize");
 const url = require("url");
 
 // Declare controller
@@ -90,7 +91,9 @@ controller.showPosts = async (req, res) => {
       [Op.match]: fn('plainto_tsquery', keyword)
     }
 
-    // options.order.push([fn('ts_rank', 'SearchContent', fn('plainto_tsquery', 'english', keyword)), 'desc'])
+    options.attributes = ['id', 'authorId', 'title', 'summary', 'statusId', 'publishedAt', 'removedAt', 'thumbnailUrl', 'content', 'isPremium', 'createdAt', 'updatedAt',
+      sequelize.literal(`ts_rank("SearchContent", plainto_tsquery('english', '${keyword}')) AS "searchScore"`)];
+    options.order.push(sequelize.literal('"searchScore" DESC'))
   }
   if (categoryId <= 0) {
     options.include.push({
@@ -126,7 +129,9 @@ controller.showPosts = async (req, res) => {
   // const posts = await models.Post.findAll(options);
   res.locals.posts = rows;
 
-  // console.log(rows);
+  rows.forEach((row) => {
+    console.log(row.id, row.title, row.searchScore);
+  })
 
   res.render("post-list-category", {
     premiumMessage: req.query.premiumMessage,
