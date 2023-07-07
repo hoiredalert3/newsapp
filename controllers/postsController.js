@@ -2,6 +2,7 @@
 
 const models = require("../models");
 const Op = require("sequelize").Op;
+const fn = require("sequelize").fn;
 const url = require("url");
 
 // Declare controller
@@ -90,7 +91,12 @@ controller.showPosts = async (req, res) => {
   //Handle search for keyword
   const keyword = req.query.keyword || "";
   if (keyword.trim()) {
-    options.where.title = { [Op.like]: `%${keyword}%` };
+    // options.where.title = { [Op.like]: `%${keyword}%` };
+    options.where.SearchContent = {
+      [Op.match]: fn('plainto_tsquery', keyword)
+    }
+
+    // options.order.push([fn('ts_rank', 'SearchContent', fn('plainto_tsquery', 'english', keyword)), 'desc'])
   }
   if (categoryId <= 0) {
     options.include.push({
@@ -98,6 +104,7 @@ controller.showPosts = async (req, res) => {
       where: { parentId: { [Op.not]: null } },
     });
   }
+
 
   //Handle pagination
   const page = isNaN(req.query.page)
