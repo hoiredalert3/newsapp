@@ -9,7 +9,7 @@ module.exports = {
             { name: "Bị từ chối" },
             { name: "Được phê duyệt" }, // Những chưa được xuất bản
             { name: "Xuất bản" },
-
+            
         ];
         items.forEach(item => {
             item.name = item.name.toLocaleUpperCase();

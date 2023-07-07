@@ -75,9 +75,9 @@
   <div class="post-list row my-3">
     {{#each posts }}
     <div class="row row-cols-1 post">
-      <div class="col-md-4 col mb-3">
+      <div class="img-post">
         <a href="/posts/{{id}}">
-          <img src="{{thumbnailUrl}}" class="img-fluid mt-3" alt="Post thumbnail" />
+          <img src="{{thumbnailUrl}}" alt="{{title}}" />
         </a>
       </div>
       <div class="col-md-8 col my-3 d-flex flex-column">
