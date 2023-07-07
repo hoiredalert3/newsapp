@@ -13,6 +13,7 @@ controller.showLogin = (req, res) => {
   res.render("signin", {
     loginMessage: req.flash("loginMessage"),
     reqUrl: req.query.reqUrl,
+    sitekey: process.env.CAPTCHA_SITE_KEY
   });
 };
 
@@ -63,10 +64,31 @@ controller.isAdmin = (req, res, next) => {
     .render("error", { message: "You must be an admin to access admin page!" });
 };
 
-controller.login = (req, res, next) => {
+controller.login = async (req, res, next) => {
   let reqUrl = req.body.reqUrl ? req.body.reqUrl : "/";
   // console.log(keepSignedIn);
   // console.log(reqUrl);
+
+  const captchaData = {
+    secret: process.env.CAPTCHA_SECRET_KEY,
+    response: req.body['g-recaptcha-response']
+  }
+  const captchaVerification = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams(Object.entries(captchaData)).toString()
+  }).then(_res => _res.json());
+  if (captchaVerification.success != true) {
+    return res.render("signin", {
+      loginMessage: 'Invalid captcha!',
+      reqUrl: reqUrl,
+      sitekey: process.env.CAPTCHA_SITE_KEY
+    });
+  }
+
+
   passport.authenticate("local-login", (error, user) => {
     // console.log(user);
     if (error) {
