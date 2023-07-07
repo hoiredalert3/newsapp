@@ -86,7 +86,6 @@ controller.showPosts = async (req, res) => {
   //Handle search for keyword
   const keyword = req.query.keyword || "";
   if (keyword.trim()) {
-    // options.where.title = { [Op.like]: `%${keyword}%` };
     options.where.SearchContent = {
       [Op.match]: fn('plainto_tsquery', keyword)
     }
@@ -129,9 +128,9 @@ controller.showPosts = async (req, res) => {
   // const posts = await models.Post.findAll(options);
   res.locals.posts = rows;
 
-  rows.forEach((row) => {
-    console.log(row.id, row.title, row.searchScore);
-  })
+  // rows.forEach((row) => {
+  //   console.log(row.id, row.title, row.searchScore);
+  // })
 
   res.render("post-list-category", {
     premiumMessage: req.query.premiumMessage,
