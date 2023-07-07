@@ -178,9 +178,9 @@ async function publishPost() {
     console.log(e);
   }
 }
-async function updatePostStatistic(){
+async function updatePostStatistic() {
   const date = new Date()
-  if (date.getDay() == 1){ // Monday
+  if (date.getDay() == 1) { // Monday
     models.PostStatistic.update({
       lastUpdatedHot: new Date(),
       hot: 0
@@ -189,9 +189,9 @@ async function updatePostStatistic(){
 }
 
 const minute = 60 * 1000;
-setInterval(updatePremium, minute);
-setInterval(publishPost, 5000); // 5s
-setInterval(updatePostStatistic, minute * 5); // 5m
+// setInterval(updatePremium, minute);
+// setInterval(publishPost, 5000); // 5s
+// setInterval(updatePostStatistic, minute * 5); // 5m
 
 app.use(async (req, res, next) => {
   // Load categories cho header

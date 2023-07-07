@@ -3,7 +3,8 @@
 const controller = {};
 const passport = require("./passport");
 const models = require("../models");
-const Op = require("sequelize").Op;
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
 
 controller.showDashboard = async (req, res) => {
   try {
@@ -99,6 +100,148 @@ controller.showCategories = async (req, res) => {
   } catch (error) {
     console.error("Error in /admin/categories controller: ", error);
   }
+};
+
+controller.addCategory = async (req, res) => {
+  try {
+    console.log("WE ARE IN addCategory!");
+
+    console.log(req.body);
+
+    let { parentId, title } = req.body;
+
+    parentId = isNaN(parentId) ? -2 : parseInt(parentId);
+    parentId = parentId === -1 ? null : parentId;
+
+    console.log({ parentId, title });
+
+    if (parentId != null) {
+      const parentCategory = await models.Category.findByPk(parentId);
+      console.log("parentCategory: ", parentCategory);
+      if (!parentCategory) {
+        return res.json({
+          success: false,
+          message:
+            "Thêm chuyên mục thất bại, không tồn tại chuyên mục cha với id: " +
+            parentId,
+        });
+      }
+    }
+
+    const newCategory = {
+      removedAt: null,
+      parentId,
+      title,
+      content: null,
+      createdAt: sequelize.literal("NOW()"),
+      updatedAt: sequelize.literal("NOW()"),
+    };
+
+    const categoryDetail = await models.Category.create(newCategory);
+    console.log(`\nCreated category successfully ${categoryDetail}\n`);
+
+    res.json({ success: true, message: "Thêm chuyên mục mới thành công" });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+controller.updateCategory = async (req, res) => {
+  try {
+    const { id, newName } = req.body;
+
+    const categoryToUpdate = await models.Category.findByPk(id);
+    console.log("categoryToUpdate: ", categoryToUpdate);
+    if (!categoryToUpdate) {
+      return res.json({
+        success: false,
+        message:
+          "Cập nhật chuyên mục thất bại, không tồn tại chuyên mục với id: " +
+          categoryId,
+      });
+    }
+
+    await models.Category.update({ title: newName }, { where: { id } });
+    res.json({ success: true, message: "Cập nhật thành công" });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+controller.deleteCategory = async (req, res) => {
+  try {
+    console.log("WE ARE IN deleteCategory!");
+
+    console.log(req.body);
+    const categoryId = isNaN(req.body.id)
+      ? -2
+      : Math.max(0, parseInt(req.body.id));
+    // await models.Category.update({ title: newName }, { where: { id } });
+    console.log("Category to delete: ", categoryId);
+
+    const categoryToDelete = await models.Category.findByPk(categoryId);
+    console.log("categoryToDelete: ", categoryToDelete);
+    if (!categoryToDelete) {
+      return res.json({
+        success: false,
+        message:
+          "Xóa chuyên mục thất bại, không tồn tại chuyên mục với id: " +
+          categoryId,
+      });
+    }
+
+    if (categoryToDelete.dataValues.parentId === null) {
+      const oneChildCategory = await models.Category.findOne({
+        where: { parentId: categoryId },
+        raw: true,
+      });
+
+      console.log("Child Category: ", oneChildCategory);
+      if (oneChildCategory) {
+        return res.json({
+          success: false,
+          message:
+            "Xóa chuyên mục thất bại, vẫn còn chuyên mục con với id: " +
+            oneChildCategory.id,
+        });
+      }
+    }
+
+    const postsInCategory = await models.PostCategory.findOne({
+      where: { categoryId },
+    });
+
+    console.log("Vẫn còn bài viết trong chuyên mục", postsInCategory);
+    if (postsInCategory) {
+      return res.json({
+        success: false,
+        message:
+          "Xóa chuyên mục thất bại, vẫn còn bài viết trong chuyên mục với id: " +
+          postsInCategory.dataValues.postId,
+      });
+    }
+
+    const result = await models.Category.destroy({
+      where: {
+        id: categoryId,
+      },
+    });
+    console.log(result);
+    res.json({ success: true, message: "Xóa chuyên mục thành công" });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+controller.getParentCategories = async (req, res) => {
+  const parentCategories = await models.Category.findAll({
+    attributes: ["id", "title", "parentId"],
+    where: {
+      parentId: null,
+    },
+    raw: true,
+  });
+  res.json(parentCategories);
 };
 
 function removeParam(key, sourceURL) {
