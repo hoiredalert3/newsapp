@@ -14,9 +14,9 @@ controller.showPosts = async (req, res) => {
   const categoryId = req.query.category ? parseInt(req.query.category) : 0;
 
   let options = {
-    where: {},
+    where: {statusId: 5},
     include: [],
-    order: [["publishedAt", "DESC"]],
+    order: [["isPremium", "DESC"]],
     raw: true,
   };
 
@@ -59,23 +59,29 @@ controller.showPosts = async (req, res) => {
   res.locals.parentCategory = parentCategory;
   res.locals.childCategories = childCategories;
 
+  
+
   //Handle sort posts
-  const sort = ["newest", "popular"].includes(req.query.sort)
+  let sort = ["newest", "viewed", "hot"].includes(req.query.sort)
     ? req.query.sort
     : "newest";
   switch (sort) {
     case "newest":
       options.order.push(["publishedAt", "DESC"]);
+      sort = "<b>mới nhất</b>";
       break;
-    case "popular":
+    case "viewed":
       options.order.push(["publishedAt", "DESC"]);
+      sort = "<b>lượt xem</b>";
+      break;
+    case "hot":
+      options.order.push(["publishedAt", "DESC"]);
+      sort = "<b>nổi bật</b>";
       break;
     default:
-      options.order.push(["publishedAt", "DESC"]);
+     
       break;
   }
-
-  options.order.push(["isPremium", "DESC"]);
 
   res.locals.originalUrl = removeParam("sort", req.originalUrl);
   if (Object.keys(req.query).length == 0) {
@@ -110,6 +116,8 @@ controller.showPosts = async (req, res) => {
   options.limit = limit;
   options.offset = limit * (page - 1);
 
+  options.order.push(["isPremium", "DESC"]);
+  console.log(options)
   const { rows, count } = await models.Post.findAndCountAll(options);
 
   rows.forEach((row) => {
@@ -214,8 +222,8 @@ controller.showPost = async (req, res, next) => {
       where: { postId: id },
     });
 
-    console.log(postStat);
-    console.log(parseInt(postStat.dataValues.views) + 1);
+    // console.log(postStat);
+    // console.log(parseInt(postStat.dataValues.views) + 1);
     // Update Post statistic
     await models.PostStatistic.update(
       {

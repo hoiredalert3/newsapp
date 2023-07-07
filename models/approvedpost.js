@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       approverId: DataTypes.INTEGER,
       approvedAt: DataTypes.DATE,
       publishAt: DataTypes.DATE,
+      isPublished: DataTypes.BOOLEAN
     },
     {
       sequelize,

@@ -28,7 +28,24 @@ router.use(authController.isLoggedIn)
 router.get("/profile", controller.showProfile);
 router.post("/profile/update-infos", controller.updateInfomations)
 
-router.get('/editor', controller.showEditor);
+// EDITOR
+router.get("/editor/review", controller.showReview);
+// Deny post
+router.post("/editor/review/deny", controller.denyPost);
+// Accept post
+router.post("/editor/review/accept", controller.acceptPost);
+// publish post
+router.get("/editor/review/publish", controller.showPublish);
+router.post("/editor/review/publish", controller.publishPost);
+// denied post
+router.get("/editor/denied", controller.viewDeniedPost);
+// aprroved post
+router.get("/editor/approved", controller.viewApprovedPost);
+//
+router.get("/editor/draft", controller.showDraft);
+// WRITER
+router.get('/writer/editor', controller.showEditor);
+
 router.post('/imgupload', cloudUploadMiddleware, controller.handleUpload);
 router.post('/submit-article',
   body(['authorId', 'categories', 'tags', 'title', 'summary', 'thumbnailUrl', 'content']).exists().trim().notEmpty().withMessage('Invalid request!'),

@@ -129,7 +129,7 @@
     <div class="current-section-content section-content">
       {{#with user}}
 
-      <form action="/users/profile" method="post" id="general-infomation-form--section" onclick="updateInfos(event)">
+      <form action="/users/profile/update-infos" method="post" id="general-infomation-form--section" onclick="updateInfos(event)">
 
         <div class="grid-info">
           <div class="input-container">
@@ -245,7 +245,7 @@
           </li>
         </ul>
         <div style="background: none; text-align: center; padding-top: 3em;">
-          <a type="button" href="/users/editor" style="background: skyblue; padding: 1em 2em; border-radius: 5px;">Tạo
+          <a type="button" href="/users/writer/editor" style="background: skyblue; padding: 1em 2em; border-radius: 5px;">Tạo
             bài viết mới</a>
         </div>
 
@@ -510,7 +510,7 @@
               </div>
               <div class="article-content--tag">
                 {{#each tags}}
-                <a href="/users/editor/review?id={{id}}">{{title}}</a>
+                <a href="/posts?tag={{id}}">{{title}}</a>
                 {{/each}}
               </div>
             </div>
@@ -538,7 +538,7 @@
               </div>
               <div class="article-content--tag">
                 {{#each tags}}
-                <a href="#">{{title}}</a>
+                <a href="/posts?tag={{id}}">{{title}}</a>
                 {{/each}}
               </div>
             </div>
@@ -565,7 +565,7 @@
               </div>
               <div class="article-content--tag">
                 {{#each tags}}
-                <a href="#">{{title}}</a>
+                <a href="/posts?tag={{id}}">{{title}}</a>
                 {{/each}}
               </div>
             </div>
@@ -575,24 +575,24 @@
 
         <!-- Danh sach nhap -->
         <div class="list-of-article--container">
-          {{#each approvedPosts}}
+          {{#each draftedPosts}}
           <div class="article-container">
-            <a href="#">
+            <a href="/users/editor/draft?id={{id}}">
               <img src="{{thumbnailUrl}}" alt="" />
             </a>
 
             <div class="article-content">
               <div class="article-content--top">
                 <div class="article-content--tilte">
-                  <a href="#">{{title}}</a>
+                  <a href="/users/editor/draft?id={{id}}">{{title}}</a>
                 </div>
               </div>
               <div class="article-content--abstract">
-                <a href="#">{{summary}}</a>
+                <a href="/users/editor/draft?id={{id}}">{{summary}}</a>
               </div>
               <div class="article-content--tag">
                 {{#each tags}}
-                <a href="#">{{title}}</a>
+                <a href="/posts?tag={{id}}">{{title}}</a>
                 {{/each}}
               </div>
             </div>
