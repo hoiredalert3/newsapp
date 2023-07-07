@@ -16,11 +16,11 @@
           <div class="offset-md-4 col-md-4">
             <!-- Button trigger modal -->
 
-            <button type="button" class="btn btn-primary text-nowrap text-dark" data-bs-toggle="modal"
+            {{!-- <button type="button" class="btn btn-primary text-nowrap text-dark" data-bs-toggle="modal"
               data-bs-target="#addTagModal">
               <i class="fa-solid fa-plus text-dark"></i>
               Thêm người dùng
-            </button>
+            </button> --}}
 
           </div>
         </div>
@@ -70,10 +70,11 @@
               <div class="card-body">
                 <span class="card-text fw-bold"> {{name}} - {{username}}</span>
 
-                <button class="bg-transparent remove-tag text-danger float-end mx-2" data-bs-whatever="Xoa id{{id}}">
+                {{!-- <button class="bg-transparent remove-tag text-danger float-end mx-2"
+                  data-bs-whatever="Xoa id{{id}}">
                   <i class=" bi bi-trash-fill"></i>
                   Xóa
-                </button>
+                </button> --}}
                 <button data-bs-toggle="modal" data-bs-target="#extendSubscriptionModal"
                   class="bg-transparent text-warning float-end mx-2">
                   Gia hạn Premium
@@ -85,6 +86,14 @@
                   <i class="fa-solid fa-magnifying-glass"></i>
                   Xem chi tiết
                 </button>
+
+                {{#if ../isViewingEditor}}
+                <button type="button" class="bg-transparent text-info float-end mx-2" data-bs-toggle="modal"
+                  data-bs-target="#updateEditorCategoryModal" data-id="{{id}}" data-name="{{name}}"
+                  data-manage-category="{{managementCategory}}">
+                  Chọn chuyên mục
+                </button>
+                {{/if}}
               </div>
             </div>
             {{/each}}
@@ -141,6 +150,53 @@
                     <input type="text" class="form-control newName" placeholder="Tên mới cho nhãn"
                       aria-label="Tên nhãn mới" required />
                   </div> --}}
+                </div>
+
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-danger">
+                    Cập nhật
+                  </button>
+
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Hủy
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for update Editor category -->
+        <div class="modal fade" id="updateEditorCategoryModal" tabindex="-1"
+          aria-labelledby="updateEditorCategoryModalCenteredScrollableTitle" style="display: none" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header text-center">
+                <h1 class="modal-title fs-5" id="updateEditorCategoryModalCenteredScrollableTitle">
+                  Thêm chuyên mục
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/admin/categories" method="get" onsubmit='updateEditorCategory(event)'>
+                <div class="modal-body">
+                  <p class="my-3">Id của User</p>
+                  <div class="input-group my-4">
+                    <input type="text" disabled class="form-control text-secondary userId" />
+                  </div>
+
+                  <p class="my-3">Chọn chuyên mục</p>
+                  <div class="input-group my-4">
+                    <select class="form-select" id="manageCategorySelect">
+                      {{#each categories }}
+                      <option selected value={{id}}>{{title}}</option>
+                      {{#each arrChildren }}
+                      {{#each children }}
+                      <option value={{id}}>{{title}}</option>
+                      {{/each}}
+                      {{/each}}
+                      {{/each}}
+                    </select>
+                  </div>
                 </div>
 
                 <div class="modal-footer">
@@ -293,6 +349,64 @@
       }
     })
   );
+
+  const updateEditorCategoryModal = document.getElementById('updateEditorCategoryModal')
+  if (updateEditorCategoryModal) {
+    updateEditorCategoryModal.addEventListener('show.bs.modal', event => {
+      // Button that triggered the modal
+      const button = event.relatedTarget
+
+      const userId = button.getAttribute('data-id')
+      const name = button.getAttribute('data-name')
+      const manageCategory = button.getAttribute('data-manage-category')
+
+      // Update the modal's content.
+      const modalTitle = updateEditorCategoryModal.querySelector('.modal-title')
+      const modalUserId = updateEditorCategoryModal.querySelector('.modal-body .userId')
+      const modalName = updateEditorCategoryModal.querySelector('.modal-body .name')
+      const modalmanageCategory = updateEditorCategoryModal.querySelector('.modal-body #manageCategorySelect')
+
+      modalmanageCategory.childNodes.forEach(e => {
+        if (e.value === manageCategory) {
+          console.log("Match: ", e)
+          e.textContent.replace(" (Hiện tại)", "")
+          if (e.textContent.includes(" (Hiện tại)") == false) {
+            e.textContent += " (Hiện tại)"
+          }
+          modalmanageCategory.value = e.value;
+        }
+      })
+
+      modalTitle.textContent = `Chọn chuyên mục cho ${name}`
+      modalUserId.value = userId
+    })
+  }
+
+  function updateEditorCategory(e) {
+    e.preventDefault();
+    const modalUserId = updateEditorCategoryModal.querySelector('.modal-body .userId')
+    const modalManageCategory = updateEditorCategoryModal.querySelector('.modal-body #manageCategorySelect')
+    const userId = modalUserId.value
+    const manageCategory = modalManageCategory.value
+    console.log({ userId, manageCategory })
+
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId, manageCategory })
+    };
+    fetch('/admin/users/editor', requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        alert(data.message)
+        if (data.success === true) {
+          setTimeout(() => location.reload(), 1000)
+        }
+      });
+    editTagModal.querySelector('[data-bs-dismiss="modal"]').click()
+
+  }
+
 
   const userDetailsModal = document.getElementById('userDetailsModal')
   if (userDetailsModal) {

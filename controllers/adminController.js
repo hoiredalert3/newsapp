@@ -425,6 +425,10 @@ controller.showUsers = async (req, res) => {
     });
     userTypes.forEach((e) => (e.id === userType ? (e.active = true) : false));
     res.locals.userTypes = userTypes;
+    if (userType === 3) {
+      res.locals.isViewingEditor = "true";
+      console.log(`\nisViewingEditor \n`);
+    }
 
     const keyword = req.query.keyword || "";
     console.log("Search keyword in admin/users: ", keyword);
@@ -524,6 +528,51 @@ controller.updateUser = async (req, res) => {
     }
 
     await models.Tag.update({ title: newName }, { where: { id } });
+    res.json({ success: true, message: "Cập nhật thành công" });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+controller.updateEditor = async (req, res) => {
+  try {
+    const { userId, manageCategory } = req.body;
+
+    const editorToUpdate = await models.User.findByPk(userId);
+    console.log("editorToUpdate: ", editorToUpdate);
+    if (!editorToUpdate) {
+      return res.json({
+        success: false,
+        message: "Cập nhật user thất bại, không tồn tại user với id: " + userId,
+      });
+    } else {
+      if (editorToUpdate.dataValues.typeId != 3) {
+        return res.json({
+          success: false,
+          message:
+            "Cập nhật editor thất bại, user với id: " +
+            userId +
+            " không phải là editor",
+        });
+      }
+    }
+
+    const manageCategoryToUpdate = await models.Category.findByPk(
+      manageCategory
+    );
+    if (!manageCategoryToUpdate) {
+      return res.json({
+        success: false,
+        message:
+          "Cập nhật editor thất bại, không tồn tại category với id: " +
+          manageCategory,
+      });
+    }
+
+    await models.User.update(
+      { managementCategory: manageCategory },
+      { where: { id: userId } }
+    );
     res.json({ success: true, message: "Cập nhật thành công" });
   } catch (error) {
     console.error(error);

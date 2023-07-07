@@ -33,6 +33,8 @@ router.post("/users", controller.addUser);
 
 router.put("/users", controller.updateUser);
 
+router.put("/users/editor", controller.updateEditor);
+
 router.delete("/users", controller.deleteUser);
 
 module.exports = router;
