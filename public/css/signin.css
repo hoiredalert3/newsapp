@@ -1,6 +1,6 @@
 body {
     height: 100vh;
-    background: url('../assets/background/signin.jpg') no-repeat center fixed;
+    background: url('/img/background/signin.jpg') no-repeat center fixed;
     background-size: cover;
 }
 
@@ -9,13 +9,13 @@ body {
     height: fit-content;
     box-shadow: 0 0 5px 0;
     background: inherit;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px);
     padding: 1% 5%;
 }
 
 .login-btn {
     background-color: cornflowerblue;
-    color: white    ;
+    color: white;
     border: none;
     border-radius: 5px;
     padding: 0.8em 1.5em;
@@ -52,7 +52,7 @@ body {
 }
 
 .facebook-signin-btn:hover {
-    background-color:aliceblue;
+    background-color: aliceblue;
     border: none;
     transition-duration: 0.2s;
     transition-timing-function: ease;
@@ -68,7 +68,7 @@ body {
     font-weight: bold;
 }
 
-input#email,
+input#account,
 input#password {
 
     background: none;
@@ -96,6 +96,6 @@ input#password {
     background: #3F69AA;
 }
 
-#newaccount{
+#newaccount {
     margin-right: 10px;
 }

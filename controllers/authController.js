@@ -11,6 +11,7 @@ controller.showLogin = (req, res) => {
     return res.redirect("/");
   }
   res.render("signin", {
+    layout: false,
     loginMessage: req.flash("loginMessage"),
     reqUrl: req.query.reqUrl,
     sitekey: process.env.CAPTCHA_SITE_KEY
@@ -82,6 +83,7 @@ controller.login = async (req, res, next) => {
   }).then(_res => _res.json());
   if (captchaVerification.success != true) {
     return res.render("signin", {
+      layout: false,
       loginMessage: 'Invalid captcha!',
       reqUrl: reqUrl,
       sitekey: process.env.CAPTCHA_SITE_KEY
