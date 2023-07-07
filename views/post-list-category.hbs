@@ -60,12 +60,12 @@
         <div class="btn-group">
           <button type="button" class="btn btn-outline-info dropdown-toggle text-primary" data-bs-toggle="dropdown"
             aria-expanded="false">
-            Posts sort by {{sort}}
+            Sắp xếp theo {{{sort}}}
           </button>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{{originalUrl}}&sort=newest">Newest</a></li>
-            <li><a class="dropdown-item" href="{{originalUrl}}&sort=popular">Popular</a></li>
-            <li><a class="dropdown-item" href="{{originalUrl}}&sort=newest">Newest</a></li>
+            <li><a class="dropdown-item" href="{{originalUrl}}&sort=newest">Mới nhất</a></li>
+            <li><a class="dropdown-item" href="{{originalUrl}}&sort=viewed">Nhiều lượt xem</a></li>
+            <li><a class="dropdown-item" href="{{originalUrl}}&sort=hot">Nổi bật</a></li>
           </ul>
         </div>
       </div>
@@ -75,9 +75,9 @@
   <div class="post-list row my-3">
     {{#each posts }}
     <div class="row row-cols-1 post">
-      <div class="col-md-4 col mb-3">
+      <div class="img-post">
         <a href="/posts/{{id}}">
-          <img src="{{thumbnailUrl}}" class="img-fluid mt-3" alt="Post thumbnail" />
+          <img src="{{thumbnailUrl}}" alt="{{title}}" />
         </a>
       </div>
       <div class="col-md-8 col my-3 d-flex flex-column">

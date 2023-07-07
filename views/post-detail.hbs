@@ -21,11 +21,11 @@
                         <i class="bi bi-person fs-2"></i>
                         <span> Author id: {{authorId}} </span>
                     </a>
-                    
+
                     <span class="">{{ convertToVietnameseDateTime publishedAt}}</span>
                 </div>
 
-                
+
                 <div id="post-content">
                     {{{ content }}}
                 </div>
@@ -34,24 +34,27 @@
 
                 <div class="category-container mb-3">
                     <h3 class="text-uppercase mb-3">Chuyên mục</h3>
-                    <div class="categories row row-cols-4 gap-2">
-                        <a href="/posts" class="btn btn-danger rounded-5" role="button">Nông sản
+                    <div class="categories d-flex">
+
+                        <a href="/posts?category={{parentCategory.id}}" class="btn btn-danger rounded-5"
+                            style="display: inline-block;">{{parentCategory.title}}
                         </a>
+
+
+                        <a href="/posts?category={{childCategory.id}}" class="btn btn-danger rounded-5"
+                            style="display: inline-block;">{{childCategory.title}}
+                        </a>
+
                     </div>
                 </div>
 
                 <div class="category-container mb-3">
                     <h3 class="text-uppercase mb-3">Danh sách nhãn</h3>
-                    <div class="tags row row-cols-4 gap-2">
-                        <a href="/posts" class="btn btn-danger rounded-5" role="button">Lúa gạo
+                    <div class="tags">
+                        {{#each Tags}}
+                        <a href="/posts?tag={{id}}" class="btn btn-danger rounded-5" role="button">{{title}}
                         </a>
-                        <a href="/posts" class="btn btn-danger rounded-5" role="button">ĐBSCL
-                        </a>
-                        <a href="/posts" class="btn btn-danger rounded-5" role="button">Xuất khẩu
-                        </a>
-
-                        <a href="/posts" class="btn btn-danger rounded-5" role="button">Nông nghiệp
-                        </a>
+                        {{/each}}
                     </div>
                 </div>
             </article>
@@ -61,51 +64,23 @@
 
             <div class="related-posts">
                 <h2>Bài viết liên quan</h2>
-                <div class="row row-cols-2">
-                    <div class="col mb-3">
-                        <a href="post-1.html">
-                            <img src="/img/post/thumbnail-medium.png" class="img-fluid mt-3"
-                                alt="Machine harvesting paddy field" />
+                <div class="relevant-posts">
+                    {{#each relevantPosts}}
+                    <div class="relevant-post">
+                        <a href="posts/{{id}}">
+                            <img src="{{thumbnailUrl}}" alt="{{title}}" />
                             <h6 class="fw-bold">
-                                Thúc đẩy xuất khẩu nông sản chính ngạch
+                                {{title}}
                             </h6>
                         </a>
 
-                        <div class="post-meta-data d-flex justify-content-between">
-                            <a href="/posts">Nông sản</a>
-                            <span>13/03/2023</span>
+                        <div class="relevant-post-metadata">
+                            <a href="/posts?category={{category.id}}">{{category.title}}</a>
+                            <span>{{ convertToVietnameseDateTime publishedAt}}</span>
                         </div>
                     </div>
+                    {{/each}}
 
-                    <div class="col mb-3">
-                        <a href="post-1.html">
-                            <img src="/img/post/thumbnail-medium.png" class="img-fluid mt-3"
-                                alt="Machine harvesting paddy field" />
-                            <h6 class="fw-bold">
-                                Thúc đẩy xuất khẩu nông sản chính ngạch
-                            </h6>
-                        </a>
-
-                        <div class="post-meta-data d-flex justify-content-between">
-                            <a href="/posts">Nông sản</a>
-                            <span>13/03/2023</span>
-                        </div>
-                    </div>
-
-                    <div class="col mb-3">
-                        <a href="post-1.html">
-                            <img src="/img/post/thumbnail-medium.png" class="img-fluid mt-3"
-                                alt="Machine harvesting paddy field" />
-                            <h6 class="fw-bold">
-                                Thúc đẩy xuất khẩu nông sản chính ngạch
-                            </h6>
-                        </a>
-
-                        <div class="post-meta-data d-flex justify-content-between">
-                            <a href="/posts">Nông sản</a>
-                            <span>13/03/2023</span>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -114,9 +89,10 @@
             <div class="comment container mb-5 mt-5">
                 <div class="card">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div id="comments"></div>
+                        <div class="col-md-12 comments-container">
                             <h3 class="text-center mb-5">Bình luận</h3>
-                            <div class="row">
+                            {{!-- <div class="row">
                                 <div class="col-md-12">
                                     <div class="media">
                                         <div class="media-body">
@@ -158,21 +134,73 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div> --}}
+                            {{#if comments}}
+                            {{#each comments}}
+                            <div class ="comment-container">
+                                <div class = "comment-user-time">
+                                    <div>
+                                        {{User.name}}
+                                    </div>
+                                    <div>
+                                        {{ convertToVietnameseDateTime publishedAt}}
+                                    </div>
+                                </div>
+                                <div class = "comment-content">
+                                    {{content}}
+                                </div>
                             </div>
+                            {{/each}}
+                            {{else}}
+                            <div class="no-comment">Chưa có bình luận nào... &#x1F634;</div>
+                            {{/if}}
                         </div>
                     </div>
                 </div>
 
-                <div class="input-group my-2">
+
+                {{#if user}}
+                {{#with post}}
+                <form class="input-group my-2" action="/posts/comments" method="post">
                     <input type="text" class="form-control" placeholder="Nhập bình luận"
-                        aria-label="Nhập bình luận" aria-describedby="button-addon2" />
-                    <button class="btn btn-primary" type="button" id="button-addon2">
+                        aria-label="Nhập bình luận" aria-describedby="button-addon2" name="content" />
+                    <input type="number" name="postId" value="{{id}}" hidden>
+                    <button class="btn btn-primary" id="button-addon2">
                         Đăng
                     </button>
-                </div>
+                </form>
+                {{/with}}
+                {{/if}}
             </div>
         </div>
     </div>
+
+    {{#if commentSuccess}}
+    <div class="alert success">
+        <span class="closebtn">&times;</span>
+        {{{commentSuccess}}}
+    </div>
+    {{/if}}
+
+    {{#if commentFailed}}
+    <div class="alert warning">
+        <span class="closebtn">&times;</span>
+        {{{commentFailed}}}
+    </div>
+    {{/if}}
+
+</main>
+<script>
+    var close = document.getElementsByClassName("closebtn"); var i; for (i = 0; i
+        < close.length; i++) {
+        close[i].onclick = function () {
+            var div =
+                this.parentElement; div.style.opacity = "0"; setTimeout(function () {
+                    div.style.display = "none";
+                }, 600);
+        }
+    }
+</script>
 </main>
 
 {{> footer}}

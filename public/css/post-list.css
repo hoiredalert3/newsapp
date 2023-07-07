@@ -1,14 +1,29 @@
 .post {
-  transition: box-shadow .3s;
+  transition: box-shadow .2s;
   border-radius: 10px;
+  display: flex;
+  padding: 7.5px 0px;
+  margin-bottom: 10px;
+}
+
+.img-post {
+  flex: 0.35;
+}
+
+.img-post img{
+  min-height: 300px;
+  max-height: 300px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 5px;
+}
+
+.post > div:last-child{
+  flex: 0.75;
 }
 
 .post:hover {
   box-shadow: 0 0 11px rgba(33, 33, 33, .2);
-}
-
-.post img {
-  border-radius: 10px;
 }
 
 .title {
@@ -29,8 +44,8 @@
   padding: 7.5px;
   background-color: aliceblue;
   align-self: flex-end;
-  justify-self: flex-end;
-  transition: box-shadow .3s;
+  margin-top: auto;
+  transition: box-shadow .15s;
 }
 
 .subscriber:hover {

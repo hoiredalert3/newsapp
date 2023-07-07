@@ -2,6 +2,8 @@
 
 const models = require("../models");
 const Op = require("sequelize").Op;
+const fn = require("sequelize").fn;
+const sequelize = require("sequelize");
 const url = require("url");
 
 // Declare controller
@@ -12,9 +14,9 @@ controller.showPosts = async (req, res) => {
   const categoryId = req.query.category ? parseInt(req.query.category) : 0;
 
   let options = {
-    where: {},
+    where: {statusId: 5},
     include: [],
-    order: [["publishedAt", "DESC"]],
+    order: [["isPremium", "DESC"]],
     raw: true,
   };
 
@@ -57,23 +59,29 @@ controller.showPosts = async (req, res) => {
   res.locals.parentCategory = parentCategory;
   res.locals.childCategories = childCategories;
 
+  
+
   //Handle sort posts
-  const sort = ["newest", "popular"].includes(req.query.sort)
+  let sort = ["newest", "viewed", "hot"].includes(req.query.sort)
     ? req.query.sort
     : "newest";
   switch (sort) {
     case "newest":
       options.order.push(["publishedAt", "DESC"]);
+      sort = "<b>mới nhất</b>";
       break;
-    case "popular":
+    case "viewed":
       options.order.push(["publishedAt", "DESC"]);
+      sort = "<b>lượt xem</b>";
+      break;
+    case "hot":
+      options.order.push(["publishedAt", "DESC"]);
+      sort = "<b>nổi bật</b>";
       break;
     default:
-      options.order.push(["publishedAt", "DESC"]);
+     
       break;
   }
-
-  options.order.push(["isPremium", "DESC"]);
 
   res.locals.originalUrl = removeParam("sort", req.originalUrl);
   if (Object.keys(req.query).length == 0) {
@@ -84,7 +92,13 @@ controller.showPosts = async (req, res) => {
   //Handle search for keyword
   const keyword = req.query.keyword || "";
   if (keyword.trim()) {
-    options.where.title = { [Op.like]: `%${keyword}%` };
+    options.where.SearchContent = {
+      [Op.match]: fn('plainto_tsquery', keyword)
+    }
+
+    options.attributes = ['id', 'authorId', 'title', 'summary', 'statusId', 'publishedAt', 'removedAt', 'thumbnailUrl', 'content', 'isPremium', 'createdAt', 'updatedAt',
+      sequelize.literal(`ts_rank("SearchContent", plainto_tsquery('english', '${keyword}')) AS "searchScore"`)];
+    options.order.push(sequelize.literal('"searchScore" DESC'))
   }
   if (categoryId <= 0) {
     options.include.push({
@@ -92,6 +106,7 @@ controller.showPosts = async (req, res) => {
       where: { parentId: { [Op.not]: null } },
     });
   }
+
 
   //Handle pagination
   const page = isNaN(req.query.page)
@@ -101,13 +116,15 @@ controller.showPosts = async (req, res) => {
   options.limit = limit;
   options.offset = limit * (page - 1);
 
+  options.order.push(["isPremium", "DESC"]);
+  console.log(options)
   const { rows, count } = await models.Post.findAndCountAll(options);
 
   rows.forEach((row) => {
     row.CategoryId = row["Categories.id"];
     row.CategoryTitle = row["Categories.title"];
   });
-  console.log(rows[0]);
+  // console.log(rows[0]);
 
   res.locals.pagination = {
     page: page,
@@ -119,7 +136,9 @@ controller.showPosts = async (req, res) => {
   // const posts = await models.Post.findAll(options);
   res.locals.posts = rows;
 
-  // console.log(rows);
+  // rows.forEach((row) => {
+  //   console.log(row.id, row.title, row.searchScore);
+  // })
 
   res.render("post-list-category", {
     premiumMessage: req.query.premiumMessage,
@@ -127,16 +146,42 @@ controller.showPosts = async (req, res) => {
 };
 
 // Show post
+
+async function getCategories(post) {
+  try {
+    const childCategory = post.Categories[0];
+    post.childCategory = childCategory;
+    post.parentCategory = await models.Category.findOne({
+      where: { id: childCategory.dataValues.parentId },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 controller.showPost = async (req, res, next) => {
   const id = isNaN(req.params.id) ? 0 : parseInt(req.params.id);
-
   console.log(`Post id: ${id}`);
 
   const post = await models.Post.findOne({
     where: { id },
-    include: [],
+    include: [
+      {
+        // Parent category
+        model: models.Category,
+        attributes: ["id", "title", "parentId"],
+        where: { parentId: { [Op.not]: null } },
+      },
+      // Tag
+      {
+        model: models.Tag,
+        attributes: ["id", "title"],
+      },
+    ],
   });
+
   if (post) {
+    // Neu bai viet la premium
     if (post.dataValues.isPremium) {
       const { checkLoggedIn } = require("../controllers/authController");
       // Kiem tra dang nhap hay chua
@@ -170,29 +215,103 @@ controller.showPost = async (req, res, next) => {
         }
       }
     }
-    
+
+    // Tang view + hot
     // get statistic
     const postStat = await models.PostStatistic.findOne({
-      where: {postId: id}
-    })
-    console.log(postStat);
-    console.log(parseInt(postStat.dataValues.views) + 1);
+      where: { postId: id },
+    });
+
+    // console.log(postStat);
+    // console.log(parseInt(postStat.dataValues.views) + 1);
     // Update Post statistic
     await models.PostStatistic.update(
       {
         views: parseInt(postStat.dataValues.views) + 1,
-        hot: parseInt(postStat.dataValues.hot) + 1
+        hot: parseInt(postStat.dataValues.hot) + 1,
       },
       {
-      where: {postId: id}
-    });
-    
-    //console.log(post.dataValues);
-    res.locals.post = post;
+        where: { postId: id },
+      }
+    );
+    getCategories(post);
 
-    return res.render("post-detail");
+    const relevantPosts = await models.Post.findAll({
+      include: [
+        {
+          model: models.Category,
+          where: { id: post.childCategory.dataValues.id },
+        },
+      ],
+      order: [["publishedAt", "DESC"]],
+      limit: 6,
+    });
+    relevantPosts.forEach((post) => {
+      post.category = post.Categories[0];
+    });
+
+    // Get comment
+    const comments = await models.PostComment.findAll({
+      include: [
+        {
+          model: models.User,
+          attributes: ["name"],
+        },
+      ],
+      where: {
+        postId: id,
+      },
+    });
+
+    res.locals.post = post;
+    res.locals.user = req.user;
+    res.locals.relevantPosts = relevantPosts;
+    res.locals.comments = comments;
+
+    return res.render("post-detail", {
+      commentSuccess: req.query.commentSuccess,
+      commentFailed: req.query.commentFailed,
+    });
   }
-  res.redirect("/404");
+  return res.redirect("/404");
+};
+
+controller.postComment = async (req, res) => {
+  try {
+    const userId = req.user.dataValues.id;
+    const cmt = await models.PostComment.create({
+      userId,
+      postId: req.body.postId,
+      parentId: null,
+      content: req.body.content,
+      publishedAt: new Date(),
+      statusId: 1,
+    });
+    if (cmt) {
+      return res.redirect(
+        `/posts/${req.body.postId}?commentSuccess=Đăng%20bình%20luận%20thành%20công#comments`
+      );
+    } else {
+      return res.redirect(
+        url.format({
+          pathname: `posts/${req.body.postId}`,
+          query: {
+            commentFailed: "Đăng bình luận thất bại, vui lòng thử lại",
+          },
+        })
+      );
+    }
+  } catch (e) {
+    return res.redirect(
+      url.format({
+        pathname: `posts/${req.body.postId}`,
+        query: {
+          commentFailed:
+            "Đã có lỗi trong quá trình đăng bình luận, vui lòng thử lại...",
+        },
+      })
+    );
+  }
 };
 
 // Show post

@@ -83,7 +83,7 @@ controller.showHomePage = async (req, res) => {
 
     getCategories(newPosts);
     res.locals.newPosts = newPosts;
-
+    
     // Most view posts
     let mostViewPosts = [];
 

@@ -1,53 +1,3 @@
-// USER_STATE = {
-//     0: "guest",
-//     1: "reader",
-//     2: "subcriber",
-//     3: "writer",
-//     4: "editor",
-//     5: "administrator"
-// };
-
-// CATEGORIES = {
-//     'Thời sự': ['Chính trị', 'Quốc phòng', 'Lao động', 'Dân sinh', 'Thời luận', 'Việc làm', 'Quyền được biết', 'Pháp luật', 'Phóng sự/Điều tra'],
-//     'Thế giới': ['Kinh tế thế giới', 'Quân sự', 'Góc nhìn', 'Hồ sơ', 'Người Việt năm châu', 'Chuyện lạ'],
-//     'Kinh tế': ['Kinh tế xanh', 'Làm giàu', 'Doanh nhân', 'Ngân hàng', 'Chính sách - phát triển', 'Địa ốc', 'Doanh nghiệp', 'Chứng khoán'],
-//     'Giáo dục': ['Tuyển sinh', 'Chọn nghề - chọn trường', 'Du học', 'Cẩm nang tuyển sinh 2023', 'Phụ huynh', 'Nhà trường'],
-//     'Du lịch': ['Khám phá', 'Tin tức sự kiện', 'Chơi gì, ăn đâu, đi thế nào', 'Bất động sản du lịch', 'Câu chuyện du lịch'],
-//     'Sức khỏe': ['Khỏe đẹp mỗi ngày', 'Niềm tin vào y đức', 'Làm đẹp', 'Giới tính'],
-//     'Văn hóa': ['Câu chuyện văn hóa', 'Khảo cứu', 'Xem - nghe', 'Sống đẹp']
-// };
-
-// CURRENT_USER = 3;
-// const USERS_HEADER_CLASS = "template-user--header";
-// const CURRENT_USER_HEADER_CLASS = "current-user--header";
-// changeUser(CURRENT_USER);
-
-// function changeUser(index) {
-//     users = document.getElementsByClassName(USERS_HEADER_CLASS);
-//     for (let i = 0; i < users.length; i++) {
-//         users[i].classList.remove(CURRENT_USER_HEADER_CLASS);
-//     }
-//     users[index].classList.add(CURRENT_USER_HEADER_CLASS);
-// }
-
-// (function populateCatSelector() {
-//     let catSelector = document.getElementById('category');
-//     let entries = Object.entries(CATEGORIES);
-
-//     entries.forEach(entry => {
-//         let group = document.createElement('optgroup');
-//         group.setAttribute('label', entry[0]);
-
-//         entry[1].forEach(sub_cat => {
-//             let option = document.createElement('option');
-//             option.setAttribute('value', sub_cat);
-//             option.innerText = sub_cat;
-//             group.appendChild(option);
-//         })
-//         catSelector.appendChild(group);
-//     })
-// })();
-
 // handle tags
 
 var tags = [];
@@ -147,13 +97,62 @@ const uploadImage = (blobInfo, progress) => new Promise((resolve, reject) => {
     xhr.send(formData);
 });
 
-function cancelEditing(event) {
-    event.preventDefault();
-    window.location.href = '/users/profile';
+
+function get_confirmation(title, message, callback) {
+    document.querySelector('#confirmModal .modal-title').innerText = title;
+    document.querySelector('#confirmModal .modal-body').innerText = message;
+    tmp = () => {
+        callback();
+        document.querySelector('#confirmModal .reject-btn').click();
+    }
+    document.getElementById('confirmModal').addEventListener('hide.bs.modal', () => { document.querySelector('#confirmModal .accept-btn').removeEventListener("click", tmp); }, { once: true });
+    document.querySelector('#confirmModal .accept-btn').addEventListener('click', tmp, { once: true });
+    document.getElementById('confirmModal-btn').click()
 }
 
-function showAlert(message) {
+async function submitDraft() {
+    console.log('Submitting draft');
+
+    let postParams = {};
+
+    postParams.authorId = document.getElementById('authorId').value;
+    postParams.categories = [document.querySelector('#category option:checked').parentElement.getAttribute('value'), document.getElementById('category').value];
+    postParams.tags = tags;
+    postParams.title = document.getElementById('title').value;
+    postParams.summary = document.getElementById('summary').value;
+    postParams.content = tinymce.activeEditor.getContent();
+    postParams.thumbnailUrl = getThumbnail(postParams.content);
+
+    if (!(postParams.title.length || postParams.summary.length || postParams.content.length || postParams.thumbnailUrl.length)) {
+        showAlert('Bài viết cần có nội dung');
+        return;
+    }
+
+    console.log('Posting...');
+    let res = await fetch('/users/submit-draft', {
+        method: 'post',
+        body: JSON.stringify(postParams),
+        headers: { 'Content-type': 'application/json' }
+    });
+
+    let json = await res.json();
+    console.log(JSON.stringify(json));
+    if (json.completed) {
+        showAlert('Bài viết đã được lưu', () => { window.location.href = '/users/profile' });
+    }
+    else
+        showAlert('Có lỗi xảy ra trong quá trình lưu bài viết');
+}
+
+function cancelEditing(event) {
+    event.preventDefault();
+    get_confirmation('Bài viết chưa được lưu', 'Bạn có muốn lưu lại bài viết hiện tại không?', submitDraft);
+}
+
+function showAlert(message, callback = null) {
     document.querySelector('#alertModal .modal-content div').innerText = message;
+    if (callback != null)
+        document.getElementById('alertModal').addEventListener("hidden.bs.modal", callback, { once: true });
     document.getElementById('alertTriggerBtn').click();
 }
 
@@ -179,6 +178,7 @@ async function submitArticle(event) {
     postParams.summary = document.getElementById('summary').value;
     postParams.content = tinymce.activeEditor.getContent();
     postParams.thumbnailUrl = getThumbnail(postParams.content);
+
     if (postParams.title.length == 0) {
         showAlert('Bài viết chưa có tiêu đề!');
         return;
@@ -205,15 +205,9 @@ async function submitArticle(event) {
 
     let json = await res.json();
     //console.log(JSON.stringify(json));
-    if (json.completed)
-        showAlert('Bài viết đã được tạo');
+    if (json.completed) {
+        showAlert('Bài viết đã được tạo', () => { window.location.href = '/users/profile' });
+    }
     else
         showAlert('Có lỗi xảy ra trong quá trình tạo bài viết');
 }
-
-// document.querySelectorAll('.buttons/*').forEach(element => {
-//     element.onclick = function () {
-//         // ...
-//         window.location.href = '/profile';
-//     }
-// })

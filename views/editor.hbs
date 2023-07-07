@@ -13,9 +13,7 @@
     <!-- Be Vietnam Pro, Noto Serif Display, Roboto -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Noto+Serif+Display:wght@400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Noto+Serif+Display:wght@400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet" />
 
     <script src="https://kit.fontawesome.com/525f113dce.js" crossorigin="anonymous"></script>
 
@@ -163,8 +161,7 @@
                         <i class="bi bi-plus-square fs-4" type="button" data-bs-toggle="modal" data-bs-target="#add-tag-modal"></i>
                         <!-- Modal Body -->
                         <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
-                        <div class="modal fade" id="add-tag-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog"
-                            aria-labelledby="modalTitleId" aria-hidden="true">
+                        <div class="modal fade" id="add-tag-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -225,6 +222,8 @@
             </div>
         </div>
 
+
+        {{> confirm-modal modalId='confirmModal'}}
     </main>
     {{! End Body }}
 
