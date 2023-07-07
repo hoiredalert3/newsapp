@@ -134,6 +134,9 @@ async function publishPost() {
     //console.log("Check if is there any post to publish...");
     const approvedPosts = await models.ApprovedPost.findAll({
       attributes: ["id", "postId", "publishAt"],
+      where: {
+        isPublished: false
+      }
     });
     approvedPosts.forEach(async (post) => {
       if (new Date(post.dataValues.publishAt) < new Date()) {
@@ -151,6 +154,16 @@ async function publishPost() {
             },
           }
         );
+        await models.ApprovedPost.update(
+          {
+            isPublished: true
+          },
+          {
+            where: {
+              postId: post.dataValues.postId,
+            },
+          }
+        )
 
         // Create Post statistic
         await models.PostStatistic.create({

@@ -20,6 +20,7 @@ function age(birthdate) {
 controller.showProfile = async (req, res) => {
   const user = req.user;
   const typeId = user.dataValues.typeId;
+  const userId = user.dataValues.id;
   if (typeId == 2) {
     user.writer = true;
   } else if (typeId == 3) {
@@ -57,8 +58,9 @@ controller.showProfile = async (req, res) => {
       let yetUnapprovedPosts = null;
       let deniedPosts = null;
       let approvedPosts = null;
+      let draftedPosts = null;
 
-      // Options cua
+      // Options
       let options = {
         attributes: [
           "id",
@@ -70,7 +72,7 @@ controller.showProfile = async (req, res) => {
           "authorId",
           "statusId",
         ],
-        where: { statusId: 2 },
+        where: {},
         include: [],
         order: [["updatedAt", "DESC"]],
       };
@@ -99,23 +101,50 @@ controller.showProfile = async (req, res) => {
       yetUnapprovedPosts.forEach((post) => {
         post.tags = post.dataValues.Tags;
       });
+
       // Lấy các bài viết đã duyệt
-      options.where.statusId = 4;
-      approvedPosts = await models.Post.findAll(options);
+      let app_options = Object.assign({}, options);
+      app_options.include.push({
+        model: models.ApprovedPost,
+        where: {
+          approverId: userId,
+        },
+      });
+      app_options.where = { [Op.or]: [{ statusId: 4 }, { statusId: 5 }] };
+      // console.log(app_options)
+      approvedPosts = await models.Post.findAll(app_options);
       approvedPosts.forEach((post) => {
         post.tags = post.dataValues.Tags;
       });
 
       // Lấy các bài viết mình từ chối
-      options.where.statusId = 3;
-      deniedPosts = await models.Post.findAll(options);
+      let den_options = Object.assign({}, options);
+      den_options.include.pop();
+      den_options.include.push({
+        model: models.RejectedPost,
+        where: {
+          reviewerId: userId,
+        },
+      });
+      den_options.where.statusId = 3;
+      console.log(den_options)
+      deniedPosts = await models.Post.findAll(den_options);
       deniedPosts.forEach((post) => {
+        post.tags = post.dataValues.Tags;
+      });
+
+      // Lấy các bài nhap
+      options.where.statusId = 1;
+      options.include.pop();
+      draftedPosts = await models.Post.findAll(options);
+      draftedPosts.forEach((post) => {
         post.tags = post.dataValues.Tags;
       });
 
       res.locals.yetUnapprovedPosts = yetUnapprovedPosts;
       res.locals.approvedPosts = approvedPosts;
       res.locals.deniedPosts = deniedPosts;
+      res.locals.draftedPosts = draftedPosts;
     } catch (error) {
       console.log(error);
     }
@@ -197,16 +226,18 @@ controller.buyPremium = async (req, res) => {
   const premium_detail = await models.PremiumDetails.create({
     userId: req.user.dataValues.id,
     grantedSince: new Date(),
-    status: true
+    status: true,
   });
   console.log(`Buy premium successfully ${premium_detail}`);
-  return res.redirect(url.format({
-    pathname: "/users/profile",
-    query: {
-      successMessage: "Bạn đã mua Premium thành công",
-    },
-  }))
-}
+  return res.redirect(
+    url.format({
+      pathname: "/users/profile",
+      query: {
+        successMessage: "Bạn đã mua Premium thành công",
+      },
+    })
+  );
+};
 async function getCategories() {
   // get categories
   let categories_raw = await models.Category.findAll({
@@ -315,8 +346,6 @@ controller.handleSubmission = async (req, res, next) => {
     );
   }
 
-
-
   // register post's categories
   let categories = req.body.categories;
   let catInsertPromises = categories.map((cat) =>
@@ -325,11 +354,10 @@ controller.handleSubmission = async (req, res, next) => {
       categoryId: cat,
     })
   );
-  
+
   if (tagInsertPromises != null)
     await Promise.all(tagInsertPromises, catInsertPromises);
-  else
-    await catInsertPromises;
+  else await catInsertPromises;
   res.json({ completed: true });
   //res.json(tags_idx);
 };
@@ -402,6 +430,7 @@ controller.acceptPost = async (req, res) => {
       approverId: req.user.dataValues.id,
       approvedAt: now,
       publishAt: now1hour, // 1 gio sau
+      isPublished: false,
     },
   });
 
@@ -426,7 +455,6 @@ controller.showPublish = async (req, res) => {
     });
     console.log(appPost);
     if (appPost) {
-
       const post = await models.Post.findOne({
         include: [
           {
@@ -501,14 +529,14 @@ controller.viewDeniedPost = async (req, res) => {
       },
       {
         model: models.Category,
-        where: { parentId: { [Op.not]: null } }
+        where: { parentId: { [Op.not]: null } },
       },
       {
-        model: models.Tag
-      }
+        model: models.Tag,
+      },
     ],
   });
-  console.log(post)
+  console.log(post);
   post.rejectedInfo = post.dataValues.RejectedPosts[0];
   post.tags = post.dataValues.Tags;
   post.category = post.dataValues.Categories[0];
@@ -520,7 +548,7 @@ controller.viewApprovedPost = async (req, res) => {
   const post = await models.Post.findOne({
     where: {
       id: req.query.id,
-      statusId: 4,
+      [Op.or]: [{statusId: 4}, {statusId: 5}]
     },
     include: [
       {
@@ -528,14 +556,14 @@ controller.viewApprovedPost = async (req, res) => {
       },
       {
         model: models.Category,
-        where: { parentId: { [Op.not]: null } }
+        where: { parentId: { [Op.not]: null } },
       },
       {
-        model: models.Tag
-      }
+        model: models.Tag,
+      },
     ],
   });
-  console.log(post)
+  console.log(post);
   post.approvedInfo = post.dataValues.ApprovedPost;
   post.tags = post.dataValues.Tags;
   post.category = post.dataValues.Categories[0];
@@ -544,5 +572,28 @@ controller.viewApprovedPost = async (req, res) => {
   return res.render("approved-post-editor");
 };
 
+controller.showDraft = async (req, res) => {
+  const post = await models.Post.findOne({
+    where: {
+      id: req.query.id,
+      statusId: 1,
+    },
+    include: [
+      {
+        model: models.Category,
+        where: { parentId: { [Op.not]: null } },
+      },
+      {
+        model: models.Tag,
+      },
+    ],
+  });
+
+  post.tags = post.dataValues.Tags;
+  post.category = post.dataValues.Categories[0];
+  res.locals.post = post;
+
+  return res.render("drafted-post-editor");
+};
 
 module.exports = controller;

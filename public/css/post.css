@@ -97,6 +97,17 @@ img{
   font-size: 14px;
 }
 
+.tags{
+  display: grid;
+  grid-template-columns: auto auto auto;
+  column-gap: 10px;
+  row-gap: 7.5px;
+}
+.tags  *{
+  text-align: center;
+  padding: 7.5px 5px;
+}
+
 .comments-container{
   display: flex;
   flex-direction: column;
