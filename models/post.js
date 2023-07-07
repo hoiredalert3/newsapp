@@ -28,6 +28,27 @@ module.exports = (sequelize, DataTypes) => {
       Post.hasMany(models.PostImage, { foreignKey: "postId" });
       Post.hasMany(models.PostComment, { foreignKey: "postId" });
     }
+
+    static getSearchVectorName() {
+      return 'SearchContent';
+    }
+
+    static addSearchIndex() {
+      var searchFields = ['title', 'summary', 'content'];
+      var vectorName = this.getSearchVectorName();
+      sequelize.query(`ALTER TABLE "${Post.tableName}" ADD COLUMN "${vectorName}" TSVECTOR`)
+        .then(() => {
+          return sequelize.query(`UPDATE "${Post.tableName}" SET "${vectorName}" = to_tsvector('english', '${searchFields.join('\' || \'')}');`).catch(err => console.log(err));
+        })
+        .then(() => {
+          return sequelize.query(`CREATE INDEX post_search_idx ON "${Post.tableName}" USING gin("${vectorName}");`).catch(err => console.log(err));
+        })
+        .then(() => {
+          return sequelize.query(`CREATE TRIGGER post_vector_update BEFORE INSERT OR UPDATE ON "${Post.tableName}" FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger("${vectorName}", 'pg_catalog.english', ${searchFields.join(', ')})`)
+            .catch(err => console.log(err));
+        })
+        .catch(err => console.log(err));
+    }
   }
   Post.init(
     {
