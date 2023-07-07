@@ -14,25 +14,25 @@ function updateYear() {
     document.getElementById("current-year").innerHTML = date.getFullYear();
 }
 
-// current user
-USER_STATE = {
-    0: "guest",
-    1: "reader",
-    2: "subcriber",
-    3: "writer",
-    4: "editor",
-    5: "administrator"
-};
+// // current user
+// USER_STATE = {
+//     0: "guest",
+//     1: "reader",
+//     2: "subcriber",
+//     3: "writer",
+//     4: "editor",
+//     5: "administrator"
+// };
 
-CURRENT_USER = 1;
-const USERS_HEADER_CLASS = "template-user--header";
-const CURRENT_USER_HEADER_CLASS = "current-user--header";
-changeUser(CURRENT_USER);
+// CURRENT_USER = 1;
+// const USERS_HEADER_CLASS = "template-user--header";
+// const CURRENT_USER_HEADER_CLASS = "current-user--header";
+// changeUser(CURRENT_USER);
 
-function changeUser(index){
-    users = document.getElementsByClassName(USERS_HEADER_CLASS);
-    for(let i = 0; i < users.length; i++){
-        users[i].classList.remove(CURRENT_USER_HEADER_CLASS);
-    }
-    users[index].classList.add(CURRENT_USER_HEADER_CLASS);
-}
+// function changeUser(index){
+//     users = document.getElementsByClassName(USERS_HEADER_CLASS);
+//     for(let i = 0; i < users.length; i++){
+//         users[i].classList.remove(CURRENT_USER_HEADER_CLASS);
+//     }
+//     users[index].classList.add(CURRENT_USER_HEADER_CLASS);
+// }

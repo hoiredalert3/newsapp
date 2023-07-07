@@ -129,7 +129,8 @@
     <div class="current-section-content section-content">
       {{#with user}}
 
-      <form action="/users/profile/update-infos" method="post" id="general-infomation-form--section" onclick="updateInfos(event)">
+      <form action="/users/profile/update-infos" method="post" id="general-infomation-form--section"
+        onclick="updateInfos(event)">
 
         <div class="grid-info">
           <div class="input-container">
@@ -208,6 +209,15 @@
       <div class="list-of-content">
         <ul>
           <li onclick="changeIndexOfContent(1, 0)">
+            <div>Bài viết nháp</div>
+            <div>
+              <img src="/img/icons/info.png" alt="" class="info-img" />
+              <div class="note-item">
+                Danh sách bài viết nháp
+              </div>
+            </div>
+          </li>
+          <li onclick="changeIndexOfContent(1, 1)">
             <div>Bị từ chối</div>
             <div>
               <img src="/img/icons/info.png" alt="" class="info-img" />
@@ -216,7 +226,7 @@
               </div>
             </div>
           </li>
-          <li onclick="changeIndexOfContent(1, 1)">
+          <li onclick="changeIndexOfContent(1, 2)">
             <div>Chưa được duyệt</div>
             <div>
               <img src="/img/icons/info.png" alt="" class="info-img" />
@@ -225,211 +235,170 @@
               </div>
             </div>
           </li>
-          <li onclick="changeIndexOfContent(1, 2)">
+          <li onclick="changeIndexOfContent(1, 3)">
             <div>Đã được duyệt</div>
             <div>
               <img src="/img/icons/info.png" alt="" class="info-img" />
               <div class="note-item">
-                Danh sách bài viết đã được kiểm duyệt
+                Danh sách bài viết đã được kiểm duyệt bao gồm cả xuất bản
               </div>
             </div>
           </li>
-          <li onclick="changeIndexOfContent(1, 3)">
-            <div>Đã xuất bản</div>
-            <div>
-              <img src="/img/icons/info.png" alt="" class="info-img" />
-              <div class="note-item">
-                Danh sách bài viết đã được xuất bản do mình viết
-              </div>
-            </div>
-          </li>
+
         </ul>
         <div style="background: none; text-align: center; padding-top: 3em;">
-          <a type="button" href="/users/writer/editor" style="background: skyblue; padding: 1em 2em; border-radius: 5px;">Tạo
+          <a type="button" href="/users/writer/editor"
+            style="background: skyblue; padding: 1em 2em; border-radius: 5px;">Tạo
             bài viết mới</a>
         </div>
 
       </div>
       <div class="list-of-article">
+        <!-- Nhap -->
+        <div class="list-of-article--container">
+          {{#each draftedPosts}}
+          <div class="article-container">
+            <a href="/users/writer/editor?draftId={{id}}">
+              {{#if thumbnailUrl}}
+              <img src="{{thumbnailUrl}}" alt="{{title}}" />
+              {{else}}
+              <img src="/img/post/default.jpg" alt="Bạn chưa thêm ảnh Thumbnail" />
+              {{/if}}
+            </a>
+            <div class="article-content">
+              <div class="article-content--top">
+                <div class="article-content--tilte">
+                  <a href="/users/writer/editor?draftId={{id}}">{{title}}</a>
+                </div>
+                <div class="article-content--category">
+                  {{#each Categories}}
+                  <a href="/posts?category={{id}}">{{title}}</a>
+                  {{/each}}
+                </div>
+                <form action="/users/writer/removeDraft" method="post" class = "remove-draft">
+                  <input type="number" name="draftId" id="draftId" value="{{id}}" hidden>
+                  <button>
+                    &#10006;
+                  </button>
+                </form>
+              </div>
+              <div class="article-content--abstract">
+                <a href="/users/writer/editor?draftId={{id}}">{{summary}}</a>
+              </div>
+              <div class="article-content--tag">
+                {{#each Tags}}
+                <a href="/posts?tag={{id}}">{{title}}</a>
+                {{/each}}
+              </div>
+            </div>
+          </div>
+          {{/each}}
+
+        </div>
+
         <!-- Bi tu choi -->
         <div class="list-of-article--container">
+          {{#each rejectedPosts}}
           <div class="article-container">
-            <a href="/article-review">
-              <img src="/img/thumbnails/a0.jpg" alt="" />
+            <a href="/users/writer/editor?rejectedId={{id}}">
+              {{#if thumbnailUrl}}
+              <img src="{{thumbnailUrl}}" alt="{{title}}" />
+              {{else}}
+              <img src="/img/post/default.jpg" alt="Bạn chưa thêm ảnh Thumbnail" />
+              {{/if}}
             </a>
             <div class="article-content">
               <div class="article-content--top">
                 <div class="article-content--tilte">
-                  <a href="/article-review">Giảm 33kg nhờ ăn 1000 quả trứng
-                    mỗi năm</a>
+                  <a href="/users/writer/editor?rejectedId={{id}}">{{title}}</a>
                 </div>
-                <div class="article-content--tag">
-                  <a href="/article-review">Sức khỏe</a>
-                </div>
-              </div>
-              <div class="article-content--abstract">
-                <a href="/article-review">Ross Macfarlane, 34 tuổi, tin rằng
-                  anh giảm được 32 kg và có vẻ ngoài trẻ hơn 10 tuổi nhờ tập
-                  thể dục và áp dụng chế độ ăn kiêng bằng trứng.</a>
-              </div>
-            </div>
-          </div>
-          <div class="article-container">
-            <a href="/article-review">
-              <img src="/img/thumbnails/a1.jpg" alt="" />
-            </a>
-            <div class="article-content">
-              <div class="article-content--top">
-                <div class="article-content--tilte">
-                  <a href="/article-review">Sợi chỉ công nghệ cao có thể sản
-                    xuất điện</a>
-                </div>
-                <div class="article-content--tag">
-                  <a href="/article-review">Phát minh</a>
+                <div class="article-content--category">
+                  {{#each Categories}}
+                  <a href="/posts?category={{id}}">{{title}}</a>
+                  {{/each}}
                 </div>
               </div>
               <div class="article-content--abstract">
-                <a href="/article-review">Các nhà nghiên cứu công nghệ nano ở
-                  Đại học Texas (UT) tại Dallas tạo ra loại chỉ mới từ ống
-                  nano carbon có thể biến đổi chuyển động cơ học thành điện
-                  một cách hiệu quả.</a>
+                <a href="/users/writer/editor?rejectedId={{id}}">{{summary}}</a>
+              </div>
+              <div class="article-content--tag">
+                {{#each Tags}}
+                <a href="/posts?tag={{id}}">{{title}}</a>
+                {{/each}}
               </div>
             </div>
           </div>
+          {{/each}}
         </div>
+
         <!-- Chua duoc duyet -->
         <div class="list-of-article--container">
+          {{#each unappPosts}}
           <div class="article-container">
-            <a href="/article-review">
-              <img src="/img/thumbnails/b0.jpg" alt="" />
+            <a href="/users/writer/editor?unappId={{id}}">
+              {{#if thumbnailUrl}}
+              <img src="{{thumbnailUrl}}" alt="{{title}}" />
+              {{else}}
+              <img src="/img/post/default.jpg" alt="Bạn chưa thêm ảnh Thumbnail" />
+              {{/if}}
             </a>
             <div class="article-content">
               <div class="article-content--top">
                 <div class="article-content--tilte">
-                  <a href="/article-review">Thị trường bất động sản hưởng lợi
-                    từ phát triển hạ tầng</a>
+                  <a href="/users/writer/editor?unappId={{id}}">{{title}}</a>
                 </div>
-                <div class="article-content--tag">
-                  <a href="/article-review">Bất động sản</a>
-                </div>
-              </div>
-              <div class="article-content--abstract">
-                <a href="/article-review">Bất động sản hưởng lợi từ đầu tư
-                  công, phát triển hạ tầng cùng sự xuất hiện của các đại đô
-                  thị quy mô và hiện đại.</a>
-              </div>
-            </div>
-          </div>
-          <div class="article-container">
-            <a href="/article-review">
-              <img src="/img/thumbnails/b1.jpg" alt="" />
-            </a>
-            <div class="article-content">
-              <div class="article-content--top">
-                <div class="article-content--tilte">
-                  <a href="/article-review">Chillies 'cháy' cùng hơn 6.000
-                    khán giả Hà Nội</a>
-                </div>
-                <div class="article-content--tag">
-                  <a href="/article-review">Âm nhạc</a>
+                <div class="article-content--category">
+                  {{#each Categories}}
+                  <a href="/posts?category={{id}}">{{title}}</a>
+                  {{/each}}
                 </div>
               </div>
               <div class="article-content--abstract">
-                <a href="/article-review">Hơn 6.000 fan nhún nhảy, hát theo
-                  ban nhạc Chillies suốt hai giờ ở concert riêng đầu tiên
-                  "Trên những đám mây".</a>
+                <a href="/users/writer/editor?unappId={{id}}">{{summary}}</a>
+              </div>
+              <div class="article-content--tag">
+                {{#each Tags}}
+                <a href="/posts?tag={{id}}">{{title}}</a>
+                {{/each}}
               </div>
             </div>
           </div>
+          {{/each}}
         </div>
+
         <!-- Da duoc duyet -->
         <div class="list-of-article--container">
+          {{#each appPosts}}
           <div class="article-container">
-            <a href="/article-review">
-              <img src="/img/thumbnails/c0.jpg" alt="" />
+            <a href="/users/writer/approvedPost?id={{id}}">
+              {{#if thumbnailUrl}}
+              <img src="{{thumbnailUrl}}" alt="{{title}}" />
+              {{else}}
+              <img src="/img/post/default.jpg" alt="Bạn chưa thêm ảnh Thumbnail" />
+              {{/if}}
             </a>
             <div class="article-content">
               <div class="article-content--top">
                 <div class="article-content--tilte">
-                  <a href="/article-review">Việt Nam có nhà hàng vào top 50
-                    ngon nhất châu Á</a>
+                  <a href="/users/writer/approvedPost?id={{id}}">{{title}}</a>
                 </div>
-                <div class="article-content--tag">
-                  <a href="/article-review">Ẩm thực</a>
-                </div>
-              </div>
-              <div class="article-content--abstract">
-                <a href="/article-review">Một nhà hàng tại trung tâm TP HCM là
-                  đại diện duy nhất của Việt Nam được vinh danh tại giải
-                  thưởng Asia's 50 Best Restaurants 2023.</a>
-              </div>
-            </div>
-          </div>
-          <div class="article-container">
-            <a href="/article-review">
-              <img src="/img/thumbnails/c1.jpg" alt="" />
-            </a>
-            <div class="article-content">
-              <div class="article-content--top">
-                <div class="article-content--tilte">
-                  <a href="/article-review">'Creed 3': Nỗi ám ảnh của nhà vô
-                    địch</a>
-                </div>
-                <div class="article-content--tag">
-                  <a href="/article-review">Điện ảnh</a>
+                <div class="article-content--category">
+                  {{#each Categories}}
+                  <a href="/posts?category={{id}}">{{title}}</a>
+                  {{/each}}
                 </div>
               </div>
               <div class="article-content--abstract">
-                <a href="/article-review">Quá khứ ám ảnh của tay đấm lừng danh
-                  Adonis Creed được tái hiện trong "Creed 3" - phim do Michael
-                  B. Jordan đóng chính và đạo diễn.</a>
+                <a href="/users/writer/approvedPost?id={{id}}">{{summary}}</a>
+              </div>
+              <div class="article-content--tag">
+                {{#each Tags}}
+                <a href="/posts?tag={{id}}">{{title}}</a>
+                {{/each}}
               </div>
             </div>
           </div>
-        </div>
-        <!-- Da xuat ban -->
-        <div class="list-of-article--container">
-          <div class="article-container">
-            <a href="/post">
-              <img src="/img/thumbnails/d0.jpg" alt="" />
-            </a>
-            <div class="article-content">
-              <div class="article-content--top">
-                <div class="article-content--tilte">
-                  <a href="/post">Chế độ ăn cho người mới chạy bộ</a>
-                </div>
-                <div class="article-content--tag">
-                  <a href="/post">Dinh dưỡng</a>
-                </div>
-              </div>
-              <div class="article-content--abstract">
-                <a href="/post">Một chế độ ăn uống cân bằng cho người chạy bộ
-                  bao gồm tất cả các chất cần thiết như carbohydrate, protein,
-                  chất béo, vitamin và khoáng chất.</a>
-              </div>
-            </div>
-          </div>
-          <div class="article-container">
-            <a href="/post">
-              <img src="/img/thumbnails/d1.jpg" alt="" />
-            </a>
-            <div class="article-content">
-              <div class="article-content--top">
-                <div class="article-content--tilte">
-                  <a href="/post">Đăng ký nguyện vọng xét tuyển đại học từ
-                    ngày 10/7</a>
-                </div>
-                <div class="article-content--tag">
-                  <a href="/post">Tuyển sinh</a>
-                </div>
-              </div>
-              <div class="article-content--abstract">
-                <a href="/post">Từ ngày 10/7 đến 17h ngày 30/7, thí sinh đăng
-                  ký, điều chỉnh và bổ sung nguyện vọng xét tuyển đại học
-                  không giới hạn số lần.</a>
-              </div>
-            </div>
-          </div>
+          {{/each}}
         </div>
       </div>
     </div>
@@ -503,6 +472,9 @@
                 <div class="article-content--tilte">
                   <a href="/users/editor/review?id={{id}}">{{title}}</a>
                 </div>
+                <div class="article-content--author">
+                  Được đăng bởi: <b>{{User.pseudonym}}</b>
+                </div>
               </div>
 
               <div class="article-content--abstract">
@@ -532,6 +504,9 @@
                 <div class="article-content--tilte">
                   <a href="/users/editor/approved?id={{id}}">{{title}}</a>
                 </div>
+                <div class="article-content--author">
+                  Được đăng bởi: <b>{{User.pseudonym}}</b>
+                </div>
               </div>
               <div class="article-content--abstract">
                 <a href="/users/editor/approved?id={{id}}">{{summary}}</a>
@@ -559,6 +534,9 @@
                 <div class="article-content--tilte">
                   <a href="/users/editor/denied?id={{id}}">{{title}}</a>
                 </div>
+                <div class="article-content--author">
+                  Được đăng bởi: <b>{{User.pseudonym}}</b>
+                </div>
               </div>
               <div class="article-content--abstract">
                 <a href="/users/editor/denied?id={{id}}">{{summary}}</a>
@@ -578,13 +556,20 @@
           {{#each draftedPosts}}
           <div class="article-container">
             <a href="/users/editor/draft?id={{id}}">
-              <img src="{{thumbnailUrl}}" alt="" />
+              {{#if thumbnailUrl}}
+              <img src="{{thumbnailUrl}}" alt="{{title}}" />
+              {{else}}
+              <img src="/img/post/default.jpg" alt="Người dùng chưa thêm nháp" />
+              {{/if}}
             </a>
 
             <div class="article-content">
               <div class="article-content--top">
                 <div class="article-content--tilte">
                   <a href="/users/editor/draft?id={{id}}">{{title}}</a>
+                </div>
+                <div class="article-content--author">
+                  Được đăng bởi: <b>{{User.pseudonym}}</b>
                 </div>
               </div>
               <div class="article-content--abstract">
