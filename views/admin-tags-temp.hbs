@@ -1,0 +1,198 @@
+{{> bootstrap-lib }}
+<main class="container">
+  <div class="d-flex" id="wrapper">
+    {{> admin-nav}}
+
+
+    <div id="page-content-wrapper" class="w-75">
+      <div class="container-fluid px-md-5 px-0 m-5">
+        <div class="row g-4 my-2">
+          <div class="col-md-4">
+            <h2 class="text-dark fw-bold fs-2 text-uppercase text-nowrap">
+              Nhãn
+            </h2>
+          </div>
+
+          <div class="offset-md-4 col-md-3">
+            <!-- Button trigger modal -->
+
+            <button type="button" class="btn btn-primary text-nowrap text-dark" data-bs-toggle="modal"
+              data-bs-target="#exampleModalCenteredScrollable">
+              <i class="fa-solid fa-plus text-dark"></i>
+              Thêm nhãn
+            </button>
+          </div>
+        </div>
+
+        <div class="row g-4 my-2">
+          <div class="col">
+            <div class="card border-primary mb-3">
+              <div class="card-body">
+                <span class="card-text fw-bold">Nông nghiệp</span>
+
+                <button class="bg-transparent remove-category text-danger float-end mx-2">
+                  <i class="bi bi-trash-fill"></i>
+                  Xóa
+                </button>
+                <button data-bs-toggle="modal" data-bs-target="#editCategoryModal"
+                  class="bg-transparent text-info float-end mx-2">
+                  <i class="fa-solid fa-pen"></i>
+                  Sửa
+                </button>
+                <a href="#" class="text-primary float-end mx-2">Xem chi tiết</a>
+              </div>
+            </div>
+
+            <div class="card border-primary mb-3">
+              <div class="card-body">
+                <span class="card-text fw-bold">Ngư nghiệp</span>
+
+                <button class="bg-transparent remove-category text-danger float-end mx-2">
+                  <i class="bi bi-trash-fill"></i>
+                  Xóa
+                </button>
+                <button data-bs-toggle="modal" data-bs-target="#editCategoryModal"
+                  class="bg-transparent text-info float-end mx-2">
+                  <i class="fa-solid fa-pen"></i>
+                  Sửa
+                </button>
+                <a href="#" class="text-primary float-end mx-2">Xem chi tiết</a>
+              </div>
+            </div>
+
+            <div class="card border-primary mb-3">
+              <div class="card-body">
+                <span class="card-text fw-bold">Cà phê</span>
+
+                <button class="bg-transparent remove-category text-danger float-end mx-2">
+                  <i class="bi bi-trash-fill"></i>
+                  Xóa
+                </button>
+                <button data-bs-toggle="modal" data-bs-target="#editCategoryModal"
+                  class="bg-transparent text-info float-end mx-2">
+                  <i class="fa-solid fa-pen"></i>
+                  Sửa
+                </button>
+                <a href="#" class="text-primary float-end mx-2">Xem chi tiết</a>
+              </div>
+            </div>
+
+            <div class="card border-primary mb-3">
+              <div class="card-body">
+                <span class="card-text fw-bold">Xuất khẩu</span>
+
+                <button class="bg-transparent remove-category text-danger float-end mx-2">
+                  <i class="bi bi-trash-fill"></i>
+                  Xóa
+                </button>
+                <button data-bs-toggle="modal" data-bs-target="#editCategoryModal"
+                  class="bg-transparent text-info float-end mx-2">
+                  <i class="fa-solid fa-pen"></i>
+                  Sửa
+                </button>
+                <a href="#" class="text-primary float-end mx-2">Xem chi tiết</a>
+              </div>
+            </div>
+
+            <div class="card border-primary mb-3">
+              <div class="card-body">
+                <span class="card-text fw-bold">Nông thôn mới</span>
+
+                <button class="bg-transparent remove-category text-danger float-end mx-2">
+                  <i class="bi bi-trash-fill"></i>
+                  Xóa
+                </button>
+                <button data-bs-toggle="modal" data-bs-target="#editCategoryModal"
+                  class="bg-transparent text-info float-end mx-2">
+                  <i class="fa-solid fa-pen"></i>
+                  Sửa
+                </button>
+                <a href="#" class="text-primary float-end mx-2">Xem chi tiết</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for Add category -->
+        <div class="modal fade" id="exampleModalCenteredScrollable" tabindex="-1"
+          aria-labelledby="exampleModalCenteredScrollableTitle" style="display: none" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header text-center">
+                <h1 class="modal-title fs-5" id="exampleModalCenteredScrollableTitle">
+                  Thêm nhãn mới
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+
+              <div class="modal-body">
+                <p class="mt-5">Nhập tên nhãn mới</p>
+                <div class="input-group mb-5">
+                  <input type="text" class="form-control" placeholder="Tên nhãn mới" aria-label="Tên nhãn mới" />
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger">Thêm</button>
+
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  Hủy
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for Edit category -->
+        <div class="modal fade" id="editCategoryModal" tabindex="-1"
+          aria-labelledby="exampleModalCenteredScrollableTitle" style="display: none" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header text-center">
+                <h1 class="modal-title fs-5" id="exampleModalCenteredScrollableTitle">
+                  Cập nhật nhãn
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+
+              <div class="modal-body">
+                <p class="mt-5">Nhập tên nhãn mới</p>
+                <div class="input-group mb-5">
+                  <input type="text" class="form-control" placeholder="Tên nhãn mới" aria-label="Tên nhãn mới" />
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="button" class="btn btn-danger">
+                  Cập nhật
+                </button>
+
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                  Hủy
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4 my-2">
+          <div class="col-md-3"></div>
+
+          <div class="col-md-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+{{> footer}}
+
+<script>
+  document.querySelectorAll(".remove-category").forEach((item) =>
+    item.addEventListener("click", (e) => {
+      if (confirm("Bạn có chắc chắn muốn xóa nhãn này?")) {
+        e.target.parentElement.parentElement.remove();
+      }
+    })
+  );
+</script>

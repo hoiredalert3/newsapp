@@ -19,4 +19,12 @@ router.delete("/categories", controller.deleteCategory);
 
 router.get("/categories/parent", controller.getParentCategories);
 
+router.get("/tags", controller.showTags);
+
+router.post("/tags", controller.addTag);
+
+router.put("/tags", controller.updateTag);
+
+router.delete("/tags", controller.deleteTag);
+
 module.exports = router;

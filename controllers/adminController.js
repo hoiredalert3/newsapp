@@ -44,6 +44,7 @@ controller.showCategories = async (req, res) => {
     if (keyword.trim()) {
       options.where.title = { [Op.like]: `%${keyword}%` };
     }
+    res.locals.keyword = keyword;
 
     switch (categoryLevel) {
       case "parent":
@@ -242,6 +243,163 @@ controller.getParentCategories = async (req, res) => {
     raw: true,
   });
   res.json(parentCategories);
+};
+
+controller.showTags = async (req, res) => {
+  try {
+    const keyword = req.query.keyword || "";
+    console.log("Serach keyword in admin/tags: ", keyword);
+
+    const page = isNaN(req.query.page)
+      ? 1
+      : Math.max(1, parseInt(req.query.page));
+
+    let options = {
+      attributes: ["id", "title"],
+      where: {},
+      include: [],
+      order: [],
+      // raw: true,
+    };
+
+    if (keyword.trim()) {
+      options.where.title = { [Op.like]: `%${keyword}%` };
+    }
+    res.locals.keyword = keyword;
+
+    res.locals.originalUrl = removeParam("level", req.originalUrl);
+    if (Object.keys(req.query).length == 0) {
+      res.locals.originalUrl += "?";
+    }
+
+    const limit = 10;
+    options.limit = limit;
+    options.offset = limit * (page - 1);
+
+    const { rows, count } = await models.Tag.findAndCountAll(options);
+    res.locals.pagination = {
+      page: page,
+      limit: limit,
+      totalRows: count,
+      queryParams: req.query,
+    };
+
+    res.locals.manageTags = rows;
+
+    console.log(rows);
+
+    return res.render("admin-tags");
+  } catch (error) {
+    console.error("Error in /admin/tags controller: ", error);
+  }
+};
+
+controller.addTag = async (req, res) => {
+  try {
+    console.log("WE ARE IN addTag!");
+
+    console.log(req.body);
+
+    let { title } = req.body;
+
+    console.log({ title });
+
+    const searchTag = await models.Tag.findOne({ where: { title: title } });
+    console.log("Found tag: ", searchTag);
+    if (searchTag) {
+      return res.json({
+        success: false,
+        message: "Thêm nhãn thất bại, đã tồn tại nhãn với tên: " + title,
+      });
+    }
+
+    const newTag = {
+      removedAt: null,
+      title,
+      content: null,
+      createdAt: sequelize.literal("NOW()"),
+      updatedAt: sequelize.literal("NOW()"),
+    };
+
+    const tagDetail = await models.Tag.create(newTag);
+    console.log(`\nCreated tag successfully ${tagDetail}\n`);
+
+    res.json({ success: true, message: "Thêm nhãn mới thành công" });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+controller.updateTag = async (req, res) => {
+  try {
+    const { id, newName } = req.body;
+
+    const tagToUpdate = await models.Tag.findByPk(id);
+    console.log("tagToUpdate: ", tagToUpdate);
+    if (!tagToUpdate) {
+      return res.json({
+        success: false,
+        message: "Cập nhật nhãn thất bại, không tồn tại nhãn với id: " + tagId,
+      });
+    }
+
+    if (newName.length < 1) {
+      return res.json({
+        success: false,
+        message:
+          "Cập nhật nhãn thất bại, tên nhãn phải có ít nhất 1 kí tự: " +
+          newName,
+      });
+    }
+
+    await models.Tag.update({ title: newName }, { where: { id } });
+    res.json({ success: true, message: "Cập nhật thành công" });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+controller.deleteTag = async (req, res) => {
+  try {
+    console.log("WE ARE IN deleteTag!");
+
+    console.log(req.body);
+    const tagId = isNaN(req.body.id) ? -2 : Math.max(0, parseInt(req.body.id));
+
+    console.log("Tag to delete: ", tagId);
+
+    const tagToDelete = await models.Tag.findByPk(tagId);
+    console.log("tagToDelete: ", tagToDelete);
+    if (!tagToDelete) {
+      return res.json({
+        success: false,
+        message: "Xóa nhãn thất bại, không tồn tại nhãn với id: " + tagId,
+      });
+    }
+
+    const postWithTag = await models.PostTag.findOne({
+      where: { tagId },
+    });
+
+    if (postWithTag) {
+      return res.json({
+        success: false,
+        message:
+          "Xóa nhãn thất bại, vẫn còn bài viết với nhãn, id bài viết " +
+          postWithTag.dataValues.postId,
+      });
+    }
+
+    const result = await models.Tag.destroy({
+      where: {
+        id: tagId,
+      },
+    });
+    console.log(result);
+    res.json({ success: true, message: "Xóa nhãn thành công" });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 function removeParam(key, sourceURL) {

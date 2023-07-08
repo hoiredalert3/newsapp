@@ -30,7 +30,7 @@
               <div class="posts-search form-outline">
                 <form class="d-flex" action="/admin/categories" method="GET">
                   <input class="form-control outline-primary" type="search" name="keyword" id="keywordInput"
-                    placeholder="Search" required>
+                    placeholder="Search" {{#if keyword}} value="{{keyword}}" {{/if}} required>
                   <button class="btn btn-outline-primary"><i class="fa fa-search"></i></button>
                 </form>
 
@@ -143,7 +143,7 @@
           <div class="modal-content">
             <div class="modal-header text-center">
               <h1 class="modal-title fs-5" id="addCategoryModalCenteredScrollableTitle">
-                Cập nhật chuyên mục
+                Thêm chuyên mục
               </h1>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -217,12 +217,10 @@
         fetch('/admin/categories', requestOptions)
           .then(response => response.json())
           .then(data => {
+            alert(data.message)
             if (data.success === true) {
-              alert(data.message)
-              setTimeout(() => location.reload(), 1000)
               e.target.parentElement.parentElement.remove();
-            } else {
-              alert(data.message)
+              setTimeout(() => location.reload(), 1000)
             }
           });
 
@@ -281,10 +279,9 @@
     fetch('/admin/categories', requestOptions)
       .then(response => response.json())
       .then(data => {
+        alert(data.message)
         if (data.success === true) {
-          alert(data.message)
           setTimeout(() => location.reload(), 1000)
-
         }
       });
     editCategoryModal.querySelector('[data-bs-dismiss="modal"]').click()
@@ -314,7 +311,9 @@
         .then(response => response.json())
         .then(data => {
           alert(data.message)
-          setTimeout(() => location.reload(), 1000)
+          if (data.success === true) {
+            setTimeout(() => location.reload(), 1000)
+          }
 
         });
     }

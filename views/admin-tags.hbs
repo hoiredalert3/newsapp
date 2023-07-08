@@ -13,186 +13,288 @@
             </h2>
           </div>
 
-          <div class="offset-md-4 col-md-3">
+          <div class="offset-md-4 col-md-4">
             <!-- Button trigger modal -->
 
             <button type="button" class="btn btn-primary text-nowrap text-dark" data-bs-toggle="modal"
-              data-bs-target="#exampleModalCenteredScrollable">
+              data-bs-target="#addTagModal">
               <i class="fa-solid fa-plus text-dark"></i>
               Thêm nhãn
             </button>
           </div>
         </div>
 
+        <div class="col-lg-12 mt-4">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="posts-search form-outline">
+                <form class="d-flex" action="/admin/tags" method="GET">
+                  <input class="form-control outline-primary" type="search" name="keyword" id="keywordInput"
+                    placeholder="Search" {{#if keyword}} value="{{keyword}}" {{/if}} required>
+                  <button class="btn btn-outline-primary"><i class="fa fa-search"></i></button>
+                </form>
+
+              </div>
+            </div>
+            {{!-- <div class="col-md-4">
+              <div class="btn-group">
+                <button type="button" class="btn btn-outline-info dropdown-toggle text-primary"
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                  Category level: {{categoryLevel}}
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="{{originalUrl}}&level=parent">Parent</a></li>
+                  <li><a class="dropdown-item" href="{{originalUrl}}&level=child">Child</a></li>
+                </ul>
+              </div>
+            </div> --}}
+          </div>
+        </div>
+
+        {{#if adminSuccessMessage}}
+        <div class="alert alert-success" role="alert">
+          {{adminSuccessMessage}}
+        </div>
+        {{/if}}
+
         <div class="row g-4 my-2">
           <div class="col">
+            {{#each manageTags }}
             <div class="card border-primary mb-3">
               <div class="card-body">
-                <span class="card-text fw-bold">Nông nghiệp</span>
+                <span class="card-text fw-bold"> {{title}}</span>
 
-                <button class="bg-transparent remove-category text-danger float-end mx-2">
+                <button class="bg-transparent remove-tag text-danger float-end mx-2" data-bs-whatever="Xoa id{{id}}"
+                  data-bs-id="{{id}}" data-bs-title="{{title}}">
                   <i class="bi bi-trash-fill"></i>
                   Xóa
                 </button>
-                <button data-bs-toggle="modal" data-bs-target="#editCategoryModal"
-                  class="bg-transparent text-info float-end mx-2">
-                  <i class="fa-solid fa-pen"></i>
+                <button data-bs-toggle="modal" data-bs-target="#editTagModal"
+                  class="bg-transparent text-info float-end mx-2" data-bs-whatever="Chinh sua id{{id}}"
+                  data-bs-id="{{id}}" data-bs-title="{{title}}">
+                  <i class=" fa-solid fa-pen"></i>
                   Sửa
                 </button>
-                <a href="#" class="text-primary float-end mx-2">Xem chi tiết</a>
+                <a href="/posts?tag={{id}}" id='tag-{{id}}' class="text-primary float-end mx-2">Xem chi
+                  tiết</a>
               </div>
             </div>
+            {{/each}}
 
-            <div class="card border-primary mb-3">
-              <div class="card-body">
-                <span class="card-text fw-bold">Ngư nghiệp</span>
+          </div>
 
-                <button class="bg-transparent remove-category text-danger float-end mx-2">
-                  <i class="bi bi-trash-fill"></i>
-                  Xóa
-                </button>
-                <button data-bs-toggle="modal" data-bs-target="#editCategoryModal"
-                  class="bg-transparent text-info float-end mx-2">
-                  <i class="fa-solid fa-pen"></i>
-                  Sửa
-                </button>
-                <a href="#" class="text-primary float-end mx-2">Xem chi tiết</a>
-              </div>
-            </div>
-
-            <div class="card border-primary mb-3">
-              <div class="card-body">
-                <span class="card-text fw-bold">Cà phê</span>
-
-                <button class="bg-transparent remove-category text-danger float-end mx-2">
-                  <i class="bi bi-trash-fill"></i>
-                  Xóa
-                </button>
-                <button data-bs-toggle="modal" data-bs-target="#editCategoryModal"
-                  class="bg-transparent text-info float-end mx-2">
-                  <i class="fa-solid fa-pen"></i>
-                  Sửa
-                </button>
-                <a href="#" class="text-primary float-end mx-2">Xem chi tiết</a>
-              </div>
-            </div>
-
-            <div class="card border-primary mb-3">
-              <div class="card-body">
-                <span class="card-text fw-bold">Xuất khẩu</span>
-
-                <button class="bg-transparent remove-category text-danger float-end mx-2">
-                  <i class="bi bi-trash-fill"></i>
-                  Xóa
-                </button>
-                <button data-bs-toggle="modal" data-bs-target="#editCategoryModal"
-                  class="bg-transparent text-info float-end mx-2">
-                  <i class="fa-solid fa-pen"></i>
-                  Sửa
-                </button>
-                <a href="#" class="text-primary float-end mx-2">Xem chi tiết</a>
-              </div>
-            </div>
-
-            <div class="card border-primary mb-3">
-              <div class="card-body">
-                <span class="card-text fw-bold">Nông thôn mới</span>
-
-                <button class="bg-transparent remove-category text-danger float-end mx-2">
-                  <i class="bi bi-trash-fill"></i>
-                  Xóa
-                </button>
-                <button data-bs-toggle="modal" data-bs-target="#editCategoryModal"
-                  class="bg-transparent text-info float-end mx-2">
-                  <i class="fa-solid fa-pen"></i>
-                  Sửa
-                </button>
-                <a href="#" class="text-primary float-end mx-2">Xem chi tiết</a>
-              </div>
-            </div>
+          <div class="col-lg-12">
+            <nav aria-label="Page navigation example" id="pagination">
+              {{{createPagination pagination paginationClass='pagination justify-content-center' leftText='Previous'
+              rightText='Next'}}}
+            </nav>
           </div>
         </div>
 
-        <!-- Modal for Add category -->
-        <div class="modal fade" id="exampleModalCenteredScrollable" tabindex="-1"
-          aria-labelledby="exampleModalCenteredScrollableTitle" style="display: none" aria-hidden="true">
+
+        <!-- Modal for Edit tag -->
+        <div class="modal fade" id="editTagModal" tabindex="-1" aria-labelledby="editTagModalCenteredScrollableTitle"
+          style="display: none" aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content">
               <div class="modal-header text-center">
-                <h1 class="modal-title fs-5" id="exampleModalCenteredScrollableTitle">
-                  Thêm nhãn mới
-                </h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-
-              <div class="modal-body">
-                <p class="mt-5">Nhập tên nhãn mới</p>
-                <div class="input-group mb-5">
-                  <input type="text" class="form-control" placeholder="Tên nhãn mới" aria-label="Tên nhãn mới" />
-                </div>
-              </div>
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger">Thêm</button>
-
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                  Hủy
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Modal for Edit category -->
-        <div class="modal fade" id="editCategoryModal" tabindex="-1"
-          aria-labelledby="exampleModalCenteredScrollableTitle" style="display: none" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-              <div class="modal-header text-center">
-                <h1 class="modal-title fs-5" id="exampleModalCenteredScrollableTitle">
+                <h1 class="modal-title fs-5" id="editTagModalCenteredScrollableTitle">
                   Cập nhật nhãn
                 </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
+              <form action="/admin/tags" method="get" onsubmit='updateTag(event)'>
+                <div class="modal-body">
+                  <p class="my-3">Id nhãn</p>
+                  <div class="input-group my-4">
 
+                    <input type="text" disabled class="form-control text-secondary tagId" />
+
+                  </div>
+
+                  <p class="mt-5">Nhập tên mới cho nhãn</p>
+                  <div class="input-group mb-5">
+                    <input type="text" class="form-control newName" placeholder="Tên mới cho nhãn"
+                      aria-label="Tên nhãn mới" required />
+                  </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-danger">
+                    Cập nhật
+                  </button>
+
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Hủy
+                  </button>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal for Add tag -->
+      <div class="modal fade" id="addTagModal" tabindex="-1" aria-labelledby="addTagModalCenteredScrollableTitle"
+        style="display: none" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header text-center">
+              <h1 class="modal-title fs-5" id="addTagModalCenteredScrollableTitle">
+                Thêm nhãn
+              </h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="/admin/tags" method="get" onsubmit='addTag(event)'>
               <div class="modal-body">
-                <p class="mt-5">Nhập tên nhãn mới</p>
+
+                <p class="mt-5">Nhập tên mới cho nhãn</p>
                 <div class="input-group mb-5">
-                  <input type="text" class="form-control" placeholder="Tên nhãn mới" aria-label="Tên nhãn mới" />
+                  <input type="text" class="form-control newName" placeholder="Tên mới cho nhãn"
+                    aria-label="Tên nhãn mới" required />
                 </div>
               </div>
 
               <div class="modal-footer">
-                <button type="button" class="btn btn-danger">
+                <button type="submit" class="btn btn-danger">
                   Cập nhật
                 </button>
 
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                   Hủy
                 </button>
-              </div>
-            </div>
+            </form>
+
           </div>
         </div>
+      </div>
 
-        <div class="row g-4 my-2">
-          <div class="col-md-3"></div>
+      <div class="row g-4 my-2">
+        <div class="col-md-3"></div>
 
-          <div class="col-md-3"></div>
-        </div>
+        <div class="col-md-3"></div>
       </div>
     </div>
+  </div>
   </div>
 </main>
 
 {{> footer}}
 
 <script>
-  document.querySelectorAll(".remove-category").forEach((item) =>
+  const addTagModal = document.getElementById('addTagModal')
+
+  document.querySelectorAll(".remove-tag").forEach((item) =>
     item.addEventListener("click", (e) => {
-      if (confirm("Bạn có chắc chắn muốn xóa nhãn này?")) {
-        e.target.parentElement.parentElement.remove();
+      const tagId = e.target.getAttribute('data-bs-id')
+      const tagTitle = e.target.getAttribute('data-bs-title')
+      if (confirm(`Bạn có chắc chắn muốn xóa nhãn '${tagTitle}' với id ${tagId}?`)) {
+        const requestOptions = {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: tagId })
+        };
+        fetch('/admin/tags', requestOptions)
+          .then(response => response.json())
+          .then(data => {
+            alert(data.message)
+            if (data.success === true) {
+              setTimeout(() => location.reload(), 1000)
+            }
+          });
+
       }
+
     })
   );
+
+  document.querySelectorAll('#pagination li').forEach((li) => {
+    li.classList.add('page-item')
+  })
+  document.querySelectorAll('#pagination a').forEach((a) => {
+    a.classList.add('page-link')
+  })
+
+  const editTagModal = document.getElementById('editTagModal')
+  if (editTagModal) {
+    editTagModal.addEventListener('show.bs.modal', event => {
+      // Button that triggered the modal
+      const button = event.relatedTarget
+      // Extract info from data-bs-* attributes
+      const recipient = button.getAttribute('data-bs-whatever')
+      const tagId = button.getAttribute('data-bs-id')
+      const tagTitle = button.getAttribute('data-bs-title')
+      // If necessary, you could initiate an Ajax request here
+      // and then do the updating in a callback.
+
+      // Update the modal's content.
+      const modalTitle = editTagModal.querySelector('.modal-title')
+      const modalBodyInput = editTagModal.querySelector('.modal-body input.newName')
+      const modalTagId = editTagModal.querySelector('.modal-body .tagId')
+
+      modalTagId.value = tagId
+      modalTitle.textContent = `Chỉnh sửa nhãn ${tagTitle}`
+    })
+  }
+
+  function updateTag(e) {
+    e.preventDefault();
+    const modalBodyInput = editTagModal.querySelector('.modal-body input.newName')
+    const modalTagId = editTagModal.querySelector('.modal-body .tagId')
+    const newName = modalBodyInput.value
+    const tagId = modalTagId.value
+
+    if (newName === "") {
+      modalBodyInput.setCustomValidity('Nhãn phải có ít nhất 1 kí tự');
+      modalBodyInput.checkValidity();
+    }
+
+    console.log({ id: tagId, newName })
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: modalTagId.value, newName: modalBodyInput.value })
+    };
+    fetch('/admin/tags', requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        alert(data.message)
+        if (data.success === true) {
+          setTimeout(() => location.reload(), 1000)
+        }
+      });
+    editTagModal.querySelector('[data-bs-dismiss="modal"]').click()
+
+  }
+
+  function addTag(e) {
+    e.preventDefault();
+    const modalNewname = addTagModal.querySelector('.modal-body .newName')
+    const newName = modalNewname.value
+
+    console.log({ newName })
+
+    if (newName.length < 1) {
+      alert('Tên nhãn phải có ít nhất 1 kí tự');
+    }
+    else {
+      console.log({ title: newName })
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: newName })
+      };
+      fetch('/admin/tags', requestOptions)
+        .then(response => response.json())
+        .then(data => {
+          alert(data.message)
+          if (data.success === true) {
+            setTimeout(() => location.reload(), 1000)
+          }
+        });
+    }
+
+    modalNewname.value = ""
+    addTagModal.querySelector('[data-bs-dismiss="modal"]').click()
+  }
 </script>
