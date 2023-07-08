@@ -7,14 +7,23 @@ main {
     background: lightgray;
     padding: 0.5em 1em;
     border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .tag-container>span {
     margin-right: 1em;
 }
 
-.tag-container>i:hover {
-    border: 1px solid black;
+.tag-container>i{
+    opacity: 0.8;
+    transition: opacity 0.2s;
+    font-size: 25px;
+}
+
+.tag-container>i:hover{
+    opacity: 1;
 }
 
 #category {
@@ -33,4 +42,17 @@ main {
 .cancel-btn,
 .post-btn {
     padding: 1em 1.5em;
+}
+
+.cmt-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.comment{
+    resize: none;
+    display: flex;
+    padding: 10px 15px;
+    margin-top: 15px;
+    border-radius: 5px;
 }
