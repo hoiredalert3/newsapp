@@ -12,9 +12,9 @@ const controller = {};
 // Show post
 controller.showPosts = async (req, res) => {
   const categoryId = req.query.category ? parseInt(req.query.category) : 0;
-
+  const tagId = req.query.category ? parseInt(req.query.category) : 0;
   let options = {
-    where: {statusId: 5},
+    where: { statusId: 5 },
     include: [],
     order: [["isPremium", "DESC"]],
     raw: true,
@@ -59,8 +59,6 @@ controller.showPosts = async (req, res) => {
   res.locals.parentCategory = parentCategory;
   res.locals.childCategories = childCategories;
 
-  
-
   //Handle sort posts
   let sort = ["newest", "viewed", "hot"].includes(req.query.sort)
     ? req.query.sort
@@ -79,7 +77,6 @@ controller.showPosts = async (req, res) => {
       sort = "<b>nổi bật</b>";
       break;
     default:
-     
       break;
   }
 
@@ -93,12 +90,27 @@ controller.showPosts = async (req, res) => {
   const keyword = req.query.keyword || "";
   if (keyword.trim()) {
     options.where.SearchContent = {
-      [Op.match]: fn('plainto_tsquery', keyword)
-    }
+      [Op.match]: fn("plainto_tsquery", keyword),
+    };
 
-    options.attributes = ['id', 'authorId', 'title', 'summary', 'statusId', 'publishedAt', 'removedAt', 'thumbnailUrl', 'content', 'isPremium', 'createdAt', 'updatedAt',
-      sequelize.literal(`ts_rank("SearchContent", plainto_tsquery('english', '${keyword}')) AS "searchScore"`)];
-    options.order.push(sequelize.literal('"searchScore" DESC'))
+    options.attributes = [
+      "id",
+      "authorId",
+      "title",
+      "summary",
+      "statusId",
+      "publishedAt",
+      "removedAt",
+      "thumbnailUrl",
+      "content",
+      "isPremium",
+      "createdAt",
+      "updatedAt",
+      sequelize.literal(
+        `ts_rank("SearchContent", plainto_tsquery('english', '${keyword}')) AS "searchScore"`
+      ),
+    ];
+    options.order.push(sequelize.literal('"searchScore" DESC'));
   }
   if (categoryId <= 0) {
     options.include.push({
@@ -106,7 +118,6 @@ controller.showPosts = async (req, res) => {
       where: { parentId: { [Op.not]: null } },
     });
   }
-
 
   //Handle pagination
   const page = isNaN(req.query.page)
@@ -116,8 +127,7 @@ controller.showPosts = async (req, res) => {
   options.limit = limit;
   options.offset = limit * (page - 1);
 
-  options.order.push(["isPremium", "DESC"]);
-  console.log(options)
+  console.log(options);
   const { rows, count } = await models.Post.findAndCountAll(options);
 
   rows.forEach((row) => {
@@ -145,6 +155,74 @@ controller.showPosts = async (req, res) => {
   });
 };
 
+// Show search
+controller.showPostBySearching = async (req, res) => {
+  // Category có query là category, 0/null là tất cả
+  // type có 4 kiểu (0-3): tất cả, tiêu đề, tóm tắt, nội dung.
+  const options = {
+    order: [
+      ["isPremium", "DESC"],
+      ["publishedAt", "DESC"]
+    ],
+    where: { statusId: 5 }
+  };
+
+  // Handle pagination
+  const page = isNaN(req.query.page)
+    ? 1
+    : Math.max(1, parseInt(req.query.page));
+  const limit = 8;
+  options.limit = limit;
+  options.offset = limit * (page - 1);
+  const { rows, count } = await models.Post.findAndCountAll(options);
+
+  rows.forEach((row) => {
+    row.CategoryId = row["Categories.id"];
+    row.CategoryTitle = row["Categories.title"];
+  });
+
+  res.locals.pagination = {
+    page: page,
+    limit: limit,
+    totalRows: count,
+    queryParams: req.query,
+  };
+  // console.log(count);
+  res.locals.total = count;
+  res.locals.posts = rows;
+
+  // Lấy Categories 
+  const categories = await models.Category.findAll({});
+  if (req.query.category == 0) {
+    res.locals.categoryAll = true;
+  }
+  else if (req.query.category > 0 && req.query.category <= categories.length) {
+    categories[req.query.category - 1].selected = true;
+  }
+  categories.forEach((cat) => {
+    cat.url = req.originalUrl;
+  });
+
+  if (req.query.type == 0) {
+    res.locals.type0 = true;
+  }
+  else if (req.query.type == 1) {
+    res.locals.type1 = true;
+  }
+  else if (req.query.type == 2) {
+    res.locals.type2 = true;
+  }
+  else if (req.query.type == 3) {
+    res.locals.type3 = true;
+  }
+
+  res.locals.url = req.originalUrl;
+  res.locals.keyword = req.query.keyword;
+  res.locals.category = req.query.category;
+  res.locals.categories = categories;
+
+  return res.render("search");
+};
 // Show post
 
 async function getCategories(post) {

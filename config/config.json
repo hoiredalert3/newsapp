@@ -1,7 +1,8 @@
 {
   "development": {
+    "use_env_variable": "POSTGRESQL_URL",
     "username": "postgres",
-    "password": "p!201102@P",
+    "password": "postgres",
     "database": "newsDB",
     "host": "127.0.0.1",
     "dialect": "postgres",

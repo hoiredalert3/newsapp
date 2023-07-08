@@ -217,7 +217,7 @@ app.use(async (req, res, next) => {
       parent.arrChildren = arrChildren;
       // console.log(arrChildren);
     });
-    res.locals.categories = categories;
+    res.locals.categoriesHeader = categories;
   } catch (error) {
     console.log(`Error: ${error}`);
   }
