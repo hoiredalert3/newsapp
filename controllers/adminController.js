@@ -402,6 +402,177 @@ controller.deleteTag = async (req, res) => {
   }
 };
 
+controller.showUsers = async (req, res) => {
+  try {
+    let options = {
+      attributes: { exclude: ["createdAt", "updatedAt", "password"] },
+      where: {},
+      include: [],
+      order: [],
+      // raw: true,
+    };
+
+    let userType = parseInt(req.query.userType || 1);
+    if (userType > 4 || userType < 1) {
+      userType = 1;
+    }
+    console.log(`\n USER TYPE HERE: ${userType}\n`);
+    options.where.typeId = userType;
+
+    const userTypes = await models.UserType.findAll({
+      attributes: ["id", "name"],
+      raw: true,
+    });
+    userTypes.forEach((e) => (e.id === userType ? (e.active = true) : false));
+    res.locals.userTypes = userTypes;
+
+    const keyword = req.query.keyword || "";
+    console.log("Search keyword in admin/users: ", keyword);
+
+    const page = isNaN(req.query.page)
+      ? 1
+      : Math.max(1, parseInt(req.query.page));
+
+    if (keyword.trim()) {
+      options.where.username = { [Op.like]: `%${keyword}%` };
+    }
+    res.locals.keyword = keyword;
+
+    res.locals.originalUrl = removeParam("level", req.originalUrl);
+    if (Object.keys(req.query).length == 0) {
+      res.locals.originalUrl += "?";
+    }
+
+    const limit = 10;
+    options.limit = limit;
+    options.offset = limit * (page - 1);
+
+    const { rows, count } = await models.User.findAndCountAll(options);
+    res.locals.pagination = {
+      page: page,
+      limit: limit,
+      totalRows: count,
+      queryParams: req.query,
+    };
+
+    res.locals.manageUsers = rows;
+
+    console.log(rows);
+
+    return res.render("admin-users");
+  } catch (error) {
+    console.error("Error in /admin/users controller: ", error);
+  }
+};
+
+controller.addUser = async (req, res) => {
+  try {
+    console.log("WE ARE IN addUser!");
+
+    console.log(req.body);
+
+    let { title } = req.body;
+
+    console.log({ title });
+
+    const searchTag = await models.Tag.findOne({ where: { title: title } });
+    console.log("Found tag: ", searchTag);
+    if (searchTag) {
+      return res.json({
+        success: false,
+        message: "Thêm nhãn thất bại, đã tồn tại nhãn với tên: " + title,
+      });
+    }
+
+    const newTag = {
+      removedAt: null,
+      title,
+      content: null,
+      createdAt: sequelize.literal("NOW()"),
+      updatedAt: sequelize.literal("NOW()"),
+    };
+
+    const tagDetail = await models.Tag.create(newTag);
+    console.log(`\nCreated tag successfully ${tagDetail}\n`);
+
+    res.json({ success: true, message: "Thêm nhãn mới thành công" });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+controller.updateUser = async (req, res) => {
+  try {
+    const { id, newName } = req.body;
+
+    const tagToUpdate = await models.Tag.findByPk(id);
+    console.log("tagToUpdate: ", tagToUpdate);
+    if (!tagToUpdate) {
+      return res.json({
+        success: false,
+        message: "Cập nhật nhãn thất bại, không tồn tại nhãn với id: " + tagId,
+      });
+    }
+
+    if (newName.length < 1) {
+      return res.json({
+        success: false,
+        message:
+          "Cập nhật nhãn thất bại, tên nhãn phải có ít nhất 1 kí tự: " +
+          newName,
+      });
+    }
+
+    await models.Tag.update({ title: newName }, { where: { id } });
+    res.json({ success: true, message: "Cập nhật thành công" });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+controller.deleteUser = async (req, res) => {
+  try {
+    console.log("WE ARE IN deleteTag!");
+
+    console.log(req.body);
+    const tagId = isNaN(req.body.id) ? -2 : Math.max(0, parseInt(req.body.id));
+
+    console.log("Tag to delete: ", tagId);
+
+    const tagToDelete = await models.Tag.findByPk(tagId);
+    console.log("tagToDelete: ", tagToDelete);
+    if (!tagToDelete) {
+      return res.json({
+        success: false,
+        message: "Xóa nhãn thất bại, không tồn tại nhãn với id: " + tagId,
+      });
+    }
+
+    const postWithTag = await models.PostTag.findOne({
+      where: { tagId },
+    });
+
+    if (postWithTag) {
+      return res.json({
+        success: false,
+        message:
+          "Xóa nhãn thất bại, vẫn còn bài viết với nhãn, id bài viết " +
+          postWithTag.dataValues.postId,
+      });
+    }
+
+    const result = await models.Tag.destroy({
+      where: {
+        id: tagId,
+      },
+    });
+    console.log(result);
+    res.json({ success: true, message: "Xóa nhãn thành công" });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 function removeParam(key, sourceURL) {
   var rtn = sourceURL.split("?")[0],
     param,

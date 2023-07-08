@@ -1,5 +1,4 @@
 {{> bootstrap-lib }}
-
 <main class="container">
   <div class="d-flex" id="wrapper">
     {{> admin-nav}}
@@ -10,70 +9,162 @@
         <div class="row g-4 my-2">
           <div class="col-md-4">
             <h2 class="text-dark fw-bold fs-2 text-uppercase text-nowrap">
-              Độc giả
+              Người dùng
             </h2>
           </div>
+
+          <div class="offset-md-4 col-md-4">
+            <!-- Button trigger modal -->
+
+            <button type="button" class="btn btn-primary text-nowrap text-dark" data-bs-toggle="modal"
+              data-bs-target="#addTagModal">
+              <i class="fa-solid fa-plus text-dark"></i>
+              Thêm người dùng
+            </button>
+
+          </div>
         </div>
 
-        <div class="row g-4 my-2 row-cols-1">
-          <div class="col">Tên độc giả</div>
+        <div class="col-lg-12 mt-4">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="posts-search form-outline">
+                <form class="d-flex" action="/admin/users" method="GET">
+                  <input class="form-control outline-primary" type="search" name="keyword" id="keywordInput"
+                    placeholder="Search by username" {{#if keyword}} value="{{keyword}}" {{/if}} required>
+                  <button class="btn btn-outline-primary"><i class="fa fa-search"></i></button>
+                </form>
 
-          <div class="col">
-            <div class="card border-primary mb-3">
-              <div class="card-body">
-                <span class="card-text fw-bold">Nguyễn Văn A</span>
-
-                <button class="bg-transparent remove-user text-danger float-end mx-2">
-                  Xóa
-                </button>
-                <button data-bs-toggle="modal" data-bs-target="#extendSubscriptionModal"
-                  class="bg-transparent text-warning float-end mx-2">
-                  Gia hạn Premium
-                </button>
-                <a href="profile.html" target="_blank" class="text-primary float-end mx-2">Xem chi tiết</a>
-              </div>
-            </div>
-
-            <div class="card border-primary mb-3">
-              <div class="card-body">
-                <span class="card-text fw-bold">Nguyễn Văn B</span>
-
-                <button class="bg-transparent remove-user text-danger float-end mx-2">
-                  Xóa
-                </button>
-                <button data-bs-toggle="modal" data-bs-target="#extendSubscriptionModal"
-                  class="bg-transparent text-warning float-end mx-2">
-                  Gia hạn Premium
-                </button>
-                <a href="profile.html" target="_blank" class="text-primary float-end mx-2">Xem chi tiết</a>
-              </div>
-            </div>
-
-            <div class="card border-primary mb-3">
-              <div class="card-body">
-                <span class="card-text fw-bold">Nguyễn Văn C</span>
-
-                <button class="bg-transparent remove-user text-danger float-end mx-2">
-                  Xóa
-                </button>
-                <button data-bs-toggle="modal" data-bs-target="#extendSubscriptionModal"
-                  class="bg-transparent text-warning float-end mx-2">
-                  Gia hạn Premium
-                </button>
-                <a href="profile.html" target="_blank" class="text-primary float-end mx-2">Xem chi tiết</a>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Modal for Publish Post -->
+        {{#if adminSuccessMessage}}
+        <div class="alert alert-success" role="alert">
+          {{adminSuccessMessage}}
+        </div>
+        {{/if}}
+
+        <div class="row g-4 my-2">
+
+          <div class="user-types d-flex gap-5">
+
+            {{#each userTypes }}
+            {{#if active}}
+            <a href="/admin/users?userType={{id}}" class="text-primary" id="button-cat1">
+              {{name}}
+            </a>
+            {{else}}
+            <a href="/admin/users?userType={{id}}" class="" id="button-cat1">
+              {{name}}
+            </a>
+            {{/if}}
+            {{/each}}
+
+          </div>
+
+          <div class="col">
+            {{#each manageUsers }}
+            <div class="card border-primary mb-3">
+              <div class="card-body">
+                <span class="card-text fw-bold"> {{name}} - {{username}}</span>
+
+                <button class="bg-transparent remove-tag text-danger float-end mx-2" data-bs-whatever="Xoa id{{id}}">
+                  <i class=" bi bi-trash-fill"></i>
+                  Xóa
+                </button>
+                <button data-bs-toggle="modal" data-bs-target="#extendSubscriptionModal"
+                  class="bg-transparent text-warning float-end mx-2">
+                  Gia hạn Premium
+                </button>
+
+                <button data-bs-toggle="modal" data-bs-target="#userDetailsModal"
+                  class="bg-transparent text-info float-end mx-2" data-bs-whatever="Chinh sua id{{id}}" data-id="{{id}}"
+                  data-username="{{username}}" data-name="{{name}}" data-email="{{email}}" data-dob="{{dob}}">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  Xem chi tiết
+                </button>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+
+          <div class="col-lg-12">
+            <nav aria-label="Page navigation example" id="pagination">
+              {{{createPagination pagination paginationClass='pagination justify-content-center' leftText='Previous'
+              rightText='Next'}}}
+            </nav>
+          </div>
+        </div>
+
+        <!-- Modal for User details -->
+        <div class="modal fade" id="userDetailsModal" tabindex="-1"
+          aria-labelledby="userDetailsModalCenteredScrollableTitle" style="display: none" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header text-center">
+                <h1 class="modal-title fs-5" id="userDetailsModalCenteredScrollableTitle">
+                  Thông tin người dùng
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/admin/users" method="get" onsubmit='updateTag(event)'>
+                <div class="modal-body">
+                  <p class="my-3">Id</p>
+                  <div class="input-group my-3">
+                    <input type="text" disabled class="form-control text-secondary userId" />
+                  </div>
+
+                  <p class="my-3">Username</p>
+                  <div class="input-group my-3">
+                    <input type="text" disabled class="form-control text-secondary username" />
+                  </div>
+
+                  <p class="my-3">Họ và tên</p>
+                  <div class="input-group my-3">
+                    <input type="text" disabled class="form-control text-secondary name" />
+                  </div>
+
+                  <p class="my-3">Email</p>
+                  <div class="input-group my-3">
+                    <input type="text" disabled class="form-control text-secondary email" />
+                  </div>
+
+                  <p class="my-3">Ngày sinh</p>
+                  <div class="input-group my-3">
+                    <input type="text" disabled class="form-control text-secondary dob" />
+                  </div>
+
+                  {{!-- <p class="mt-5">Nhập tên mới cho nhãn</p>
+                  <div class="input-group mb-5">
+                    <input type="text" class="form-control newName" placeholder="Tên mới cho nhãn"
+                      aria-label="Tên nhãn mới" required />
+                  </div> --}}
+                </div>
+
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-danger">
+                    Cập nhật
+                  </button>
+
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Hủy
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for Extend Premium -->
         <div class="modal fade" id="extendSubscriptionModal" tabindex="-1"
           aria-labelledby="exampleModalCenteredScrollableTitle" style="display: none" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-header text-center">
                 <h1 class="modal-title fs-5" id="exampleModalCenteredScrollableTitle">
-                  Xác nhận xuất bản bài viết
+                  Gia hạn Premium
                 </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
@@ -98,11 +189,89 @@
           </div>
         </div>
 
+        <!-- Modal for Edit tag -->
+        <div class="modal fade" id="editTagModal" tabindex="-1" aria-labelledby="editTagModalCenteredScrollableTitle"
+          style="display: none" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header text-center">
+                <h1 class="modal-title fs-5" id="editTagModalCenteredScrollableTitle">
+                  Cập nhật nhãn
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/admin/tags" method="get" onsubmit='updateTag(event)'>
+                <div class="modal-body">
+                  <p class="my-3">Id nhãn</p>
+                  <div class="input-group my-4">
+
+                    <input type="text" disabled class="form-control text-secondary tagId" />
+
+                  </div>
+
+                  <p class="mt-5">Nhập tên mới cho nhãn</p>
+                  <div class="input-group mb-5">
+                    <input type="text" class="form-control newName" placeholder="Tên mới cho nhãn"
+                      aria-label="Tên nhãn mới" required />
+                  </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-danger">
+                    Cập nhật
+                  </button>
+
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Hủy
+                  </button>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for Add tag -->
+        <div class="modal fade" id="addTagModal" tabindex="-1" aria-labelledby="addTagModalCenteredScrollableTitle"
+          style="display: none" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header text-center">
+                <h1 class="modal-title fs-5" id="addTagModalCenteredScrollableTitle">
+                  Thêm người dùng
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/admin/tags" method="get" onsubmit='addTag(event)'>
+                <div class="modal-body">
+
+                  <p class="mt-5">Nhập tên mới cho nhãn</p>
+                  <div class="input-group mb-5">
+                    <input type="text" class="form-control newName" placeholder="Tên mới cho nhãn"
+                      aria-label="Tên nhãn mới" required />
+                  </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-danger">
+                    Cập nhật
+                  </button>
+
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Hủy
+                  </button>
+              </form>
+
+            </div>
+          </div>
+        </div>
+
         <div class="row g-4 my-2">
           <div class="col-md-3"></div>
 
           <div class="col-md-3"></div>
         </div>
+
       </div>
     </div>
   </div>
@@ -110,6 +279,13 @@
 
 {{> footer}}
 <script>
+  document.querySelectorAll('#pagination li').forEach((li) => {
+    li.classList.add('page-item')
+  })
+  document.querySelectorAll('#pagination a').forEach((a) => {
+    a.classList.add('page-link')
+  })
+
   document.querySelectorAll(".remove-user").forEach((item) =>
     item.addEventListener("click", (e) => {
       if (confirm("Bạn có chắc chắn muốn xóa độc giả này?")) {
@@ -117,4 +293,71 @@
       }
     })
   );
+
+  const userDetailsModal = document.getElementById('userDetailsModal')
+  if (userDetailsModal) {
+    userDetailsModal.addEventListener('show.bs.modal', event => {
+      // Button that triggered the modal
+      const button = event.relatedTarget
+      // Extract info from data-bs-* attributes
+      const userId = button.getAttribute('data-id')
+      const username = button.getAttribute('data-username')
+      const name = button.getAttribute('data-name')
+      const email = button.getAttribute('data-email')
+      const dob = button.getAttribute('data-dob')
+      // If necessary, you could initiate an Ajax request here
+      // and then do the updating in a callback.
+
+      // Update the modal's content.
+      const modalTitle = userDetailsModal.querySelector('.modal-title')
+      const modalUserId = userDetailsModal.querySelector('.modal-body .userId')
+      const modalUsername = userDetailsModal.querySelector('.modal-body .username')
+      const modalName = userDetailsModal.querySelector('.modal-body .name')
+      const modalEmail = userDetailsModal.querySelector('.modal-body .email')
+      const modalDob = userDetailsModal.querySelector('.modal-body .dob')
+
+      modalUserId.value = userId
+      modalUsername.value = username
+      modalName.value = name
+      modalEmail.value = email
+      modalDob.value = dob
+    })
+  }
+
+  function updateTag(e) {
+    e.preventDefault();
+    return;
+    const modalBodyInput = editTagModal.querySelector('.modal-body input.newName')
+    const modalTagId = editTagModal.querySelector('.modal-body .tagId')
+    const newName = modalBodyInput.value
+    const tagId = modalTagId.value
+
+    if (newName === "") {
+      modalBodyInput.setCustomValidity('Nhãn phải có ít nhất 1 kí tự');
+      modalBodyInput.checkValidity();
+    }
+
+    console.log({ id: tagId, newName })
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: modalTagId.value, newName: modalBodyInput.value })
+    };
+    fetch('/admin/tags', requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        alert(data.message)
+        if (data.success === true) {
+          setTimeout(() => location.reload(), 1000)
+        }
+      });
+    editTagModal.querySelector('[data-bs-dismiss="modal"]').click()
+
+  }
 </script>
+
+<style>
+  .modal {
+    overflow-y: scroll;
+  }
+</style>
