@@ -2,14 +2,12 @@
 
 <link rel="stylesheet" href="/css/signup.css">
 <link rel="stylesheet" href="/css/general.css">
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 <main class="w-100 h-100">
-    <form action="/users/register" method="post"
-        class="w-100 h-100 position-relative d-flex flex-column align-items-center justify-content-center"
-        id="formRegister">
+    <form action="/users/register" method="post" class="w-100 h-100 position-relative d-flex flex-column align-items-center justify-content-center" id="formRegister">
 
-        <div class="signup-layout-1 position-absolute blurred-container d-flex flex-column gap-4 align-items-center"
-            id="signup-l1">
+        <div class="signup-layout-1 position-absolute blurred-container d-flex flex-column gap-4 align-items-center" id="signup-l1">
             <span class="fw-bold fs-2 mb-3 user-select-none">Đăng ký</span>
 
             {{#if registerMessage}}
@@ -25,10 +23,7 @@
             {{/if}}
             {{!-- <span class="fs-4 fw-bold user-select-none">Nhanh chóng thiết lập tài khoản</span> --}}
             <div class="input-container">
-                <input type="text" class="form-control fs-5" name="username" id="username" placeholder="Tên người dùng"
-                    pattern="^[A-Za-z](?=.*\d)(?=.*[A-Za-z]).{5,}$"
-                    title="Username gồm ít nhất 6 kí từ gồm chữ đầu tiên phải là chữ cái, gồm ít nhất 1 chữ cái và 1 chữ số!"
-                    required>
+                <input type="text" class="form-control fs-5" name="username" id="username" placeholder="Tên người dùng" pattern="^[A-Za-z](?=.*\d)(?=.*[A-Za-z]).{5,}$" title="Username gồm ít nhất 6 kí từ gồm chữ đầu tiên phải là chữ cái, gồm ít nhất 1 chữ cái và 1 chữ số!" required>
                 <div>
                     <img src="/img/icons/info.png" alt="" class="info-img">
                     <div class="note-item note-item-custom1">
@@ -38,8 +33,7 @@
                 </div>
             </div>
             <div class="input-container">
-                <input type="email" class="form-control fs-5" name="email" id="email" placeholder="Email"
-                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Email không hợp lệ!" required>
+                <input type="email" class="form-control fs-5" name="email" id="email" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Email không hợp lệ!" required>
                 <div>
                     <img src="/img/icons/info.png" alt="" class="info-img">
                     <div class="note-item note-item-custom2">
@@ -49,10 +43,7 @@
             </div>
 
             <div class="input-container">
-                <input type="password" class="form-control fs-5" name="password" id="password" placeholder="Mật khẩu"
-                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-                    title="Mật khẩu phải gồm ít nhất 1 chữ cái thường, 1 in hoa, 1 chữ số, 1 kí tự đặc biệc và 8 kí tự."
-                    required>
+                <input type="password" class="form-control fs-5" name="password" id="password" placeholder="Mật khẩu" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Mật khẩu phải gồm ít nhất 1 chữ cái thường, 1 in hoa, 1 chữ số, 1 kí tự đặc biệc và 8 kí tự." required>
                 <div>
                     <img src="/img/icons/info.png" alt="" class="info-img">
                     <div class="note-item note-item-custom1">
@@ -61,8 +52,7 @@
                 </div>
             </div>
             <div class="input-container">
-                <input type="password" class="form-control fs-5" name="confirmPassword" id="re-password"
-                placeholder="Nhập lại mật khẩu" onchange="checkPasswordConfirm('formRegister')" required>
+                <input type="password" class="form-control fs-5" name="confirmPassword" id="re-password" placeholder="Nhập lại mật khẩu" onchange="checkPasswordConfirm('formRegister')" required>
                 <div>
                     <img src="/img/icons/info.png" alt="" class="info-img">
                     <div class="note-item note-item-custom2">
@@ -71,7 +61,7 @@
                 </div>
             </div>
 
-            
+
             <button class="fs-4 mt-3" id="l1-continue-btn" type="button">Tiếp tục</button>
             <span class="fs-5 mt-3">Đã có tài khoản?<a href="/users/login"> Đăng nhập</a></span>
         </div>
@@ -89,8 +79,10 @@
                 <option value="writer">Phóng viên</option>
                 <option value="editor">Biên tập viên</option>
             </select> --}}
-            
+
             <input type="hidden" name="reqUrl" value="{{reqUrl}}" />
+            <div class="g-recaptcha d-flex align-items-center justify-content-center" data-sitekey="{{sitekey}}"></div>
+            <br />
             <button type="submit" class="fs-4 mt-4" id="signup-btn">Đăng ký</button>
         </div>
     </form>

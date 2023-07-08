@@ -126,11 +126,32 @@ controller.showSignup = (req, res) => {
     reqUrl: req.query.reqUrl,
     registerMessage: req.flash("registerMessage"),
     registerMessageSuccess: req.flash("registerMessageSuccess"),
+    sitekey: process.env.CAPTCHA_SITE_KEY
   });
 };
 
-controller.signup = (req, res, next) => {
+controller.signup = async (req, res, next) => {
   let reqUrl = req.body.reqUrl ? req.body.reqUrl : "/users/profile";
+
+  const captchaData = {
+    secret: process.env.CAPTCHA_SECRET_KEY,
+    response: req.body['g-recaptcha-response']
+  }
+  const captchaVerification = await fetch('https://www.google.com/recaptcha/api/siteverify', {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: new URLSearchParams(Object.entries(captchaData)).toString()
+  }).then(_res => _res.json());
+  if (captchaVerification.success != true) {
+    return res.render("signup", {
+      registerMessage: 'Invalid captcha!',
+      reqUrl: reqUrl,
+      sitekey: process.env.CAPTCHA_SITE_KEY
+    });
+  }
+
   passport.authenticate("local-register", (error, user) => {
     if (error) {
       return next(error);
