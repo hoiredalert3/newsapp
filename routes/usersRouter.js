@@ -43,9 +43,10 @@ router.get("/editor/denied", controller.viewDeniedPost);
 router.get("/editor/approved", controller.viewApprovedPost);
 //
 router.get("/editor/draft", controller.showDraft);
+
 // WRITER
 router.get('/writer/editor', controller.showEditor);
-
+router.get('/writer/approvedPost', controller.showApprovedPostWriter);
 router.post('/imgupload', cloudUploadMiddleware, controller.handleUpload);
 router.post('/submit-article',
   body(['authorId', 'categories', 'tags', 'title', 'summary', 'thumbnailUrl', 'content']).exists().trim().notEmpty().withMessage('Invalid request!'),
@@ -56,6 +57,7 @@ router.post('/submit-article',
   setSubmissionStatus(2),
   controller.handleSubmission
 );
+
 router.post('/submit-draft',
   body('authorId').exists().trim().notEmpty().withMessage('Invalid request!').isInt().withMessage('Invalid user ID!'),
   errorMiddleware,
@@ -63,5 +65,6 @@ router.post('/submit-draft',
   controller.handleSubmission
 );
 
+router.post('/writer/removeDraft', controller.removeDraft);
 module.exports = router;
 
