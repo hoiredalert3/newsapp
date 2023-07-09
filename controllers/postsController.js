@@ -327,7 +327,7 @@ controller.showPost = async (req, res, next) => {
 					where: { userId },
 					raw: true
 				});
-				if (!premium || new Date(premium.dataValues.validUntil) < new Date()) {
+				if (!premium || new Date(premium.validUntil) < new Date()) {
 					const category = await models.Category.findOne({
 						include: [
 							{
