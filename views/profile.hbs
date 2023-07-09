@@ -130,6 +130,18 @@
       </div>
     </div>
     {{/if}}
+     {{#if admin}}
+    <div class="profile-section" onclick="changeSection(1)">
+      <p>
+        <a href="/admin/dashboard" style="font-size: 17.5px;">
+       Quản lý admin
+      </a>
+      </p>
+      <div class="vertical-line-animate">
+
+      </div>
+    </div>
+    {{/if}}
     {{/if}}
   </div>
 
@@ -199,6 +211,7 @@
             </p>
           </div>
           {{/if}}
+
         </div>
 
         <button type="submit" onclick="submitInfomations()">

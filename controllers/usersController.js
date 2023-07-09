@@ -50,6 +50,9 @@ controller.showProfile = async (req, res) => {
 			console.log(error);
 		}
 	}
+	else if(typeId == 4){
+		user.admin =true;
+	}
 
 	if (user.writer) {
 		try {
