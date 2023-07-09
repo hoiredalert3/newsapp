@@ -324,9 +324,10 @@ controller.showPost = async (req, res, next) => {
 				// Kiem tra premium
 				const userId = req.user.dataValues.id;
 				const premium = await models.PremiumDetails.findOne({
-					where: { userId, status: true },
+					where: { userId },
+					raw: true
 				});
-				if (!premium) {
+				if (!premium || new Date(premium.validUntil) < new Date()) {
 					const category = await models.Category.findOne({
 						include: [
 							{
@@ -347,6 +348,18 @@ controller.showPost = async (req, res, next) => {
 							},
 						})
 					);
+				} else {
+					let today = new Date();
+					if (today > premium.validUntil)
+						return res.redirect(
+							url.format({
+								pathname: "/posts",
+								query: {
+									category: category.dataValues.id,
+									premiumMessage: "Bạn cần gia hạn Premium để đọc bài báo này!",
+								},
+							})
+						);
 				}
 			}
 		}
