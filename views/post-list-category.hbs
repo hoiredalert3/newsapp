@@ -48,7 +48,7 @@
     <div class="row">
       <div class="col-md-8">
         <div class="posts-search form-outline">
-          <form class="d-flex" action="/posts" method="GET">
+          <form class="d-flex" action="/posts/search" method="GET">
             <input class="form-control outline-primary" type="search" name="keyword" id="keywordInput"
               placeholder="Search" required>
             <button class="btn btn-outline-primary"><i class="fa fa-search"></i></button>
@@ -129,7 +129,6 @@
       {{{createPagination pagination paginationClass='pagination justify-content-center' leftText='Previous'
       rightText='Next'}}}
     </nav>
-
   </div>
 
     {{#if premiumMessage}}

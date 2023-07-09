@@ -13,9 +13,7 @@
     <!-- Be Vietnam Pro, Noto Serif Display, Roboto -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Noto+Serif+Display:wght@400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&family=Noto+Serif+Display:wght@400;500;600;700;800;900&family=Roboto:ital,wght@0,100;0,300;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet" />
 
     <script src="https://kit.fontawesome.com/525f113dce.js" crossorigin="anonymous"></script>
 
@@ -178,29 +176,22 @@
                         </div>
                         <div id="add-tag-btn">
                             <!-- Modal trigger button -->
-                            <i class="bi bi-plus-square fs-4" type="button" data-bs-toggle="modal"
-                                data-bs-target="#add-tag-modal"></i>
+                            <i class="bi bi-plus-square fs-4" type="button" data-bs-toggle="modal" data-bs-target="#add-tag-modal"></i>
                             <!-- Modal Body -->
                             <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
-                            <div class="modal fade" id="add-tag-modal" tabindex="-1" data-bs-backdrop="static"
-                                data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId"
-                                aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
-                                    role="document">
+                            <div class="modal fade" id="add-tag-modal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="modalTitleId">Nhập tên nhãn</h5>
-                                            <button type="button" class="btn-close modal-close-btn"
-                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <button type="button" class="btn-close modal-close-btn" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
                                             <input type="text" class="p-2" id="tag-input" maxlength="20">
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary modal-close-btn"
-                                                data-bs-dismiss="modal">Hủy</button>
-                                            <button type="button" class="btn btn-primary"
-                                                id="modal-add-btn">Thêm</button>
+                                            <button type="button" class="btn btn-secondary modal-close-btn" data-bs-dismiss="modal">Hủy</button>
+                                            <button type="button" class="btn btn-primary" id="modal-add-btn">Thêm</button>
                                         </div>
                                     </div>
                                 </div>
@@ -219,8 +210,7 @@
             <div class="cmt-container">
                 <div class="title-container fs-5">
                     <span class="fs-4 fw-bold mb-5 ps-2">Tiêu đề</span>
-                    <input type="text" class="d-block w-100" name="title" id="title" {{#if title}} value="{{title}}"
-                        {{/if}} required>
+                    <input type="text" class="d-block w-100" name="title" id="title" {{#if title}} value="{{title}}" {{/if}} required>
                 </div>
                 {{#if rejectedPost}}
                 <textarea name="" id="" class="comment" readonly>{{titleCmt}}</textarea>
@@ -229,8 +219,7 @@
 
             <div class="summary-container fs-5">
                 <span class="fs-4 fw-bold mb-5 ps-2">Tóm tắt</span>
-                <textarea name="summary" class="d-block w-100" rows="4" id="summary"
-                    required>{{#if summary}}{{summary}}{{/if}}</textarea>
+                <textarea name="summary" class="d-block w-100" rows="4" id="summary" required>{{#if summary}}{{summary}}{{/if}}</textarea>
             </div>
 
             <div class="cmt-container">
@@ -260,7 +249,7 @@
             {{#if rejectedId}}
             <input type="text" name="rejectedId" id="rejectedId" value="{{rejectedId}}" hidden>
             {{/if}}
-            
+
             {{#if unappId}}
             <input type="text" name="unappId" id="unappId" value="{{unappId}}" hidden>
             {{/if}}
@@ -273,13 +262,11 @@
 
         <!-- Alert Modal -->
         <!-- Modal trigger button -->
-        <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#alertModal"
-            id="alertTriggerBtn" hidden></button>
+        <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#alertModal" id="alertTriggerBtn" hidden></button>
 
         <!-- Modal Body -->
         <!-- if you want to close by clicking outside the modal, delete the last endpoint:data-bs-backdrop and data-bs-keyboard -->
-        <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="modalTitleId"
-            aria-hidden="true">
+        <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="modalTitleId" aria-hidden="true">
             <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" role="document">
                 <div class="modal-content">
                     {{!-- <div class="modal-header">

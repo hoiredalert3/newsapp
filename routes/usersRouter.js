@@ -27,7 +27,7 @@ router.use(authController.isLoggedIn)
 
 router.get("/profile", controller.showProfile);
 router.post("/profile/update-infos", controller.updateInfomations)
-
+router.post("/premium", controller.buyPremium);
 // EDITOR
 router.get("/editor/review", controller.showReview);
 // Deny post

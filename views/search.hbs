@@ -1,0 +1,135 @@
+<link rel="stylesheet" href="/css/search.css" />
+
+<main>
+    <div class="banner">
+        <p class="big-title">
+            Tìm kiếm bài viết
+        </p>
+    </div>
+
+    <form action="/posts/search" method="get" id="seaching-form">
+        <div>
+            <input type="search" placeholder="Nhập từ khóa..." name="keyword" id="search-input" value="{{keyword}}" required />
+        </div>
+        <button>
+            <img src="/img/icons/search.png" alt="" />
+        </button>
+    </form>
+
+    <div class="horizontal-line">
+
+    </div>
+
+    <div id="main-container">
+        <div class="table-content">
+            <div class="group-type">
+                <div class="title">
+                    Tìm kiếm theo
+                </div>
+                <div class="types">
+                    <div onclick="search('{{url}}', 0, 0)" {{#if type0}}class="type-selected" {{/if}}>Tất cả</div>
+                    <div onclick="search('{{url}}', 0, 1)" {{#if type1}}class="type-selected" {{/if}}>Tiêu đề
+                    </div>
+                    <div onclick="search('{{url}}', 0, 2)" {{#if type2}}class="type-selected" {{/if}}>Tóm tắt
+                    </div>
+                    <div onclick="search('{{url}}', 0, 3)" {{#if type3}}class="type-selected" {{/if}}>Nội dung
+                    </div>
+                </div>
+            </div>
+            <div class="group-type">
+                <div class="title">
+                    Chuyên mục
+                </div>
+                <div class="types">
+                    <div onclick="search('{{url}}', 1, 0)" {{#if categoryAll}}class="type-selected" {{/if}}>Tất cả</div>
+                    {{#each categories}}
+                    <div onclick="search('{{url}}', 1, {{id}})" {{#if selected}}class="type-selected" {{/if}}>{{title}}
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+
+        <div class="posts-container">
+            <div class="posts-container--header">
+                <p>
+                    Tìm thấy <b>{{total}}</b> bài viết
+                </p>
+            </div>
+            <div class="post-list">
+                {{#each posts }}
+                <div class="post">
+                    <div class="img-post">
+                        <a href="/posts/{{id}}">
+                            <img src="{{thumbnailUrl}}" alt="{{title}}" />
+                        </a>
+                    </div>
+                    <div>
+                        <div class="post-meta-data">
+                            <a href="/posts?category={{CategoryId}}">{{CategoryTitle}}</a>
+                            <span>{{ convertToVietnameseDateTime publishedAt}}</span>
+                        </div>
+                        <a href="/posts/{{id}}">
+                            <p class="post-title">{{title}}</p>
+                        </a>
+                        <a href="/posts/{{id}}">
+                            <p class="abstract">
+                                {{summary}}
+                            </p>
+                        </a>
+                        {{#if isPremium}}
+                        <div class="subscriber">
+                            <img src="/img/icons/subscriber.png" alt="" class="icon-subscriber">
+                        </div>
+                        {{/if}}
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+            <div>
+                <nav aria-label="Page navigation example" id="pagination">
+                    {{{createPagination pagination paginationClass='pagination justify-content-center'
+                    leftText='Previous'
+                    rightText='Next'}}}
+                </nav>
+            </div>
+        </div>
+    </div>
+    <script>
+        function removeParam(key, sourceURL) {
+            var rtn = sourceURL.split("?")[0],
+                param, params_arr = [], queryString = (sourceURL.indexOf("?") !== -1) ?
+                    sourceURL.split("?")[1] : ""; if (queryString !== "") {
+                        params_arr =
+                            queryString.split("&"); for (var i = params_arr.length - 1; i >= 0; i -= 1) {
+                                param = params_arr[i].split("=")[0]; if (param === key) {
+                                    params_arr.splice(i, 1);
+                                }
+                            } if (params_arr.length) rtn = rtn + "?" +
+                                params_arr.join("&");
+                    }
+            return rtn;
+        }
+
+        function search(url, type, value) {
+            let key = null;
+            if (type == 0) {
+                key = "type";
+            }
+            else if (type == 1) {
+                key = "category";
+            }
+            url = removeParam(key, url);
+            if (url[url.length - 1] == '&') {
+                url += `${key}=${value}`;
+            }
+            else {
+                url += `&${key}=${value}`;
+            }
+            console.log(url)
+            
+            window.location.href = url;
+        }
+
+    </script>
+</main>
