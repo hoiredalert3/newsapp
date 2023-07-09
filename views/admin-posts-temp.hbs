@@ -69,29 +69,44 @@
             <div class="card border-primary mb-3">
               <div class="card-body">
                 <span class="card-text fw-bold"> {{title}} </span>
-
-                {{!-- <button class="bg-transparent remove-tag text-danger float-end mx-2"
+{{!-- 
+                <button class="bg-transparent remove-tag text-danger float-end mx-2"
                   data-bs-whatever="Xoa id{{id}}">
                   <i class=" bi bi-trash-fill"></i>
                   Xóa
-                </button> --}}
-                <button data-bs-toggle="modal" data-bs-target="#denyPostModal"
-                  class="bg-transparent text-danger float-end mx-2" data-id="{{id}}" data-title="{{title}}">
-                  Từ chối
                 </button>
+                 --}}
 
-                <button data-bs-toggle="modal" data-bs-target="#publishPostModal"
-                  class="bg-transparent text-success float-end mx-2" data-id="{{id}}" data-title="{{title}}">
-                  Xuất bản
+                 {{#if unapp}}
+                <button 
+                  class="bg-transparent text-danger float-end mx-2" >
+                  <a href="/admin/reviewPost?id={{id}}">Duyệt bài viết</a>
                 </button>
+                {{/if}}
 
-                <button data-bs-toggle="modal" data-bs-target="#postDetailsModal"
-                  class="bg-transparent text-info float-end mx-2" data-bs-whatever="Chinh sua id{{id}}"
-                  data-postId="{{id}}" data-authorId="{{authorId}}" data-title="{{title}}" data-statusId="{{statusId}}"
-                  data-publishedAt="{{publishedAt}}" data-isPremium="{{isPremium}}">
+                {{#unless unapp}}
+                {{#if draft}}
+                <button 
+                  class="bg-transparent text-info float-end mx-2">
                   <i class="fa-solid fa-magnifying-glass"></i>
-                  Xem chi tiết
+                  <a href="/admin/viewDraftPost?id={{id}}">Xem chi tiết</a>
                 </button>
+                {{/if}}
+                {{#if rejected}}
+                <button data-bs-toggle="modal" 
+                  class="bg-transparent text-info float-end mx-2">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <a href="/admin/viewDeniedPost?id={{id}}">Xem chi tiết</a>
+                </button>
+                {{/if}}
+                {{#if published}}
+                <button data-bs-toggle="modal"
+                  class="bg-transparent text-info float-end mx-2">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <a href="/admin/viewPublishedPost?id={{id}}">Xem chi tiết</a>
+                </button>
+                {{/if}}
+                {{/unless}}
 
                 {{#if ../isViewingEditor}}
                 <button type="button" class="bg-transparent text-info float-end mx-2" data-bs-toggle="modal"

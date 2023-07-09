@@ -41,12 +41,24 @@ router.delete("/users", controller.deleteUser);
 
 router.get("/posts", controller.showPosts);
 
-// router.post("/posts", controller.addTag);
+// // router.post("/posts", controller.addTag);
 
-router.put("/posts/publish", controller.publishPost);
+// router.put("/posts/publish", controller.publishPost);
 
-router.put("/posts/deny", controller.denyPost);
+// router.put("/posts/deny", controller.denyPost);
 
 // router.delete("/posts", controller.deleteTag);
+
+router.get("/viewPost", controller.viewPost);
+router.get("/reviewPost", controller.showReviewPost);
+router.get("/viewDraftPost", controller.viewDraftPost);
+router.get("/viewPublishedPost", controller.viewPublishedPost);
+router.get("/viewDeniedPost", controller.viewDeniedPost);
+
+router.get("/reviewPost/publish", controller.showPublish);
+router.post("/reviewPost/publish", controller.publishPost);
+
+router.post("/reviewPost/deny", controller.denyPost);
+router.post("/reviewPost/accept", controller.acceptPost);
 
 module.exports = router;

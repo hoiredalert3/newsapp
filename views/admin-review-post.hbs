@@ -1,0 +1,210 @@
+<link rel="stylesheet" href="/css/article-review.css">
+
+<main>
+    {{#with post}}
+    <form method="post" id="article-review">
+        <div class="title">
+            Kiểm duyệt bài viết: {{id}}
+        </div>
+        <div class="category_label--container">
+            <div class="review--container">
+                <div class="small-review--container">
+                    <div class="small-item--container">
+                        <div class="small-title">
+                            Chuyên mục
+                        </div>
+                        {{#with category}}
+                        <div class="small-content">
+                            {{title}}
+                        </div>
+                        {{/with}}
+                    </div>
+
+                    <div class="check--container">
+                        <button onclick="hideComment(0)" class="approval-btn" type="button">
+                            <img src="/img/icons/check-mark.png" alt="">
+                            <p>
+                                Chấp thuận
+                            </p>
+                        </button>
+                        <button onclick="displayComment(0)" class="denied-btn" type="button">
+                            <img src="/img/icons/delete.png" alt="">
+                            <p>
+                                Từ chối
+                            </p>
+                        </button>
+                    </div>
+                </div>
+                <p class="title-deny">Lý do từ chối:</p>
+                <textarea name="categoryComment" id="category-comment" class="comment" cols="0" rows="2"
+                    hidden></textarea>
+            </div>
+            {{!-- Tag --}}
+            <div class="review--container">
+                <div class="small-review--container">
+                    <div class="small-item--container">
+                        <div class="small-title">
+                            Nhãn
+                        </div>
+                        
+                        <div class="small-content--no_border">
+                            {{#each tags}}
+                            <div class="label--container">
+                                <a href="#">
+                                    {{title}}
+                                </a>
+                            </div>
+                            {{/each}}
+                        </div>
+                        
+                    </div>
+                    <div class="check--container">
+                        <button onclick="hideComment(1)" class="approval-btn" type="button">
+                            <img src="/img/icons/check-mark.png" alt="">
+                            <p>
+                                Chấp thuận
+                            </p>
+                        </button>
+                        <button onclick="displayComment(1)" class="denied-btn" type="button">
+                            <img src="/img/icons/delete.png" alt="">
+                            <p>
+                                Từ chối
+                            </p>
+                        </button>
+                    </div>
+                </div>
+                <p class="title-deny">Lý do từ chối:</p>
+                <textarea name="tagComment" id="category-comment" class="comment" cols="0" rows="2" value=""
+                    hidden></textarea>
+            </div>
+        </div>
+        
+        {{!-- Title --}}
+        <div class="review--container">
+            <div class="big-review--container">
+                <div class="big-review--head">
+                    <div class="small-title">
+                        Tiêu đề
+                    </div>
+                    <div class="check--container">
+                        <button onclick="hideComment(2)" class="approval-btn" type="button">
+                            <img src="/img/icons/check-mark.png" alt="">
+                            <p>
+                                Chấp thuận
+                            </p>
+                        </button>
+                        <button onclick="displayComment(2)" class="denied-btn" type="button">
+                            <img src="/img/icons/delete.png" alt="">
+                            <p>
+                                Từ chối
+                            </p>
+                        </button>
+                    </div>
+                </div>
+                <div class="big-content">
+                    {{title}}
+                </div>
+            </div>
+            <p class="title-deny">Lý do từ chối:</p>
+            <textarea name="titleComment" id="category-comment" class="comment" cols="0" rows="2" value=""
+                hidden></textarea>
+        </div>
+
+        {{!-- Abstract --}}
+        <div class="review--container">
+            <div class="big-review--container">
+                <div class="big-review--head">
+                    <div class="small-title">
+                        Tóm tắt
+                    </div>
+                    <div class="check--container">
+                        <button onclick="hideComment(3)" class="approval-btn" type="button">
+                            <img src="/img/icons/check-mark.png" alt="">
+                            <p>
+                                Chấp thuận
+                            </p>
+                        </button>
+                        <button onclick="displayComment(3)" class="denied-btn" type="button">
+                            <img src="/img/icons/delete.png" alt="">
+                            <p>
+                                Từ chối
+                            </p>
+                        </button>
+                    </div>
+                </div>
+                <div class="big-content">
+                    {{summary}}
+                </div>
+            </div>
+            <p class="title-deny">Lý do từ chối:</p>
+            <textarea name="summaryComment" id="category-comment" class="comment" cols="0" rows="2" value=""
+                hidden></textarea>
+        </div>
+        {{!-- Content --}}
+        <div class="review--container">
+            <div class="big-review--container">
+                <div class="big-review--head">
+                    <div class="small-title">
+                        Nội dung
+                    </div>
+                    <div class="check--container">
+                        <button onclick="hideComment(4)" class="approval-btn" type="button">
+                            <img src="/img/icons/check-mark.png" alt="">
+                            <p>
+                                Chấp thuận
+                            </p>
+                        </button>
+                        <button onclick="displayComment(4)" class="denied-btn" type="button">
+                            <img src="/img/icons/delete.png" alt="">
+                            <p>
+                                Từ chối
+                            </p>
+                        </button>
+                    </div>
+                </div>
+                <div class="big-content ">
+                    {{{content}}}
+                </div>
+            </div>
+            <p class="title-deny">Lý do từ chối:</p>
+            <textarea name="contentComment" id="category-comment" class="comment" cols="0" rows="2" value=""
+                hidden>
+                </textarea>
+        </div>
+
+        <input type="text" name="postId" value="{{id}}" hidden>
+        <div class="btns-container">
+            <button type ="button" class="submit-btn" id="approval-article-btn"
+                onclick="accept({{id}})">
+                Chấp thuận
+            </button>
+            <button type ="button" class="submit-btn" id="denied-article-btn" 
+                onclick="deny({{id}})">
+                Từ chối
+            </button>
+        </div>
+    </form>
+    {{/with}}
+
+{{#if rejectPost}}
+  <div class="alert success">
+    <span class="closebtn">&times;</span>
+    {{{rejectPost}}}
+  </div>
+  {{/if}}
+</main>
+
+<script>
+  var close = document.getElementsByClassName("closebtn"); var i; for (i = 0; i
+    < close.length; i++) {
+    close[i].onclick = function () {
+      var div =
+        this.parentElement; div.style.opacity = "0"; setTimeout(function () {
+          div.style.display = "none";
+        }, 600);
+    }
+  }
+</script>
+</main>
+
+<script src="/js/admin-article-review.js"></script>
