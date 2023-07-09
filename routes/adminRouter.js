@@ -33,6 +33,8 @@ router.post("/users", controller.addUser);
 
 router.put("/users", controller.updateUser);
 
+router.put("/users/premium", controller.updatePremium);
+
 router.put("/users/editor", controller.updateEditor);
 
 router.delete("/users", controller.deleteUser);
@@ -41,7 +43,9 @@ router.get("/posts", controller.showPosts);
 
 // router.post("/posts", controller.addTag);
 
-// router.put("/posts", controller.updateTag);
+router.put("/posts/publish", controller.publishPost);
+
+router.put("/posts/deny", controller.denyPost);
 
 // router.delete("/posts", controller.deleteTag);
 

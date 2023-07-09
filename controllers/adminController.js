@@ -534,6 +534,19 @@ controller.updateUser = async (req, res) => {
   }
 };
 
+controller.updatePremium = async (req, res) => {
+  //TODO
+  try {
+    const { userId, duration } = req.body;
+
+    console.log(`Extend premium for userid: ${userId}, duration: ${duration}`);
+
+    res.json({ success: true, message: "Cập nhật thành công" });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 controller.updateEditor = async (req, res) => {
   try {
     const { userId, manageCategory } = req.body;
@@ -688,6 +701,32 @@ controller.showPosts = async (req, res) => {
     return res.render("admin-posts-temp");
   } catch (error) {
     console.error("Error in /admin/posts controller: ", error);
+  }
+};
+
+controller.publishPost = async (req, res) => {
+  //TODO
+  try {
+    const { postId, note } = req.body;
+
+    console.log(`Publish post with id: ${postId}`);
+
+    res.json({ success: true, message: "Xuất bản thành công" });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+controller.denyPost = async (req, res) => {
+  //TODO
+  try {
+    const { postId, denyReason } = req.body;
+
+    console.log(`Deny post with id: ${postId}`);
+
+    res.json({ success: true, message: "Từ chối thành công" });
+  } catch (error) {
+    console.error(error);
   }
 };
 

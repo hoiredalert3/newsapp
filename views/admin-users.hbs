@@ -76,7 +76,7 @@
                   Xóa
                 </button> --}}
                 <button data-bs-toggle="modal" data-bs-target="#extendSubscriptionModal"
-                  class="bg-transparent text-warning float-end mx-2">
+                  class="bg-transparent text-warning float-end mx-2" data-id="{{id}}" data-username="{{username}}">
                   Gia hạn Premium
                 </button>
 
@@ -225,22 +225,30 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
 
-              <div class="modal-body">
-                <p class="my-4">Nhập số ngày để gia hạn Premium</p>
-                <div class="input-group mb-5">
-                  <input type="number" required class="form-control" placeholder="Số ngày" aria-label="Số ngày" />
+              <form action="/admin/users/premium" method="get" onsubmit='extendPremium(event)'>
+                <div class="modal-body">
+                  <p class="my-3">Id của người dùng</p>
+                  <div class="input-group my-3">
+                    <input type="text" disabled class="form-control text-secondary userId" />
+                  </div>
+
+                  <p class="my-4">Nhập số ngày để gia hạn Premium</p>
+                  <div class="input-group mb-5">
+                    <input type="number" required class="form-control duration" placeholder="Số ngày"
+                      aria-label="Số ngày" />
+                  </div>
                 </div>
-              </div>
 
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger">
-                  Gia hạn
-                </button>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-danger">
+                    Gia hạn
+                  </button>
 
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                  Hủy
-                </button>
-              </div>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Hủy
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -407,6 +415,48 @@
 
   }
 
+  const extendSubscriptionModal = document.getElementById('extendSubscriptionModal')
+  if (extendSubscriptionModal) {
+    extendSubscriptionModal.addEventListener('show.bs.modal', event => {
+      // Button that triggered the modal
+      const button = event.relatedTarget
+
+      const userId = button.getAttribute('data-id')
+      const username = button.getAttribute('data-username')
+
+      // Update the modal's content.
+      const modalTitle = extendSubscriptionModal.querySelector('.modal-title')
+      const modalUserId = extendSubscriptionModal.querySelector('.modal-body .userId')
+      const modalDuration = extendSubscriptionModal.querySelector('.modal-body .duration')
+
+      modalTitle.textContent = `Gia hạn Premium cho user ${username}`
+      modalUserId.value = userId
+    })
+  }
+
+  function extendPremium(e) {
+    e.preventDefault();
+    const modalUserId = extendSubscriptionModal.querySelector('.modal-body .userId')
+    const modalDuration = extendSubscriptionModal.querySelector('.modal-body .duration')
+    const userId = modalUserId.value
+    const duration = modalDuration.value
+    console.log({ userId, duration })
+
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId, duration })
+    };
+    fetch('/admin/users/premium', requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        alert(data.message)
+        if (data.success === true) {
+          setTimeout(() => location.reload(), 1000)
+        }
+      });
+    editTagModal.querySelector('[data-bs-dismiss="modal"]').click()
+  }
 
   const userDetailsModal = document.getElementById('userDetailsModal')
   if (userDetailsModal) {
