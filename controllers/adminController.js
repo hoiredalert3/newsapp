@@ -444,9 +444,22 @@ controller.showUsers = async (req, res) => {
     });
     userTypes.forEach((e) => (e.id === userType ? (e.active = true) : false));
     res.locals.userTypes = userTypes;
-    if (userType === 3) {
-      res.locals.isViewingEditor = "true";
-      console.log(`\nisViewingEditor \n`);
+    
+    switch (userType) {
+      case 1:
+        res.locals.isViewingReader = "true";
+        break;
+      case 2:
+        res.locals.isViewingWriter = "true";
+        break;
+      case 3:
+        res.locals.isViewingEditor = "true";
+        break;
+      case 4:
+        res.locals.isViewingAdmin = "true";
+        break;
+      default:
+        break;
     }
 
     const keyword = req.query.keyword || "";
@@ -645,42 +658,63 @@ controller.updateEditor = async (req, res) => {
 
 controller.deleteUser = async (req, res) => {
   try {
-    console.log("WE ARE IN deleteTag!");
+    console.log("WE ARE IN deleteUser!");
 
     console.log(req.body);
-    const tagId = isNaN(req.body.id) ? -2 : Math.max(0, parseInt(req.body.id));
+    const userId = isNaN(req.body.id) ? -2 : Math.max(0, parseInt(req.body.id));
 
-    console.log("Tag to delete: ", tagId);
+    console.log("Id of User to delete: ", userId);
 
-    const tagToDelete = await models.Tag.findByPk(tagId);
-    console.log("tagToDelete: ", tagToDelete);
-    if (!tagToDelete) {
+    const userToDelete = await models.User.findByPk(userId);
+    console.log("userToDelete: ", userToDelete);
+    if (!userToDelete) {
       return res.json({
         success: false,
-        message: "Xóa nhãn thất bại, không tồn tại nhãn với id: " + tagId,
+        message: "Xóa người dùng thất bại, không tồn tại người dùng với id: " + userId,
       });
     }
 
-    const postWithTag = await models.PostTag.findOne({
-      where: { tagId },
-    });
-
-    if (postWithTag) {
+    if (userToDelete.dataValues.typeId != 1) {
       return res.json({
         success: false,
-        message:
-          "Xóa nhãn thất bại, vẫn còn bài viết với nhãn, id bài viết " +
-          postWithTag.dataValues.postId,
+        message: "Xóa người dùng thất bại, không thể xóa Writer/Editor/Admin với id: " + userId,
       });
     }
 
-    const result = await models.Tag.destroy({
-      where: {
-        id: tagId,
-      },
-    });
-    console.log(result);
-    res.json({ success: true, message: "Xóa nhãn thành công" });
+    try {
+      console.log(models.PremiumDetail, models.OTP, models.PostComment)
+      const preDelete = await Promise.all([
+        models.PremiumDetails.destroy({
+          where: {
+            userId,
+          },
+        }),
+        models.OTP.destroy({
+          where: {
+            userId,
+          },
+        }),
+        models.PostComment.destroy({
+          where: {
+            userId,
+          },
+        }),
+      ]);
+
+      const result = await models.User.destroy({
+        where: {
+          id: userId,
+        },
+      });
+      console.log(result);
+      return res.json({ success: true, message: "Xóa người dùng thành công" });
+    } catch (error) {
+      console.log(error);
+      return res.json({
+        success: false,
+        message: "Xóa người dùng thất bại, lỗi: " + error,
+      });
+    }
   } catch (error) {
     console.error(error);
   }

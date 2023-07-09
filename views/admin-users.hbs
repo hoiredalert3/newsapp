@@ -69,12 +69,16 @@
             <div class="card border-primary mb-3">
               <div class="card-body">
                 <span class="card-text fw-bold"> {{name}} - {{username}}</span>
-
-                {{!-- <button class="bg-transparent remove-tag text-danger float-end mx-2"
-                  data-bs-whatever="Xoa id{{id}}">
+                
+                {{#if ../isViewingReader}}
+                <button class="bg-transparent remove-user text-danger float-end mx-2" data-bs-whatever="Xoa id{{id}}"
+                  data-id="{{id}}" data-username="{{username}}">
                   <i class=" bi bi-trash-fill"></i>
                   Xóa
-                </button> --}}
+                </button>
+                {{/if}}
+
+
                 <button data-bs-toggle="modal" data-bs-target="#extendSubscriptionModal"
                   class="bg-transparent text-warning float-end mx-2" data-id="{{id}}" data-username="{{username}}">
                   Gia hạn Premium
@@ -350,14 +354,6 @@
     a.classList.add('page-link')
   })
 
-  document.querySelectorAll(".remove-user").forEach((item) =>
-    item.addEventListener("click", (e) => {
-      if (confirm("Bạn có chắc chắn muốn xóa độc giả này?")) {
-        e.target.parentElement.parentElement.remove();
-      }
-    })
-  );
-
   const updateEditorCategoryModal = document.getElementById('updateEditorCategoryModal')
   if (updateEditorCategoryModal) {
     updateEditorCategoryModal.addEventListener('show.bs.modal', event => {
@@ -518,6 +514,32 @@
     editTagModal.querySelector('[data-bs-dismiss="modal"]').click()
 
   }
+
+  document.querySelectorAll(".remove-user").forEach((item) =>
+    item.addEventListener("click", (e) => {
+      const userId = e.target.getAttribute('data-id')
+      const username = e.target.getAttribute('data-username')
+      if (confirm(`Bạn có chắc chắn muốn xóa user '${username}' với id ${userId}?`)) {
+        const requestOptions = {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: userId })
+        };
+        fetch('/admin/users', requestOptions)
+          .then(response => response.json())
+          .then(data => {
+            alert(data.message)
+            if (data.success === true) {
+              setTimeout(() => location.reload(), 1000)
+            }
+          });
+
+      }
+
+    })
+  );
+
+
 </script>
 
 <style>
