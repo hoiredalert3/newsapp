@@ -324,9 +324,9 @@ controller.showPost = async (req, res, next) => {
 				// Kiem tra premium
 				const userId = req.user.dataValues.id;
 				const premium = await models.PremiumDetails.findOne({
-					where: { userId, status: true },
+					where: { userId},
 				});
-				if (!premium) {
+				if (!premium || new Date(premium.dataValues.validUntil) < new Date()) {
 					const category = await models.Category.findOne({
 						include: [
 							{

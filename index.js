@@ -233,34 +233,13 @@ app.use(async (req, res, next) => {
 		switch (typeId) {
 			case 1:
 				try {
-					// check if premium
-					// const premium = await models.PremiumDetails.findAll({
-					// 	attributes: ["id", "userId", "grantedSince", "status"],
-					// 	where: {
-					// 		userId: req.user.dataValues.id,
-					// 		status: true,
-					// 	},
-					// 	order: [["grantedSince", "DESC"]],
-					// 	limit: 1,
-					// });
-					// if (premium.length > 0) {
-					// 	const grantdSince = new Date(premium[0].dataValues.grantedSince);
-					// 	const currentDate = new Date();
-					// 	const expiredDay = new Date(
-					// 		grantdSince.getFullYear(),
-					// 		grantdSince.getMonth(),
-					// 		grantdSince.getDate() + 7
-					// 	);
-					// 	// console.log(expiredDay)
-					// 	const differenceInMilliseconds = Math.abs(
-					// 		currentDate.getTime() - expiredDay.getTime()
-					// 	);
-					// 	premium[0].rest = Math.floor(
-					// 		differenceInMilliseconds / 1000 / 60 / 60 / 24
-					// 	);
-					// 	res.locals.premium = premium[0];
-					// 	console.log(res.locals.premium.dataValues);
-					// } else res.locals.unpremium = true;
+					const premium = await models.PremiumDetails.findOne({where: {userId: req.user.id}});
+					if(premium && new Date(premium.dataValues.validUntil) >= new Date()){
+						res.locals.premium = true;
+					}
+					else {
+						res.locals.unpremium = true;
+					}
 				} catch (error) {
 					console.log(error);
 				}
