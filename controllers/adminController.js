@@ -6,6 +6,25 @@ const models = require("../models");
 const sequelize = require("sequelize");
 const Op = sequelize.Op;
 
+const url = require("url");
+
+function age(birthdate) {
+	const today = new Date();
+	const age =
+		today.getFullYear() -
+		birthdate.getFullYear() -
+		(today.getMonth() < birthdate.getMonth() ||
+			(today.getMonth() === birthdate.getMonth() &&
+				today.getDate() < birthdate.getDate()));
+	return age;
+}
+
+function getComment(cmt) {
+	return cmt.trim() == "" || cmt === null || cmt === undefined
+		? "Ok."
+		: cmt.trim();
+}
+
 controller.showDashboard = async (req, res) => {
   try {
     const categoryCount = await models.Category.count({});
@@ -726,6 +745,20 @@ controller.showPosts = async (req, res) => {
       queryParams: req.query,
     };
 
+    rows.forEach(post => {
+      if(post.dataValues.statusId == 1){
+        post.draft = true;
+      }
+      else if(post.dataValues.statusId == 2){
+        post.unapp = true;
+      }
+      if(post.dataValues.statusId == 3){
+        post.rejected = true;
+      }
+      if(post.dataValues.statusId == 4 || post.dataValues.statusId == 5){
+        post.published = true;
+      }
+    })
     res.locals.managePosts = rows;
 
     console.log(rows);
@@ -736,31 +769,7 @@ controller.showPosts = async (req, res) => {
   }
 };
 
-controller.publishPost = async (req, res) => {
-  //TODO
-  try {
-    const { postId, note } = req.body;
 
-    console.log(`Publish post with id: ${postId}`);
-
-    res.json({ success: true, message: "Xuất bản thành công" });
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-controller.denyPost = async (req, res) => {
-  //TODO
-  try {
-    const { postId, denyReason } = req.body;
-
-    console.log(`Deny post with id: ${postId}`);
-
-    res.json({ success: true, message: "Từ chối thành công" });
-  } catch (error) {
-    console.error(error);
-  }
-};
 
 function removeParam(key, sourceURL) {
   var rtn = sourceURL.split("?")[0],
@@ -780,4 +789,254 @@ function removeParam(key, sourceURL) {
   return rtn;
 }
 
+controller.viewPost = async (req, res) =>{
+  const post = await models.Post.findOne({
+		include: [
+			{
+				model: models.Category,
+				attributes: ["id", "title"],
+				where: { parentId: { [Op.not]: null } },
+			},
+			{
+				model: models.Tag,
+				attributes: ["id", "title"],
+			},
+		],
+		where: { id: req.query.id },
+	});
+	post.category = post.dataValues.Categories[0];
+	post.tags = post.dataValues.Tags;
+	return res.render("article-review", { post });
+}
+
+controller.viewDraftPost = async (req, res) => {
+	const post = await models.Post.findOne({
+		where: {
+			id: req.query.id,
+			statusId: 1,
+		},
+		include: [
+			{
+				model: models.Category,
+				where: { parentId: { [Op.not]: null } },
+			},
+			{
+				model: models.Tag,
+			},
+		],
+	});
+
+	post.tags = post.dataValues.Tags;
+	post.category = post.dataValues.Categories[0];
+	res.locals.post = post;
+
+	return res.render("view-draft-post-admin");
+};
+
+controller.showReviewPost = async (req, res) =>{
+  const post = await models.Post.findOne({
+		include: [
+			{
+				model: models.Category,
+				attributes: ["id", "title"],
+				where: { parentId: { [Op.not]: null } },
+			},
+			{
+				model: models.Tag,
+				attributes: ["id", "title"],
+			},
+		],
+		where: { id: req.query.id },
+	});
+	post.category = post.dataValues.Categories[0];
+	post.tags = post.dataValues.Tags;
+	return res.render("admin-review-post", { post });
+}
+
+controller.viewPublishedPost = async (req, res) => {
+	const post = await models.Post.findOne({
+		where: {
+			id: req.query.id,
+			[Op.or]: [{ statusId: 4 }, { statusId: 5 }],
+		},
+		include: [
+			{
+				model: models.ApprovedPost
+			},
+			{
+				model: models.Category,
+				where: { parentId: { [Op.not]: null } },
+			},
+			{
+				model: models.Tag,
+			},
+		],
+	});
+	console.log(post);
+	post.approvedInfo = post.dataValues.ApprovedPost;
+	post.tags = post.dataValues.Tags;
+	post.category = post.dataValues.Categories[0];
+	res.locals.post = post;
+
+	return res.render("admin-view-post");
+};
+
+controller.denyPost = async (req, res) => {
+  await models.Post.update({ statusId: 3 }, { where: { id: req.body.postId } });
+	await models.ApprovedPost.destroy({ where: { postId: req.body.postId } });
+
+	const denPost = await models.RejectedPost.create({
+		postId: req.body.postId,
+		reviewerId: req.user.dataValues.id,
+		reviewedAt: new Date(),
+		categoryComment: getComment(req.body.categoryComment),
+		tagComment: getComment(req.body.tagComment),
+		titleComment: getComment(req.body.titleComment),
+		abstractComment: getComment(req.body.summaryComment),
+		contentComment: getComment(req.body.contentComment),
+	});
+
+	//console.log(denPost);
+	return res.redirect(
+		url.format({
+			pathname: "/admin/posts",
+			query: {
+        postStatus: 3,
+				rejectPost: `Bạn đã từ chối bài viết ${req.body.postId}.`,
+			},
+		})
+	);
+};
+
+controller.viewDeniedPost = async (req, res) => {
+	const post = await models.Post.findOne({
+		where: {
+			id: req.query.id,
+			statusId: 3,
+		},
+		include: [
+			{
+				model: models.RejectedPost,
+			},
+			{
+				model: models.Category,
+				where: { parentId: { [Op.not]: null } },
+			},
+			{
+				model: models.Tag,
+			},
+		],
+	});
+	console.log(post);
+	post.rejectedInfo = post.dataValues.RejectedPosts[0];
+	post.tags = post.dataValues.Tags;
+	post.category = post.dataValues.Categories[0];
+	res.locals.post = post;
+	return res.render("denied-post-admin");
+};
+
+controller.acceptPost = async (req, res) => {
+	// Update post
+	await models.Post.update({ statusId: 4 }, { where: { id: req.body.postId } });
+
+	// Create approved post
+	let now = new Date();
+	let now1hour = new Date();
+	now1hour.setTime(now1hour.getTime() + 1 * 60 * 60 * 1000);
+	console.log(req.user.dataValues.id);
+	let [appPost, created] = await models.ApprovedPost.findOrCreate({
+		where: {
+			postId: req.body.postId,
+		},
+		defaults: {
+			approverId: req.user.dataValues.id,
+			approvedAt: now,
+			publishAt: now1hour, // 1 gio sau
+			isPublished: false,
+		},
+	});
+
+	// console.log(appPost);
+
+	return res.redirect(
+		url.format({
+			pathname: "/admin/reviewPost/publish",
+			query: {
+				id: req.query.id,
+				appPostId: appPost.dataValues.id,
+			},
+		})
+	);
+};
+
+controller.showPublish = async (req, res) => {
+	let appPost;
+	try {
+		appPost = await models.ApprovedPost.findOne({
+			where: { id: req.query.appPostId, postId: req.query.id },
+		});
+		console.log(appPost);
+		if (appPost) {
+			const post = await models.Post.findOne({
+				include: [
+					{
+						model: models.Category,
+						attributes: ["id", "title"],
+						where: { parentId: { [Op.not]: null } },
+					},
+					{
+						model: models.Tag,
+						attributes: ["id", "title"],
+					},
+				],
+				where: { id: req.query.id },
+			});
+
+			res.locals.category = post.dataValues.Categories[0];
+			res.locals.tags = post.dataValues.Tags;
+
+			res.locals.id = req.query.id;
+			res.locals.appPostId = req.query.appPostId;
+
+			return res.render("publish-article-admin", { error: req.query.error });
+		} else {
+			return res.render("error", { message: "File not Found!" });
+		}
+	} catch (e) {
+		console.log(e);
+		return res.render("error", { message: "File not Found!" });
+	}
+};
+
+controller.publishPost =  async (req, res) => {
+	let publishDate = new Date(req.body.publishDay + " " + req.body.publishTime);
+	let now = new Date();
+	if ((now - publishDate) / 1000 > 60) {
+		return res.redirect(
+			url.format({
+				pathname: "/admin/reviewPost/publish",
+				query: {
+					error: "Thời điểm xuất bản không hợp lệ",
+					id: req.body.id,
+					appPostId: req.body.appPostId,
+				},
+			})
+		);
+	}
+
+	await models.ApprovedPost.update(
+		{ publishAt: publishDate },
+		{ where: { id: req.body.appPostId } }
+	);
+
+	return res.redirect(
+		url.format({
+			pathname: "/admin/posts",
+			query: {
+        postStatus: 4,
+				publishMessage: "Xuất bản bài viết thành công",
+			},
+		})
+	);
+};
 module.exports = controller;

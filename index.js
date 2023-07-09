@@ -189,9 +189,9 @@ async function updatePostStatistic() {
 }
 
 const minute = 60 * 1000;
-// setInterval(updatePremium, minute);
-// setInterval(publishPost, 5000); // 5s
-// setInterval(updatePostStatistic, minute * 5); // 5m
+setInterval(updatePremium, minute);
+setInterval(publishPost, 5000); // 5s
+setInterval(updatePostStatistic, minute * 5); // 5m
 
 app.use(async (req, res, next) => {
 	// Load categories cho header

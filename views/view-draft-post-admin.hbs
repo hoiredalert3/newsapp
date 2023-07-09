@@ -1,0 +1,171 @@
+<link rel="stylesheet" href="/css/approved-post-editor.css" />
+
+<main>
+    {{#with post}}
+    <form method="get" action="/admin/posts">
+        <div class="title">
+            Bài viết nháp: 
+            {{id}}.
+        </div>
+        <br>
+        <br>
+        <div class="category_label--container">
+            <div class="review--container">
+                <div class="small-review--container">
+                    <div class="small-item--container">
+                        <div class="small-title">
+                            Chuyên mục
+                        </div>
+                        {{#with category}}
+                        <div class="small-content">
+                            {{title}}
+                        </div>
+                        {{/with}}
+                    </div>
+
+                    <div class="check--container" style="display: none;">
+                        <button class="approval-btn" type="button" disabled>
+                            <img src="/img/icons/check-mark.png" alt="" />
+                            <p>
+                                Chấp thuận
+                            </p>
+                        </button>
+                        <button onclick="displayComment(0)" class="denied-btn" type="button" style="visibility:hidden;" disabled>
+                            <img src="/img/icons/delete.png" alt="" />
+                            <p>
+                                Từ chối
+                            </p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {{! Tag }}
+            <div class="review--container">
+                <div class="small-review--container">
+                    <div class="small-item--container">
+                        <div class="small-title">
+                            Nhãn
+                        </div>
+
+                        <div class="small-content--no_border">
+                            {{#each tags}}
+                            <div class="label--container">
+                                <a href="#">
+                                    {{title}}
+                                </a>
+                            </div>
+                            {{/each}}
+                        </div>
+
+                    </div>
+                    <div class="check--container" style="display: none;">
+                        <button class="approval-btn" type="button" disabled>
+                            <img src="/img/icons/check-mark.png" alt="" />
+                            <p>
+                                Chấp thuận
+                            </p>
+                        </button>
+                        <button onclick="displayComment(1)" class="denied-btn" type="button" style="visibility:hidden;" disabled>
+                            <img src="/img/icons/delete.png" alt="" />
+                            <p>
+                                Từ chối
+                            </p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{! Title }}
+        <div class="review--container">
+            <div class="big-review--container">
+                <div class="big-review--head">
+                    <div class="small-title">
+                        Tiêu đề
+                    </div>
+                    <div class="check--container"  style="display: none;">
+                        <button class="approval-btn" type="button" disabled>
+                            <img src="/img/icons/check-mark.png" alt="" />
+                            <p>
+                                Chấp thuận
+                            </p>
+                        </button>
+                        <button onclick="displayComment(2)" class="denied-btn" type="button" style="visibility:hidden;" disabled>
+                            <img src="/img/icons/delete.png" alt="" />
+                            <p>
+                                Từ chối
+                            </p>
+                        </button>
+                    </div>
+                </div>
+                <div class="big-content">
+                    {{title}}
+                </div>
+            </div>
+        </div>
+
+        {{! Abstract }}
+        <div class="review--container">
+            <div class="big-review--container">
+                <div class="big-review--head">
+                    <div class="small-title">
+                        Tóm tắt
+                    </div>
+                    <div class="check--container" style="display: none;">
+                        <button class="approval-btn" type="button" disabled>
+                            <img src="/img/icons/check-mark.png" alt="" />
+                            <p>
+                                Chấp thuận
+                            </p>
+                        </button>
+                        <button class="denied-btn" type="button" style="visibility:hidden;" disabled>
+                            <img src="/img/icons/delete.png" alt="" />
+                            <p>
+                                Từ chối
+                            </p>
+                        </button>
+                    </div>
+                </div>
+                <div class="big-content">
+                    {{summary}}
+                </div>
+            </div>
+        </div>
+        {{! Content }}
+        <div class="review--container">
+            <div class="big-review--container">
+                <div class="big-review--head">
+                    <div class="small-title">
+                        Nội dung
+                    </div>
+                    <div class="check--container"  style="display: none;">
+                        <button class="approval-btn" type="button" disabled>
+                            <img src="/img/icons/check-mark.png" alt="" />
+                            <p>
+                                Chấp thuận
+                            </p>
+                        </button>
+                        <button  class="denied-btn" type="button" style="visibility:hidden;" disabled>
+                            <img src="/img/icons/delete.png" alt="" />
+                            <p>
+                                Từ chối
+                            </p>
+                        </button>
+                    </div>
+                </div>
+                <div class="big-content">
+                    {{{content}}}
+                </div>
+            </div>
+        </div>
+<input type="text" name="postStatus" value="1" hidden readonly />
+        <div class="btns-container">
+            <button class="submit-btn">
+                Quay về
+            </button>
+        </div>
+    </form>
+    {{/with}}
+</main>
+
+<script src="/js/draft-post-admin.js"></script>
