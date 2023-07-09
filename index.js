@@ -92,7 +92,7 @@ app.use(
 
 // middleware
 const models = require("./models");
-// const { where } = require("sequelize");
+const Op = require("sequelize").Op;
 // const { setInterval } = require("timers/promises");
 
 async function updatePremium() {
@@ -184,12 +184,12 @@ async function updatePostStatistic() {
 		models.PostStatistic.update({
 			lastUpdatedHot: new Date(),
 			hot: 0
-		});
+		}, { where: { id:{ [Op.not]: null } } });
 	}
 }
 
 const minute = 60 * 1000;
-setInterval(updatePremium, minute);
+// setInterval(updatePremium, minute);
 setInterval(publishPost, 5000); // 5s
 setInterval(updatePostStatistic, minute * 5); // 5m
 
