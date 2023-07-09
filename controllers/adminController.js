@@ -769,7 +769,35 @@ controller.showPosts = async (req, res) => {
   }
 };
 
+controller.deletePost = async (req, res) => {
+  try {
+    console.log("WE ARE IN deletePost!");
 
+    console.log(req.body);
+    const postId = isNaN(req.body.id) ? -2 : Math.max(0, parseInt(req.body.id));
+
+    console.log("Id of post to delete: ", postId);
+
+    const postToDelete = await models.Post.findByPk(postId);
+    console.log("postToDelete: ", postToDelete);
+    if (!postToDelete) {
+      return res.json({
+        success: false,
+        message: "Xóa bài viết thất bại, không tồn tại bài viết với id: " + postId,
+      });
+    }
+
+    const result = await models.Post.destroy({
+      where: {
+        id: postId,
+      },
+    });
+    console.log(result);
+    res.json({ success: true, message: "Xóa bài viết thành công" });
+  } catch (error) {
+    console.error(error);
+  }
+};
 
 function removeParam(key, sourceURL) {
   var rtn = sourceURL.split("?")[0],

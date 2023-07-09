@@ -69,13 +69,13 @@
             <div class="card border-primary mb-3">
               <div class="card-body">
                 <span class="card-text fw-bold"> {{title}} </span>
-{{!-- 
-                <button class="bg-transparent remove-tag text-danger float-end mx-2"
-                  data-bs-whatever="Xoa id{{id}}">
+
+                <button class="bg-transparent remove-post text-danger float-end mx-2"
+                  data-bs-whatever="Xoa id{{id}}" data-id="{{id}}" data-title="{{title}}">
                   <i class=" bi bi-trash-fill"></i>
                   Xóa
                 </button>
-                 --}}
+                 
 
                  {{#if unapp}}
                 <button 
@@ -545,6 +545,30 @@
       modalIsPremium.value = isPremium
     })
   }
+
+  document.querySelectorAll(".remove-post").forEach((item) =>
+    item.addEventListener("click", (e) => {
+      const postId = e.target.getAttribute('data-id')
+      const postTitle = e.target.getAttribute('data-title')
+      if (confirm(`Bạn có chắc chắn muốn xóa bài viết '${postTitle}' với id ${postId}?`)) {
+        const requestOptions = {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: postId })
+        };
+        fetch('/admin/posts', requestOptions)
+          .then(response => response.json())
+          .then(data => {
+            alert(data.message)
+            if (data.success === true) {
+              setTimeout(() => location.reload(), 1000)
+            }
+          });
+
+      }
+
+    })
+  );
 
   /*
   const denyPostModal = document.getElementById('denyPostModal')

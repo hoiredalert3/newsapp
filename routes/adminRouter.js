@@ -47,7 +47,7 @@ router.get("/posts", controller.showPosts);
 
 // router.put("/posts/deny", controller.denyPost);
 
-// router.delete("/posts", controller.deleteTag);
+router.delete("/posts", controller.deletePost);
 
 router.get("/viewPost", controller.viewPost);
 router.get("/reviewPost", controller.showReviewPost);
