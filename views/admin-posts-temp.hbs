@@ -9,7 +9,7 @@
         <div class="row g-4 my-2">
           <div class="col-md-4">
             <h2 class="text-dark fw-bold fs-2 text-uppercase text-nowrap">
-              Người dùng
+              Bài viết
             </h2>
           </div>
 
@@ -29,9 +29,9 @@
           <div class="row">
             <div class="col-md-8">
               <div class="posts-search form-outline">
-                <form class="d-flex" action="/admin/posts" method="GET">
+                <form class="d-flex" action="{{originalUrl}}&" method="GET">
                   <input class="form-control outline-primary" type="search" name="keyword" id="keywordInput"
-                    placeholder="Search by post title" {{#if keyword}} value="{{keyword}}" {{/if}} required>
+                    placeholder="Search by post title" {{#if keyword}} value="{{keyword}}" {{/if}}>
                   <button class="btn btn-outline-primary"><i class="fa fa-search"></i></button>
                 </form>
 
@@ -52,11 +52,11 @@
 
             {{#each postStatuses }}
             {{#if active}}
-            <a href="/admin/posts?postStatus={{id}}" class="text-primary" id="button-cat1">
+            <a href="{{../originalUrl}}&postStatus={{id}}" class="text-primary" id="button-cat1">
               {{name}}
             </a>
             {{else}}
-            <a href="/admin/posts?postStatus={{id}}" class="" id="button-cat1">
+            <a href="{{../originalUrl}}&postStatus={{id}}" class="" id="button-cat1">
               {{name}}
             </a>
             {{/if}}

@@ -31,7 +31,7 @@
               <div class="posts-search form-outline">
                 <form class="d-flex" action="/admin/users" method="GET">
                   <input class="form-control outline-primary" type="search" name="keyword" id="keywordInput"
-                    placeholder="Search by username" {{#if keyword}} value="{{keyword}}" {{/if}} required>
+                    placeholder="Search by username" {{#if keyword}} value="{{keyword}}" {{/if}}>
                   <button class="btn btn-outline-primary"><i class="fa fa-search"></i></button>
                 </form>
 
@@ -52,11 +52,11 @@
 
             {{#each userTypes }}
             {{#if active}}
-            <a href="/admin/users?userType={{id}}" class="text-primary" id="button-cat1">
+            <a href="{{../originalUrl}}&userType={{id}}" class="text-primary" id="button-cat1">
               {{name}}
             </a>
             {{else}}
-            <a href="/admin/users?userType={{id}}" class="" id="button-cat1">
+            <a href="{{../originalUrl}}&userType={{id}}" class="" id="button-cat1">
               {{name}}
             </a>
             {{/if}}

@@ -461,7 +461,7 @@ controller.showUsers = async (req, res) => {
     }
     res.locals.keyword = keyword;
 
-    res.locals.originalUrl = removeParam("level", req.originalUrl);
+    res.locals.originalUrl = removeParam("userType", req.originalUrl);
     if (Object.keys(req.query).length == 0) {
       res.locals.originalUrl += "?";
     }
@@ -728,7 +728,7 @@ controller.showPosts = async (req, res) => {
     }
     res.locals.keyword = keyword;
 
-    res.locals.originalUrl = removeParam("level", req.originalUrl);
+    res.locals.originalUrl = removeParam("postStatus", req.originalUrl);
     if (Object.keys(req.query).length == 0) {
       res.locals.originalUrl += "?";
     }
