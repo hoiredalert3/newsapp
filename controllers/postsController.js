@@ -12,7 +12,7 @@ const controller = {};
 // Show post
 controller.showPosts = async (req, res) => {
 	const categoryId = req.query.category ? parseInt(req.query.category) : 0;
-	const tagId = req.query.category ? parseInt(req.query.category) : 0;
+	const tagId = req.query.tag ? parseInt(req.query.tag) : 0;
 	let options = {
 		where: { statusId: 5 },
 		include: [],
@@ -58,6 +58,10 @@ controller.showPosts = async (req, res) => {
 	}
 	res.locals.parentCategory = parentCategory;
 	res.locals.childCategories = childCategories;
+
+	if (req.query.tag) {
+		options.include.push({ model: models.Tag, where: { id: tagId } });
+	}
 
 	//Handle sort posts
 	let sort = ["newest", "viewed", "hot"].includes(req.query.sort)
