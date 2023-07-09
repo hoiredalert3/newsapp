@@ -74,7 +74,7 @@ img{
 .relevant-post img{
   width: 100%;
   min-height: 210px;
-  max-height: 80%;
+  max-height: 210px;
   object-fit: cover;
   object-position: center;
   margin-bottom: 5px;
