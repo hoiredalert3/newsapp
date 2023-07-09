@@ -5,6 +5,7 @@ const { create } = require("express-handlebars");
 const Op = require("sequelize").Op;
 const controller = {};
 const url = require("url");
+const { type } = require("os");
 
 function age(birthdate) {
 	const today = new Date();
@@ -21,6 +22,17 @@ controller.showProfile = async (req, res) => {
 	const user = req.user;
 	const typeId = user.dataValues.typeId;
 	const userId = user.dataValues.id;
+
+	// check premium
+	if (typeId == 1) {
+		let info = await models.PremiumDetails.findOne({ where: { userId: userId }, raw: true })
+		if (info) {
+			let today = new Date()
+			if (info.validUntil > today)
+				res.locals.premium = info
+		}
+	}
+
 	if (typeId == 2) {
 		user.writer = true;
 	} else if (typeId == 3) {
@@ -281,22 +293,49 @@ controller.updateInfomations = async (req, res) => {
 	);
 };
 
-controller.buyPremium = async (req, res) => {
-	const premium_detail = await models.PremiumDetails.create({
-		userId: req.user.dataValues.id,
-		grantedSince: new Date(),
-		status: true,
-	});
-	console.log(`Buy premium successfully ${premium_detail}`);
-	return res.redirect(
-		url.format({
-			pathname: "/users/profile",
-			query: {
-				successMessage: "Bạn đã mua Premium thành công",
-			},
+controller.registerPremium = async (req, res) => {
+	let userId = req.user.id || 0
+	if (!userId)
+		return res.render("signin", {
+			layout: false,
+			loginMessage: 'Please login first!',
+			sitekey: process.env.CAPTCHA_SITE_KEY
+		});
+
+	let days = req.body.days ? parseInt(req.body.days) : 7;
+
+	let today = new Date();
+	let existing_info = await models.PremiumDetails.findOne({ where: { userId: userId }, raw: true });
+	if (existing_info) {
+		if (existing_info.validUntil > today) {
+			await models.PremiumDetails.update({
+				validUntil: new Date(existing_info.validUntil.getTime() + 1000 * 60 * 60 * 24 * days)
+			}, {
+				where: {
+					userId: userId
+				}
+			})
+		}
+		else {
+			await models.PremiumDetails.update({
+				validUntil: new Date(today.getTime() + 1000 * 60 * 60 * 24 * days)
+			}, {
+				where: {
+					userId: userId
+				}
+			})
+		}
+	}
+	else {
+		await models.PremiumDetails.create({
+			userId: userId,
+			validUntil: new Date(today.getTime() + 1000 * 60 * 60 * 24 * days)
 		})
-	);
+	}
+	return res.redirect('/users/profile');
+
 };
+
 async function getCategories() {
 	// get categories
 	let categories_raw = await models.Category.findAll({

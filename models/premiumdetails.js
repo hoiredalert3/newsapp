@@ -15,8 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   PremiumDetails.init(
     {
       userId: DataTypes.INTEGER,
-      grantedSince: DataTypes.DATE,
-      status: DataTypes.BOOLEAN,
+      validUntil: DataTypes.DATE,
     },
     {
       sequelize,

@@ -37,8 +37,7 @@
         <label for="profile-pic">
           <img src="/img/icons/user.png" alt="" class="img-avatar img-avatar--profile" />
         </label>
-        <input id="profile-pic" type="file" name="profile-pic" accept="image/*" style="display:none;"
-          onchange="uploadImgUser()" />
+        <input id="profile-pic" type="file" name="profile-pic" accept="image/*" style="display:none;" onchange="uploadImgUser()" />
       </form>
       <button id="logout-btn" onclick="">
         Đăng xuất
@@ -68,11 +67,20 @@
         {{/if}}
       </div>
 
-      {{#if unpremium}}
-      <button id="subscribe-btn" onclick="displaySubscribe()">
-        Đăng ký
-      </button>
-      {{/if}}
+      {{#if writer}}
+      {{else}}
+      {{#if editor}}
+      {{else}}
+      {{#if admin}}
+      {{else}}
+      {{#unless premium}}
+      <form action="/users/registerPremium" method="POST">
+        <input type="hidden" name="days" value="7">
+        <button id="subscribe-btn">
+          Đăng ký
+        </button>
+      </form>
+      {{/unless}}
 
       {{#with premium}}
       <div id="premium-display">
@@ -83,12 +91,13 @@
           </p>
         </div>
         <div>
-          HSD
-          <span class="premium-exp">{{rest}}</span>
-          ngày
+          Ngày hết hạn {{ convertToVietnameseDateTime validUntil }}
         </div>
       </div>
       {{/with}}
+      {{/if}}
+      {{/if}}
+      {{/if}}
     </div>
   </div>
 
@@ -129,8 +138,7 @@
     <div class="current-section-content section-content">
       {{#with user}}
 
-      <form action="/users/profile/update-infos" method="post" id="general-infomation-form--section"
-        onclick="updateInfos(event)">
+      <form action="/users/profile/update-infos" method="post" id="general-infomation-form--section" onclick="updateInfos(event)">
 
         <div class="grid-info">
           <div class="input-container">
@@ -154,8 +162,7 @@
 
           <div class="input-container">
 
-            <input type="email" id="email-input" name="email" value="{{email}}"
-              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Email không hợp lệ!" required />
+            <input type="email" id="email-input" name="email" value="{{email}}" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Email không hợp lệ!" required />
             <div>
             </div>
             <p>
@@ -165,9 +172,7 @@
           </div>
 
           <div class="input-container">
-            <input type="password" id="password-input" name="password" value="" placeholder="Nhập mật khẩu mới..."
-              pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-              title="Mật khẩu phải gồm ít nhất 1 chữ cái thường, 1 in hoa, 1 chữ số, 1 kí tự đặc biệc và 8 kí tự." />
+            <input type="password" id="password-input" name="password" value="" placeholder="Nhập mật khẩu mới..." pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Mật khẩu phải gồm ít nhất 1 chữ cái thường, 1 in hoa, 1 chữ số, 1 kí tự đặc biệc và 8 kí tự." />
             <div>
             </div>
             <p>
@@ -247,8 +252,7 @@
 
         </ul>
         <div style="background: none; text-align: center; padding-top: 3em;">
-          <a type="button" href="/users/writer/editor"
-            style="background: skyblue; padding: 1em 2em; border-radius: 5px;">Tạo
+          <a type="button" href="/users/writer/editor" style="background: skyblue; padding: 1em 2em; border-radius: 5px;">Tạo
             bài viết mới</a>
         </div>
 
@@ -275,7 +279,7 @@
                   <a href="/posts?category={{id}}">{{title}}</a>
                   {{/each}}
                 </div>
-                <form action="/users/writer/removeDraft" method="post" class = "remove-draft">
+                <form action="/users/writer/removeDraft" method="post" class="remove-draft">
                   <input type="number" name="draftId" id="draftId" value="{{id}}" hidden>
                   <button>
                     &#10006;
