@@ -54,12 +54,12 @@ module.exports = (sequelize, DataTypes) => {
   Post.init(
     {
       authorId: DataTypes.INTEGER,
-      title: DataTypes.STRING,
+      title: DataTypes.TEXT,
       summary: DataTypes.TEXT,
       statusId: DataTypes.INTEGER,
       publishedAt: DataTypes.DATE,
       removedAt: DataTypes.DATE,
-      thumbnailUrl: DataTypes.STRING,
+      thumbnailUrl: DataTypes.TEXT,
       content: DataTypes.TEXT,
       isPremium: DataTypes.BOOLEAN,
     },
