@@ -16,11 +16,11 @@
           <div class="offset-md-4 col-md-4">
             <!-- Button trigger modal -->
 
-            {{!-- <button type="button" class="btn btn-primary text-nowrap text-dark" data-bs-toggle="modal"
-              data-bs-target="#addTagModal">
+            <button type="button" class="btn btn-primary text-nowrap text-dark" data-bs-toggle="modal"
+              data-bs-target="#addUserModal">
               <i class="fa-solid fa-plus text-dark"></i>
               Thêm người dùng
-            </button> --}}
+            </button>
 
           </div>
         </div>
@@ -69,7 +69,7 @@
             <div class="card border-primary mb-3">
               <div class="card-body">
                 <span class="card-text fw-bold"> {{name}} - {{username}}</span>
-                
+
                 {{#if ../isViewingReader}}
                 <button class="bg-transparent remove-user text-danger float-end mx-2" data-bs-whatever="Xoa id{{id}}"
                   data-id="{{id}}" data-username="{{username}}">
@@ -149,20 +149,12 @@
                     <input type="text" disabled class="form-control text-secondary dob" />
                   </div>
 
-                  {{!-- <p class="mt-5">Nhập tên mới cho nhãn</p>
-                  <div class="input-group mb-5">
-                    <input type="text" class="form-control newName" placeholder="Tên mới cho nhãn"
-                      aria-label="Tên nhãn mới" required />
-                  </div> --}}
                 </div>
 
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-danger">
-                    Cập nhật
-                  </button>
 
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Hủy
+                    Đóng
                   </button>
                 </div>
               </form>
@@ -257,77 +249,80 @@
           </div>
         </div>
 
-        <!-- Modal for Edit tag -->
-        <div class="modal fade" id="editTagModal" tabindex="-1" aria-labelledby="editTagModalCenteredScrollableTitle"
+        <!-- Modal for Add user -->
+        <div class="modal fade" id="addUserModal" tabindex="-1" aria-labelledby="addUserModalCenteredScrollableTitle"
           style="display: none" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
               <div class="modal-header text-center">
-                <h1 class="modal-title fs-5" id="editTagModalCenteredScrollableTitle">
-                  Cập nhật nhãn
-                </h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <form action="/admin/tags" method="get" onsubmit='updateTag(event)'>
-                <div class="modal-body">
-                  <p class="my-3">Id nhãn</p>
-                  <div class="input-group my-4">
-
-                    <input type="text" disabled class="form-control text-secondary tagId" />
-
-                  </div>
-
-                  <p class="mt-5">Nhập tên mới cho nhãn</p>
-                  <div class="input-group mb-5">
-                    <input type="text" class="form-control newName" placeholder="Tên mới cho nhãn"
-                      aria-label="Tên nhãn mới" required />
-                  </div>
-                </div>
-
-                <div class="modal-footer">
-                  <button type="submit" class="btn btn-danger">
-                    Cập nhật
-                  </button>
-
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    Hủy
-                  </button>
-                </div>
-              </form>
-
-            </div>
-          </div>
-        </div>
-
-        <!-- Modal for Add tag -->
-        <div class="modal fade" id="addTagModal" tabindex="-1" aria-labelledby="addTagModalCenteredScrollableTitle"
-          style="display: none" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content">
-              <div class="modal-header text-center">
-                <h1 class="modal-title fs-5" id="addTagModalCenteredScrollableTitle">
+                <h1 class="modal-title fs-5" id="addUserModalCenteredScrollableTitle">
                   Thêm người dùng
                 </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </div>
-              <form action="/admin/tags" method="get" onsubmit='addTag(event)'>
+              <form action="/admin/users" method="get" onsubmit='addUser(event)'>
                 <div class="modal-body">
-
-                  <p class="mt-5">Nhập tên mới cho nhãn</p>
-                  <div class="input-group mb-5">
-                    <input type="text" class="form-control newName" placeholder="Tên mới cho nhãn"
-                      aria-label="Tên nhãn mới" required />
+                  <p class="mt-2">Username</p>
+                  <div class="input-group mb-2">
+                    <input type="text" class="form-control username" placeholder="Username" aria-label="Username"
+                      pattern="^[A-Za-z](?=.*\d)(?=.*[A-Za-z]).{5,}$"
+                      title="Username gồm ít nhất 6 kí từ gồm chữ đầu tiên phải là chữ cái, gồm ít nhất 1 chữ cái và 1 chữ số!"
+                      required />
                   </div>
+
+                  <p class="mt-2">Họ và tên</p>
+                  <div class="input-group mb-2">
+                    <input type="text" class="form-control name" placeholder="Họ và tên" aria-label="Họ và tên"
+                      required />
+                  </div>
+
+                  <p class="mt-2">Email</p>
+                  <div class="input-group mb-2">
+                    <input type="email" class="form-control email" placeholder="Email" aria-label="Email"
+                      pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$" title="Email không hợp lệ!" required />
+                  </div>
+
+                  <p class="mt-2">Mật khẩu</p>
+                  <div class="input-group mb-2">
+                    <input type="password" class="form-control password" placeholder="Mật khẩu"
+                      aria-label="Mật khẩu" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                      title="Mật khẩu phải gồm ít nhất 1 chữ cái thường, 1 in hoa, 1 chữ số, 1 kí tự đặc biệc và 8 kí tự." />
+                  </div>
+
+                  <p class="mt-2">Loại người dùng</p>
+                  <div class="input-group my-2">
+                    <select class="form-select form-control typeId" required>
+                      {{#each userTypes }}
+                      <option value={{id}}>{{name}}</option>
+                      {{/each}}
+                    </select>
+                  </div>
+
+                  {{!-- <p class="mt-2">Chọn chuyên mục cho editor</p>
+                  <div class="input-group my-2">
+                    <select class="form-select" class="form-control managementCategory">
+                      {{#each categoriesHeader }}
+                      <option selected value={{id}}>{{title}}</option>
+                      {{#each arrChildren }}
+                      {{#each children }}
+                      <option value={{id}}>{{title}}</option>
+                      {{/each}}
+                      {{/each}}
+                      {{/each}}
+                    </select>
+                  </div> --}}
+
                 </div>
 
                 <div class="modal-footer">
                   <button type="submit" class="btn btn-danger">
-                    Cập nhật
+                    Thêm
                   </button>
 
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     Hủy
                   </button>
+                </div>
               </form>
 
             </div>
@@ -436,6 +431,11 @@
     const modalDuration = extendSubscriptionModal.querySelector('.modal-body .duration')
     const userId = modalUserId.value
     const duration = modalDuration.value
+
+    if (duration && duration < 0) {
+      duration = 1
+    }
+
     console.log({ userId, duration })
 
     const requestOptions = {
@@ -482,6 +482,44 @@
       modalEmail.value = email
       modalDob.value = dob
     })
+  }
+
+  const addUserModal = document.getElementById('addUserModal')
+  function addUser(e) {
+    e.preventDefault();
+    const modalUsername = addUserModal.querySelector('.modal-body .username')
+    const modalName = addUserModal.querySelector('.modal-body .name')
+    const modalEmail = addUserModal.querySelector('.modal-body .email')
+    const modalPassword = addUserModal.querySelector('.modal-body .password')
+    const modalTypeId = addUserModal.querySelector('.modal-body .typeId')
+
+    const username = modalUsername.value
+    const name = modalName.value
+    const email = modalEmail.value
+    const password = modalPassword.value
+    const typeId = modalTypeId.value
+
+    console.log({ username, name, email, password, typeId })
+
+    if (!username || !email || !password || !name || !typeId) {
+      alert('Cần nhập đầy đủ các thông tin');
+    }
+    else {
+      console.log({ username, name, email, password, typeId })
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, name, email, password, typeId })
+      };
+      fetch('/admin/users', requestOptions)
+        .then(response => response.json())
+        .then(data => {
+          alert(data.message)
+          if (data.success === true) {
+            setTimeout(() => location.reload(), 1000)
+          }
+        });
+    }
   }
 
   function updateTag(e) {

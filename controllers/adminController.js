@@ -4,25 +4,26 @@ const controller = {};
 const passport = require("./passport");
 const models = require("../models");
 const sequelize = require("sequelize");
+const bcrypt = require("bcrypt");
 const Op = sequelize.Op;
 
 const url = require("url");
 
 function age(birthdate) {
-	const today = new Date();
-	const age =
-		today.getFullYear() -
-		birthdate.getFullYear() -
-		(today.getMonth() < birthdate.getMonth() ||
-			(today.getMonth() === birthdate.getMonth() &&
-				today.getDate() < birthdate.getDate()));
-	return age;
+  const today = new Date();
+  const age =
+    today.getFullYear() -
+    birthdate.getFullYear() -
+    (today.getMonth() < birthdate.getMonth() ||
+      (today.getMonth() === birthdate.getMonth() &&
+        today.getDate() < birthdate.getDate()));
+  return age;
 }
 
 function getComment(cmt) {
-	return cmt.trim() == "" || cmt === null || cmt === undefined
-		? "Ok."
-		: cmt.trim();
+  return cmt.trim() == "" || cmt === null || cmt === undefined
+    ? "Ok."
+    : cmt.trim();
 }
 
 controller.showDashboard = async (req, res) => {
@@ -82,7 +83,10 @@ controller.showCategories = async (req, res) => {
     }
 
     res.locals.originalUrl = removeParam("level", req.originalUrl);
-    if (Object.keys(req.query).length == 0) {
+    if (
+      Object.keys(req.query).length == 0 ||
+      res.locals.originalUrl == "/admin/categories"
+    ) {
       res.locals.originalUrl += "?";
     }
 
@@ -287,7 +291,10 @@ controller.showTags = async (req, res) => {
     res.locals.keyword = keyword;
 
     res.locals.originalUrl = removeParam("level", req.originalUrl);
-    if (Object.keys(req.query).length == 0) {
+    if (
+      Object.keys(req.query).length == 0 ||
+      res.locals.originalUrl == "/admin/tags"
+    ) {
       res.locals.originalUrl += "?";
     }
 
@@ -444,7 +451,7 @@ controller.showUsers = async (req, res) => {
     });
     userTypes.forEach((e) => (e.id === userType ? (e.active = true) : false));
     res.locals.userTypes = userTypes;
-    
+
     switch (userType) {
       case 1:
         res.locals.isViewingReader = "true";
@@ -475,7 +482,10 @@ controller.showUsers = async (req, res) => {
     res.locals.keyword = keyword;
 
     res.locals.originalUrl = removeParam("userType", req.originalUrl);
-    if (Object.keys(req.query).length == 0) {
+    if (
+      Object.keys(req.query).length == 0 ||
+      res.locals.originalUrl == "/admin/users"
+    ) {
       res.locals.originalUrl += "?";
     }
 
@@ -507,31 +517,55 @@ controller.addUser = async (req, res) => {
 
     console.log(req.body);
 
-    let { title } = req.body;
+    let { username, name, email, managementCategory, password, typeId } =
+      req.body;
 
-    console.log({ title });
+    let user_by_username = await models.User.findOne({
+      where: { username },
+    });
+    let user_by_email = await models.User.findOne({
+      where: { email },
+    });
 
-    const searchTag = await models.Tag.findOne({ where: { title: title } });
-    console.log("Found tag: ", searchTag);
-    if (searchTag) {
+    if (user_by_username) {
       return res.json({
         success: false,
-        message: "Thêm nhãn thất bại, đã tồn tại nhãn với tên: " + title,
+        message: "Username đã bị sử dụng: " + username,
       });
     }
 
-    const newTag = {
-      removedAt: null,
-      title,
-      content: null,
+    if (user_by_email) {
+      return res.json({
+        success: false,
+        message: "Email đã bị sử dụng: " + email,
+      });
+    }
+
+    typeId = parseInt(typeId);
+    if (typeId > 4 || typeId < 1) {
+      typeId = 1;
+    }
+
+    if (typeId === 3 && !managementCategory) {
+      managementCategory = 1;
+    }
+
+    let user = await models.User.create({
+      username,
+      name,
+      email,
+      dob: new Date(),
+      pseudonym: null,
+      managementCategory,
+      password: bcrypt.hashSync(password, bcrypt.genSaltSync(8)),
+      typeId,
       createdAt: sequelize.literal("NOW()"),
       updatedAt: sequelize.literal("NOW()"),
-    };
+    });
 
-    const tagDetail = await models.Tag.create(newTag);
-    console.log(`\nCreated tag successfully ${tagDetail}\n`);
+    console.log(`\nCreated user successfully ${user}\n`);
 
-    res.json({ success: true, message: "Thêm nhãn mới thành công" });
+    res.json({ success: true, message: "Thêm người dùng thành công" });
   } catch (error) {
     console.error(error);
   }
@@ -580,35 +614,46 @@ controller.updatePremium = async (req, res) => {
   const { userId, duration } = req.body;
 
   let today = new Date();
-  let existing_info = await models.PremiumDetails.findOne({ where: { userId: userId }, raw: true });
+  let existing_info = await models.PremiumDetails.findOne({
+    where: { userId: userId },
+    raw: true,
+  });
   if (existing_info) {
     if (existing_info.validUntil > today) {
-      await models.PremiumDetails.update({
-        validUntil: new Date(existing_info.validUntil.getTime() + 1000 * 60 * 60 * 24 * duration)
-      }, {
-        where: {
-          userId: userId
+      await models.PremiumDetails.update(
+        {
+          validUntil: new Date(
+            existing_info.validUntil.getTime() + 1000 * 60 * 60 * 24 * duration
+          ),
+        },
+        {
+          where: {
+            userId: userId,
+          },
         }
-      })
-    }
-    else {
-      await models.PremiumDetails.update({
-        validUntil: new Date(today.getTime() + 1000 * 60 * 60 * 24 * duration)
-      }, {
-        where: {
-          userId: userId
+      );
+    } else {
+      await models.PremiumDetails.update(
+        {
+          validUntil: new Date(
+            today.getTime() + 1000 * 60 * 60 * 24 * duration
+          ),
+        },
+        {
+          where: {
+            userId: userId,
+          },
         }
-      })
+      );
     }
-  }
-  else {
+  } else {
     await models.PremiumDetails.create({
       userId: userId,
-      validUntil: new Date(today.getTime() + 1000 * 60 * 60 * 24 * duration)
-    })
+      validUntil: new Date(today.getTime() + 1000 * 60 * 60 * 24 * duration),
+    });
   }
 
-  return res.json({ success: true, message: 'Gia hạn thành công' })
+  return res.json({ success: true, message: "Gia hạn thành công" });
 };
 
 controller.updateEditor = async (req, res) => {
@@ -670,19 +715,22 @@ controller.deleteUser = async (req, res) => {
     if (!userToDelete) {
       return res.json({
         success: false,
-        message: "Xóa người dùng thất bại, không tồn tại người dùng với id: " + userId,
+        message:
+          "Xóa người dùng thất bại, không tồn tại người dùng với id: " + userId,
       });
     }
 
     if (userToDelete.dataValues.typeId != 1) {
       return res.json({
         success: false,
-        message: "Xóa người dùng thất bại, không thể xóa Writer/Editor/Admin với id: " + userId,
+        message:
+          "Xóa người dùng thất bại, không thể xóa Writer/Editor/Admin với id: " +
+          userId,
       });
     }
 
     try {
-      console.log(models.PremiumDetail, models.OTP, models.PostComment)
+      console.log(models.PremiumDetail, models.OTP, models.PostComment);
       const preDelete = await Promise.all([
         models.PremiumDetails.destroy({
           where: {
@@ -763,7 +811,10 @@ controller.showPosts = async (req, res) => {
     res.locals.keyword = keyword;
 
     res.locals.originalUrl = removeParam("postStatus", req.originalUrl);
-    if (Object.keys(req.query).length == 0) {
+    if (
+      Object.keys(req.query).length == 0 ||
+      res.locals.originalUrl == "/admin/posts"
+    ) {
       res.locals.originalUrl += "?";
     }
 
@@ -779,20 +830,19 @@ controller.showPosts = async (req, res) => {
       queryParams: req.query,
     };
 
-    rows.forEach(post => {
-      if(post.dataValues.statusId == 1){
+    rows.forEach((post) => {
+      if (post.dataValues.statusId == 1) {
         post.draft = true;
-      }
-      else if(post.dataValues.statusId == 2){
+      } else if (post.dataValues.statusId == 2) {
         post.unapp = true;
       }
-      if(post.dataValues.statusId == 3){
+      if (post.dataValues.statusId == 3) {
         post.rejected = true;
       }
-      if(post.dataValues.statusId == 4 || post.dataValues.statusId == 5){
+      if (post.dataValues.statusId == 4 || post.dataValues.statusId == 5) {
         post.published = true;
       }
-    })
+    });
     res.locals.managePosts = rows;
 
     console.log(rows);
