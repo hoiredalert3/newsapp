@@ -9,8 +9,7 @@
 
     <form action="/posts/search" method="get" id="seaching-form">
         <div>
-            <input type="search" placeholder="Nhập từ khóa..." name="keyword" id="search-input" value="{{keyword}}"
-                required />
+            <input type="search" placeholder="Nhập từ khóa..." name="keyword" id="search-input" value="{{keyword}}" required />
         </div>
         <button>
             <img src="/img/icons/search.png" alt="" />
@@ -127,6 +126,8 @@
             else {
                 url += `&${key}=${value}`;
             }
+            console.log(url)
+            
             window.location.href = url;
         }
 

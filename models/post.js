@@ -44,7 +44,8 @@ module.exports = (sequelize, DataTypes) => {
           return sequelize.query(`CREATE INDEX post_search_idx ON "${Post.tableName}" USING gin("${vectorName}");`).catch(err => console.log(err));
         })
         .then(() => {
-          return sequelize.query(`CREATE TRIGGER post_vector_update BEFORE INSERT OR UPDATE ON "${Post.tableName}" FOR EACH ROW EXECUTE PROCEDURE tsvector_update_trigger("${vectorName}", 'pg_catalog.english', ${searchFields.join(', ')})`)
+          return sequelize.query(`CREATE TRIGGER post_vector_update BEFORE INSERT OR UPDATE ON "${Post.tableName}" FOR EACH ROW EXECUTE PROCEDURE
+                                 tsvector_update_trigger("${vectorName}", 'pg_catalog.english', ${searchFields.join(', ')})`)
             .catch(err => console.log(err));
         })
         .catch(err => console.log(err));
