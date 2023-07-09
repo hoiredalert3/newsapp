@@ -622,6 +622,75 @@ controller.deleteUser = async (req, res) => {
   }
 };
 
+controller.showPosts = async (req, res) => {
+  try {
+    let options = {
+      attributes: { exclude: ["createdAt", "updatedAt"] },
+      where: {},
+      include: [],
+      order: [],
+      // raw: true,
+    };
+
+    let postStatus = parseInt(req.query.postStatus || 1);
+    if (postStatus > 5 || postStatus < 1) {
+      postStatus = 1;
+    }
+    console.log(`\n POST STATUS HERE: ${postStatus}\n`);
+    options.where.statusId = postStatus;
+
+    const postStatuses = await models.PostStatus.findAll({
+      attributes: ["id", "name"],
+      raw: true,
+    });
+    postStatuses.forEach((e) =>
+      e.id === postStatus ? (e.active = true) : false
+    );
+    res.locals.postStatuses = postStatuses;
+    // if (postStatus === 3) {
+    //   res.locals.isViewingEditor = "true";
+    //   console.log(`\nisViewingEditor \n`);
+    // }
+
+    const keyword = req.query.keyword || "";
+    console.log("Search keyword in admin/posts: ", keyword);
+
+    const page = isNaN(req.query.page)
+      ? 1
+      : Math.max(1, parseInt(req.query.page));
+
+    if (keyword.trim()) {
+      options.where.title = { [Op.like]: `%${keyword}%` };
+    }
+    res.locals.keyword = keyword;
+
+    res.locals.originalUrl = removeParam("level", req.originalUrl);
+    if (Object.keys(req.query).length == 0) {
+      res.locals.originalUrl += "?";
+    }
+
+    const limit = 10;
+    options.limit = limit;
+    options.offset = limit * (page - 1);
+
+    const { rows, count } = await models.Post.findAndCountAll(options);
+    res.locals.pagination = {
+      page: page,
+      limit: limit,
+      totalRows: count,
+      queryParams: req.query,
+    };
+
+    res.locals.managePosts = rows;
+
+    console.log(rows);
+
+    return res.render("admin-posts-temp");
+  } catch (error) {
+    console.error("Error in /admin/posts controller: ", error);
+  }
+};
+
 function removeParam(key, sourceURL) {
   var rtn = sourceURL.split("?")[0],
     param,

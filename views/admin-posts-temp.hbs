@@ -1,0 +1,634 @@
+{{> bootstrap-lib }}
+<main class="container">
+  <div class="d-flex" id="wrapper">
+    {{> admin-nav}}
+
+
+    <div id="page-content-wrapper" class="w-75">
+      <div class="container-fluid px-md-5 px-0 m-5">
+        <div class="row g-4 my-2">
+          <div class="col-md-4">
+            <h2 class="text-dark fw-bold fs-2 text-uppercase text-nowrap">
+              Người dùng
+            </h2>
+          </div>
+
+          <div class="offset-md-4 col-md-4">
+            <!-- Button trigger modal -->
+
+            {{!-- <button type="button" class="btn btn-primary text-nowrap text-dark" data-bs-toggle="modal"
+              data-bs-target="#addTagModal">
+              <i class="fa-solid fa-plus text-dark"></i>
+              Thêm người dùng
+            </button> --}}
+
+          </div>
+        </div>
+
+        <div class="col-lg-12 mt-4">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="posts-search form-outline">
+                <form class="d-flex" action="/admin/posts" method="GET">
+                  <input class="form-control outline-primary" type="search" name="keyword" id="keywordInput"
+                    placeholder="Search by post title" {{#if keyword}} value="{{keyword}}" {{/if}} required>
+                  <button class="btn btn-outline-primary"><i class="fa fa-search"></i></button>
+                </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {{#if adminSuccessMessage}}
+        <div class="alert alert-success" role="alert">
+          {{adminSuccessMessage}}
+        </div>
+        {{/if}}
+
+        <div class="row g-4 my-2">
+
+          <div class="post-types d-flex gap-5">
+
+            {{#each postStatuses }}
+            {{#if active}}
+            <a href="/admin/posts?postStatus={{id}}" class="text-primary" id="button-cat1">
+              {{name}}
+            </a>
+            {{else}}
+            <a href="/admin/posts?postStatus={{id}}" class="" id="button-cat1">
+              {{name}}
+            </a>
+            {{/if}}
+            {{/each}}
+
+          </div>
+
+          <div class="col">
+            {{#each managePosts }}
+            <div class="card border-primary mb-3">
+              <div class="card-body">
+                <span class="card-text fw-bold"> {{title}} </span>
+
+                {{!-- <button class="bg-transparent remove-tag text-danger float-end mx-2"
+                  data-bs-whatever="Xoa id{{id}}">
+                  <i class=" bi bi-trash-fill"></i>
+                  Xóa
+                </button> --}}
+                <button data-bs-toggle="modal" data-bs-target="#denyPostModal"
+                  class="bg-transparent text-danger float-end mx-2" data-id="{{id}}" data-title="{{title}}">
+                  Từ chối
+                </button>
+
+                <button data-bs-toggle="modal" data-bs-target="#publishPostModal"
+                  class="bg-transparent text-success float-end mx-2" data-id="{{id}}" data-title="{{title}}">
+                  Xuất bản
+                </button>
+
+                <button data-bs-toggle="modal" data-bs-target="#postDetailsModal"
+                  class="bg-transparent text-info float-end mx-2" data-bs-whatever="Chinh sua id{{id}}"
+                  data-postId="{{id}}" data-authorId="{{authorId}}" data-title="{{title}}" data-statusId="{{statusId}}"
+                  data-publishedAt="{{publishedAt}}" data-isPremium="{{isPremium}}">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                  Xem chi tiết
+                </button>
+
+                {{#if ../isViewingEditor}}
+                <button type="button" class="bg-transparent text-info float-end mx-2" data-bs-toggle="modal"
+                  data-bs-target="#updateEditorCategoryModal" data-id="{{id}}" data-name="{{name}}"
+                  data-manage-category="{{managementCategory}}">
+                  Chọn chuyên mục
+                </button>
+                {{/if}}
+              </div>
+            </div>
+            {{/each}}
+          </div>
+
+          <div class="col-lg-12">
+            <nav aria-label="Page navigation example" id="pagination">
+              {{{createPagination pagination paginationClass='pagination justify-content-center' leftText='Previous'
+              rightText='Next'}}}
+            </nav>
+          </div>
+        </div>
+
+        <!-- Modal for Post details -->
+        <div class="modal fade" id="postDetailsModal" tabindex="-1"
+          aria-labelledby="postDetailsModalCenteredScrollableTitle" style="display: none" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header text-center">
+                <h1 class="modal-title fs-5" id="postDetailsModalCenteredScrollableTitle">
+                  Thông tin bài viết
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/admin/posts" method="get" onsubmit='updatePost(event)'>
+                <div class="modal-body">
+                  <p class="my-3">Id</p>
+                  <div class="input-group my-3">
+                    <input type="text" disabled class="form-control text-secondary postId" />
+                  </div>
+
+                  <p class="my-3">Author Id</p>
+                  <div class="input-group my-3">
+                    <input type="text" disabled class="form-control text-secondary authorId" />
+                  </div>
+
+                  <p class="my-3">Title</p>
+                  <div class="input-group my-3">
+                    <input type="text" disabled class="form-control text-secondary title" />
+                  </div>
+
+                  <p class="my-3">Status</p>
+                  <div class="input-group my-3">
+                    <input type="text" disabled class="form-control text-secondary statusId" />
+                  </div>
+
+                  <p class="my-3">Thời gian xuất bản</p>
+                  <div class="input-group my-3">
+                    <input type="text" disabled class="form-control text-secondary publishedAt" />
+                  </div>
+
+                  <p class="my-3">Premium</p>
+                  <div class="input-group my-3">
+                    <input type="text" disabled class="form-control text-secondary isPremium" />
+                  </div>
+
+                  {{!-- <p class="mt-5">Nhập tên mới cho nhãn</p>
+                  <div class="input-group mb-5">
+                    <input type="text" class="form-control newName" placeholder="Tên mới cho nhãn"
+                      aria-label="Tên nhãn mới" required />
+                  </div> --}}
+                </div>
+
+                <div class="modal-footer">
+                  {{!-- <button type="submit" class="btn btn-danger">
+                    Cập nhật
+                  </button> --}}
+
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Đóng
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for update Editor category -->
+        <div class="modal fade" id="updateEditorCategoryModal" tabindex="-1"
+          aria-labelledby="updateEditorCategoryModalCenteredScrollableTitle" style="display: none" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header text-center">
+                <h1 class="modal-title fs-5" id="updateEditorCategoryModalCenteredScrollableTitle">
+                  Thêm chuyên mục
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/admin/categories" method="get" onsubmit='updateEditorCategory(event)'>
+                <div class="modal-body">
+                  <p class="my-3">Id của User</p>
+                  <div class="input-group my-4">
+                    <input type="text" disabled class="form-control text-secondary userId" />
+                  </div>
+
+                  <p class="my-3">Chọn chuyên mục</p>
+                  <div class="input-group my-4">
+                    <select class="form-select" id="manageCategorySelect">
+                      {{#each categories }}
+                      <option selected value={{id}}>{{title}}</option>
+                      {{#each arrChildren }}
+                      {{#each children }}
+                      <option value={{id}}>{{title}}</option>
+                      {{/each}}
+                      {{/each}}
+                      {{/each}}
+                    </select>
+                  </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-danger">
+                    Cập nhật
+                  </button>
+
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Hủy
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for Publish Post -->
+        <div class="modal fade" id="publishPostModal" tabindex="-1"
+          aria-labelledby="exampleModalCenteredScrollableTitle" style="display: none" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header text-center">
+                <h1 class="modal-title fs-5" id="exampleModalCenteredScrollableTitle">
+                  Từ chối bài viết
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+
+              <form action="/admin/posts/publish" method="get" onsubmit='publishPost(event)'>
+                <div class="modal-body">
+                  <p class="my-3">Id của bài viết</p>
+                  <div class="input-group my-3">
+                    <input type="text" disabled class="form-control text-secondary postId" />
+                  </div>
+
+                  <p class="my-4">Thêm ghi chú (optional)</p>
+                  <div class="input-group mb-5">
+                    <input type="text" required class="form-control note" placeholder="Ghi chú"
+                      aria-label="Ghi chú" />
+                  </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-danger">
+                    Xuất bản
+                  </button>
+
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Hủy
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- Modal for Deny Post -->
+        <div class="modal fade" id="denyPostModal" tabindex="-1" aria-labelledby="exampleModalCenteredScrollableTitle"
+          style="display: none" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header text-center">
+                <h1 class="modal-title fs-5" id="exampleModalCenteredScrollableTitle">
+                  Từ chối bài viết
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+
+              <form action="/admin/posts/deny" method="get" onsubmit='denyPost(event)'>
+                <div class="modal-body">
+                  <p class="my-3">Id của bài viết</p>
+                  <div class="input-group my-3">
+                    <input type="text" disabled class="form-control text-secondary postId" />
+                  </div>
+
+                  <p class="my-4">Nhập lí do từ chối</p>
+                  <div class="input-group mb-5">
+                    <input type="text" required class="form-control denyReason" placeholder="Lí do"
+                      aria-label="Lí do" />
+                  </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-danger">
+                    Từ chối
+                  </button>
+
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Hủy
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for Edit tag -->
+        <div class="modal fade" id="editTagModal" tabindex="-1" aria-labelledby="editTagModalCenteredScrollableTitle"
+          style="display: none" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header text-center">
+                <h1 class="modal-title fs-5" id="editTagModalCenteredScrollableTitle">
+                  Cập nhật nhãn
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/admin/tags" method="get" onsubmit='updateTag(event)'>
+                <div class="modal-body">
+                  <p class="my-3">Id nhãn</p>
+                  <div class="input-group my-4">
+
+                    <input type="text" disabled class="form-control text-secondary tagId" />
+
+                  </div>
+
+                  <p class="mt-5">Nhập tên mới cho nhãn</p>
+                  <div class="input-group mb-5">
+                    <input type="text" class="form-control newName" placeholder="Tên mới cho nhãn"
+                      aria-label="Tên nhãn mới" required />
+                  </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-danger">
+                    Cập nhật
+                  </button>
+
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Hủy
+                  </button>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Modal for Add tag -->
+        <div class="modal fade" id="addTagModal" tabindex="-1" aria-labelledby="addTagModalCenteredScrollableTitle"
+          style="display: none" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+              <div class="modal-header text-center">
+                <h1 class="modal-title fs-5" id="addTagModalCenteredScrollableTitle">
+                  Thêm người dùng
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <form action="/admin/tags" method="get" onsubmit='addTag(event)'>
+                <div class="modal-body">
+
+                  <p class="mt-5">Nhập tên mới cho nhãn</p>
+                  <div class="input-group mb-5">
+                    <input type="text" class="form-control newName" placeholder="Tên mới cho nhãn"
+                      aria-label="Tên nhãn mới" required />
+                  </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-danger">
+                    Cập nhật
+                  </button>
+
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    Hủy
+                  </button>
+              </form>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="row g-4 my-2">
+          <div class="col-md-3"></div>
+
+          <div class="col-md-3"></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+{{> footer}}
+<script>
+  document.querySelectorAll('#pagination li').forEach((li) => {
+    li.classList.add('page-item')
+  })
+  document.querySelectorAll('#pagination a').forEach((a) => {
+    a.classList.add('page-link')
+  })
+
+  document.querySelectorAll(".remove-user").forEach((item) =>
+    item.addEventListener("click", (e) => {
+      if (confirm("Bạn có chắc chắn muốn xóa độc giả này?")) {
+        e.target.parentElement.parentElement.remove();
+      }
+    })
+  );
+
+  const publishPostModal = document.getElementById('publishPostModal')
+  if (publishPostModal) {
+    publishPostModal.addEventListener('show.bs.modal', event => {
+      // Button that triggered the modal
+      const button = event.relatedTarget
+
+      const postId = button.getAttribute('data-id')
+      const title = button.getAttribute('data-title')
+
+      // Update the modal's content.
+      const modalTitle = publishPostModal.querySelector('.modal-title')
+      const modalPostId = publishPostModal.querySelector('.modal-body .postId')
+      const modalNote = publishPostModal.querySelector('.modal-body .note')
+
+      modalTitle.textContent = `Xuất bản bài viết ${title}`
+      modalPostId.value = postId
+      modalNote.value = ""
+    })
+  }
+
+  function publishPost(e) {
+    e.preventDefault();
+    const modalPostId = publishPostModal.querySelector('.modal-body .postId')
+    const modalNote = publishPostModal.querySelector('.modal-body .note')
+    const postId = modalPostId.value
+    const note = modalNote.value
+    console.log({ postId, note })
+    return
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ postId, note })
+    };
+    fetch('/admin/posts/publish', requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        alert(data.message)
+        if (data.success === true) {
+          setTimeout(() => location.reload(), 1000)
+        }
+      });
+    editTagModal.querySelector('[data-bs-dismiss="modal"]').click()
+  }
+
+  const denyPostModal = document.getElementById('denyPostModal')
+  if (denyPostModal) {
+    denyPostModal.addEventListener('show.bs.modal', event => {
+      // Button that triggered the modal
+      const button = event.relatedTarget
+
+      const postId = button.getAttribute('data-id')
+      const title = button.getAttribute('data-title')
+
+      // Update the modal's content.
+      const modalTitle = denyPostModal.querySelector('.modal-title')
+      const modalPostId = denyPostModal.querySelector('.modal-body .postId')
+      const modalDenyReason = denyPostModal.querySelector('.modal-body .denyReason')
+
+
+      modalTitle.textContent = `Từ chối bài viết ${title}`
+      modalPostId.value = postId
+      modalDenyReason.value = ""
+    })
+  }
+
+  function denyPost(e) {
+    e.preventDefault();
+    const modalPostId = denyPostModal.querySelector('.modal-body .postId')
+    const modalDenyReason = denyPostModal.querySelector('.modal-body .denyReason')
+    const postId = modalPostId.value
+    const denyReason = modalDenyReason.value
+    console.log({ postId, denyReason })
+    return
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ postId, denyReason })
+    };
+    fetch('/admin/posts/deny', requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        alert(data.message)
+        if (data.success === true) {
+          setTimeout(() => location.reload(), 1000)
+        }
+      });
+    editTagModal.querySelector('[data-bs-dismiss="modal"]').click()
+  }
+
+  const postDetailsModal = document.getElementById('postDetailsModal')
+  if (postDetailsModal) {
+    postDetailsModal.addEventListener('show.bs.modal', event => {
+      // Button that triggered the modal
+      const button = event.relatedTarget
+
+      const postId = button.getAttribute('data-postId')
+      const authorId = button.getAttribute('data-authorId')
+      const title = button.getAttribute('data-title')
+      const statusId = button.getAttribute('data-statusId')
+      const publishedAt = button.getAttribute('data-publishedAt')
+      const isPremium = button.getAttribute('data-isPremium')
+
+      // Update the modal's content.
+      const modalTitle = postDetailsModal.querySelector('.modal-title')
+      const modalPostId = postDetailsModal.querySelector('.modal-body .postId')
+      const modalAuthorId = postDetailsModal.querySelector('.modal-body .authorId')
+      const modalPostTitle = postDetailsModal.querySelector('.modal-body .title')
+      const modalStatusId = postDetailsModal.querySelector('.modal-body .statusId')
+      const modalPublishedAt = postDetailsModal.querySelector('.modal-body .publishedAt')
+      const modalIsPremium = postDetailsModal.querySelector('.modal-body .isPremium')
+
+      modalTitle.textContent = `Thông tin bài viết ${title}`
+      modalPostId.value = postId
+      modalAuthorId.value = authorId
+      modalPostTitle.value = title
+      modalStatusId.value = statusId
+      modalPublishedAt.value = publishedAt
+      modalIsPremium.value = isPremium
+    })
+  }
+
+  /*
+  const denyPostModal = document.getElementById('denyPostModal')
+  if (denyPostModal) {
+    denyPostModal.addEventListener('show.bs.modal', event => {
+      // Button that triggered the modal
+      const button = event.relatedTarget
+
+      const userId = button.getAttribute('data-id')
+      const name = button.getAttribute('data-name')
+      const manageCategory = button.getAttribute('data-manage-category')
+
+      // Update the modal's content.
+      const modalTitle = denyPostModal.querySelector('.modal-title')
+      const modalUserId = denyPostModal.querySelector('.modal-body .userId')
+      const modalName = denyPostModal.querySelector('.modal-body .name')
+      const modalmanageCategory = denyPostModal.querySelector('.modal-body #manageCategorySelect')
+
+      modalmanageCategory.childNodes.forEach(e => {
+        if (e.value === manageCategory) {
+          console.log("Match: ", e)
+          e.textContent.replace(" (Hiện tại)", "")
+          if (e.textContent.includes(" (Hiện tại)") == false) {
+            e.textContent += " (Hiện tại)"
+          }
+          modalmanageCategory.value = e.value;
+        }
+      })
+
+      modalTitle.textContent = `Chọn chuyên mục cho ${name}`
+      modalUserId.value = userId
+    })
+  }
+  */
+
+  /*
+  function updateEditorCategory(e) {
+    e.preventDefault();
+    const modalUserId = updateEditorCategoryModal.querySelector('.modal-body .userId')
+    const modalManageCategory = updateEditorCategoryModal.querySelector('.modal-body #manageCategorySelect')
+    const userId = modalUserId.value
+    const manageCategory = modalManageCategory.value
+    console.log({ userId, manageCategory })
+
+    const requestOptions = {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId, manageCategory })
+    };
+    fetch('/admin/users/editor', requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        alert(data.message)
+        if (data.success === true) {
+          setTimeout(() => location.reload(), 1000)
+        }
+      });
+    editTagModal.querySelector('[data-bs-dismiss="modal"]').click()
+
+  }
+  */
+
+  /*
+  const userDetailsModal = document.getElementById('userDetailsModal')
+  if (userDetailsModal) {
+    userDetailsModal.addEventListener('show.bs.modal', event => {
+      // Button that triggered the modal
+      const button = event.relatedTarget
+      // Extract info from data-bs-* attributes
+      const userId = button.getAttribute('data-id')
+      const username = button.getAttribute('data-username')
+      const name = button.getAttribute('data-name')
+      const email = button.getAttribute('data-email')
+      const dob = button.getAttribute('data-dob')
+      // If necessary, you could initiate an Ajax request here
+      // and then do the updating in a callback.
+
+      // Update the modal's content.
+      const modalTitle = userDetailsModal.querySelector('.modal-title')
+      const modalUserId = userDetailsModal.querySelector('.modal-body .userId')
+      const modalUsername = userDetailsModal.querySelector('.modal-body .username')
+      const modalName = userDetailsModal.querySelector('.modal-body .name')
+      const modalEmail = userDetailsModal.querySelector('.modal-body .email')
+      const modalDob = userDetailsModal.querySelector('.modal-body .dob')
+
+      modalUserId.value = userId
+      modalUsername.value = username
+      modalName.value = name
+      modalEmail.value = email
+      modalDob.value = dob
+    })
+  }
+  */
+
+
+</script>
+
+<style>
+  .modal {
+    overflow-y: scroll;
+  }
+</style>

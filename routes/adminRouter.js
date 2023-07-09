@@ -37,4 +37,12 @@ router.put("/users/editor", controller.updateEditor);
 
 router.delete("/users", controller.deleteUser);
 
+router.get("/posts", controller.showPosts);
+
+// router.post("/posts", controller.addTag);
+
+// router.put("/posts", controller.updateTag);
+
+// router.delete("/posts", controller.deleteTag);
+
 module.exports = router;
