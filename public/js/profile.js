@@ -105,7 +105,7 @@ function changeSectionContent(index) {
 
 function changeIndexOfContent(section_idx, index) {
     let current_tab = document.querySelectorAll('.' + SECTION_CONTENT_CLASS)[section_idx];
-    
+
     let items = current_tab.querySelectorAll('.' + LIST_OF_CONTENT_CLASS + ' li');
     for (let i = 0; i < items.length; i++) {
         items[i].classList.remove(CURRENT_CONTENT_CLASS);
@@ -132,12 +132,7 @@ function exitSubscribe() {
     document.getElementById("container-0").style.display = "none";
 }
 
-function buyPremium() {
-    exitSubscribe();
-    CURRENT_ROLE = (CURRENT_ROLE + 1) % 6;
-    if (CURRENT_ROLE == 0) CURRENT_ROLE = 1;
-    changeToCurrentUser(CURRENT_ROLE);
-    // ....
+async function buyPremium() {
 }
 
 // function switchUser() {
@@ -154,9 +149,9 @@ function toSignIn() {
     window.location.href = '/users/login';
 }
 
-function updateInfos(event){
+function updateInfos(event) {
     event.prevent
 }
 function submitInfomations() {
-    
+
 }

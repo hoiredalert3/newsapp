@@ -536,15 +536,47 @@ controller.updateUser = async (req, res) => {
 
 controller.updatePremium = async (req, res) => {
   //TODO
-  try {
-    const { userId, duration } = req.body;
+  // try {
+  //   const { userId, duration } = req.body;
 
-    console.log(`Extend premium for userid: ${userId}, duration: ${duration}`);
+  //   console.log(`Extend premium for userid: ${userId}, duration: ${duration}`);
 
-    res.json({ success: true, message: "Cập nhật thành công" });
-  } catch (error) {
-    console.error(error);
+  //   res.json({ success: true, message: "Cập nhật thành công" });
+  // } catch (error) {
+  //   console.error(error);
+  // }
+  const { userId, duration } = req.body;
+
+  let today = new Date();
+  let existing_info = await models.PremiumDetails.findOne({ where: { userId: userId }, raw: true });
+  if (existing_info) {
+    if (existing_info.validUntil > today) {
+      await models.PremiumDetails.update({
+        validUntil: new Date(existing_info.validUntil.getTime() + 1000 * 60 * 60 * 24 * duration)
+      }, {
+        where: {
+          userId: userId
+        }
+      })
+    }
+    else {
+      await models.PremiumDetails.update({
+        validUntil: new Date(today.getTime() + 1000 * 60 * 60 * 24 * duration)
+      }, {
+        where: {
+          userId: userId
+        }
+      })
+    }
   }
+  else {
+    await models.PremiumDetails.create({
+      userId: userId,
+      validUntil: new Date(today.getTime() + 1000 * 60 * 60 * 24 * duration)
+    })
+  }
+
+  return res.json({ success: true, message: 'Gia hạn thành công' })
 };
 
 controller.updateEditor = async (req, res) => {
