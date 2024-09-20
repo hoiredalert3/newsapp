@@ -1,5 +1,5 @@
 "use strict";
-const { contextsKey } = require("express-validator/src/base");
+const { contextsKey } = require("express-validator");
 const models = require("../models");
 const { create } = require("express-handlebars");
 const Op = require("sequelize").Op;
